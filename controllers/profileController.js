@@ -1,0 +1,105 @@
+const Profile = require('../models/Profile')
+
+const create = async (req, res) => {
+    try {
+        const result = await Profile.create(req.body);
+        if (result) {
+            res.status(201).json({
+                data:result,
+                message: 'Profile created successfully',
+            });
+        } else {
+            res.status(500).json({
+                message: "Profile doesn't created successfully"
+            })
+        }
+
+    } catch (err) {
+        res.status(500).json({
+            message: "Internal server problem!",
+            error: err,
+        })
+    }
+};
+
+const show = async (req, res) => {
+    const id = req.params.id
+
+    try {
+        const result = await Profile.findOne({
+            where: {
+                userId:id
+            }
+        })
+        if (result) {
+            res.status(200).json({
+                data: result,
+                message: "Profile fetched successfully"
+            })
+        } else {
+            res.status(401).json({
+                message: "No profile with this id"
+            })
+        }
+    } catch (error) {
+        res.status(500).json({
+            message: "Internal server problem",
+            error
+        })
+    }
+}
+
+const update = async (req, res) => {
+    const id = req.params.id
+    try {
+         const profile = await Profile.findOne({
+            where: {
+                userId:id
+            }
+        })
+          
+        if (profile.userId!==req.user.id) {
+            res.status(401).json({
+                message: "User not Authorized!",
+            })
+        } else {
+            const result = await Profile.update(req.body, {
+                where: {
+                    userId:id
+                }
+            })
+
+            if (result) {
+                res.status(200).json({
+                    message: "Profile updated successfully",
+                })
+            } else {
+                res.status(500).json({
+                    message: "Profile not updated!"
+                })
+            }
+        }
+
+    } catch (error) {
+        res.status(500).json({
+            message: "Inernal server problem",
+        })
+    }
+}
+
+// const remove=async(req,res)=>{
+//     const id=req.params.id
+//     try {
+//         const result=await Profile
+//     } catch (error) {
+//         res.status(500).json({
+//             message:"Internal server problem",
+//             error
+//         })
+//     }
+// }
+module.exports = {
+    create,
+    show,
+    update
+}
