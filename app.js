@@ -15,6 +15,7 @@ const reviewRoutes=require('./routes/reviewRoutes')
 const aboutRoutes=require('./routes/aboutRoutes')
 
 app.use(express.json())
+app.use('/images', express.static('images'));
 app.use(cors())
 app.use('/api', userRoutes)
 app.use('/api', subjectRoutes)

@@ -1,14 +1,14 @@
-const Education=require('../models/Education')
+const Education = require('../models/Education')
 
 const create = async (req, res) => {
-    const {userId,school,field,start,end,grade,desc} =req.body
-    if((!userId)||(!school)||(!field)||(!start)||(!end)){
+    const { userId, school, field, start, end, grade, desc } = req.body
+    if ((!userId) || (!school) || (!field) || (!start) || (!end)) {
         res.status(409).json({
-            message:"All fields are required!"
+            message: "All fields are required!"
         })
     }
     try {
-        const result = await Education.create({ 
+        const result = await Education.create({
             userId,
             school,
             field,
@@ -19,13 +19,13 @@ const create = async (req, res) => {
         });
         if (result) {
             res.status(201).json({
-                data:result,
+                data: result,
                 message: 'Education created successfully',
             });
         } else {
-          res.status(500).json({
-              message:"Education doesn't created successfully"
-          })
+            res.status(500).json({
+                message: "Education doesn't created successfully"
+            })
         }
 
     } catch (err) {
@@ -36,78 +36,83 @@ const create = async (req, res) => {
     }
 };
 
-const show=async(req,res)=>{
-    const id=req.params.id
+const show = async (req, res) => {
+    const id = req.params.id
     try {
-        const result=await Education.findOne({
-            where:{
-                userId:id
+        const result = await Education.findOne({
+            where: {
+                userId: id
             }
         })
-        if(result){
+        if (result) {
             res.status(200).json({
-                data:result,
-                message:"Education fetched successfully"
+                data: result,
+                message: "Education fetched successfully"
             })
-        }else{
+        } else {
             res.status(500).json({
-                message:"No education with this id"
+                message: "No education with this id"
             })
         }
     } catch (error) {
         res.status(500).json({
-            message:"Internal server problem",
+            message: "Internal server problem",
             error
         })
     }
 }
 
-const update=async(req,res)=>{
-    const id=req.params.id
+const update = async (req, res) => {
+    const id = req.params.id
     try {
-        const result=await Education.update(req.body,{
-            where:{
-                userId:id
+
+        const result = await Education.update(req.body, {
+            where: {
+                userId: id
             }
         })
-
-        if(result){
+        if (result) {
+            // const res = await Education.findOne({
+            //     where: {
+            //         userId: id
+            //     }
+            // })
             res.status(200).json({
-                message:"Education updated successfully"
+                message: "Education updated successfully"
             })
-        }else{
+        } else {
             res.status(500).json({
-                message:"Education not updated!"
+                message: "Education not updated!"
             })
         }
     } catch (error) {
         res.status(500).json({
             error,
-            message:"Inernal server problem"
+            message: "Inernal server problem"
         })
     }
 }
 
-const remove=async(req,res)=>{
-    const id=req.params.id
+const remove = async (req, res) => {
+    const id = req.params.id
     try {
-        const result=await Education.destroy({
-            where:{
-                userId:id
+        const result = await Education.destroy({
+            where: {
+                userId: id
             }
         })
-        if(result){
+        if (result) {
             res.status(200).json({
-                message:"Education deleted successfully!",
+                message: "Education deleted successfully!",
             })
-        }else{
+        } else {
             res.status(400).json({
-                message:"No education with this id",
+                message: "No education with this id",
             })
         }
     } catch (error) {
         res.status(500).json({
-            message:"Internal server problem",
+            message: "Internal server problem",
             error
         })
     }

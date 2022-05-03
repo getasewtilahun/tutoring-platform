@@ -4,7 +4,7 @@ const {create,update,show,remove} =require('../controllers/educationController')
 const {protect} =require('../middleware/auth')
 
 router.route('/education').post(protect,create)
-router.route('/education/:id').get(protect,show).put(protect,update).delete(protect,remove)
+router.route('/education/:id').get(show).put(protect,update).delete(protect,remove)
 
 
 module.exports=router

@@ -22,10 +22,15 @@ import EventNoteIcon from '@mui/icons-material/EventNote';
 import HomeIcon from '@mui/icons-material/Home';
 import PersonIcon from '@mui/icons-material/Person';
 import LogoutIcon from '@mui/icons-material/Logout';
-import ProfileCard from '../../components/ProfileCard';
-import EducationCard from '../../components/EducationCard';
-import AboutCard from '../../components/AboutCard';
-
+import {useNavigate} from 'react-router-dom'
+import MyProfile from '../../components/tutor/MyProfile';
+import CreateQuiz from './CreateQuiz';
+import Schedules from './Schedules';
+import Rooms from './Rooms';
+import HomePage from '../Home'
+import Messages from './Messages';
+import GroupIcon from '@mui/icons-material/Group';
+import Students from './Students';
 const drawerWidth = 240;
 
 const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })(
@@ -77,7 +82,16 @@ const DrawerHeader = styled('div')(({ theme }) => ({
 export default function Dashboard() {
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
+  const [selectedDash,setSelectedDash]=React.useState('profile')
 
+  const navigate=useNavigate();
+  const navToHome=()=>{
+    navigate('/')
+  }
+  const changeSelected =(name)=>{
+    setSelectedDash(name);
+    console.log(selectedDash);
+  }
   const handleDrawerOpen = () => {
     setOpen(true);
   };
@@ -125,36 +139,36 @@ export default function Dashboard() {
           </DrawerHeader>
           <Divider />
           <List>
-            <ListItem button>
+            <ListItem button onClick={navToHome}> 
               <ListItemIcon><HomeIcon /></ListItemIcon>
               <ListItemText>Home</ListItemText>
             </ListItem>
-            <ListItem button>
+            <ListItem button onClick={()=>changeSelected('profile')}>
               <ListItemIcon><PersonIcon/></ListItemIcon>
               <ListItemText>Profile</ListItemText>
             </ListItem>
-            <ListItem button>
+            <ListItem button onClick={()=>changeSelected('schedules')}>
               <ListItemIcon><EventNoteIcon /></ListItemIcon>
               <ListItemText>Schedules</ListItemText>
             </ListItem>
-            <ListItem button>
+            <ListItem button onClick={()=>changeSelected('rooms')}>
               <ListItemIcon><VideoCallIcon /></ListItemIcon>
               <ListItemText>Rooms</ListItemText>
             </ListItem>
           </List>
           <Divider />
           <List>
-            <ListItem button>
+            <ListItem button onClick={()=>changeSelected('messages')}>
               <ListItemIcon><MessageIcon /></ListItemIcon>
-              <ListItemText>Message</ListItemText>
+              <ListItemText>Messages</ListItemText>
             </ListItem>
-            <ListItem button>
+            <ListItem button onClick={()=>changeSelected('quizes')}>
               <ListItemIcon><QuestionAnswerIcon /></ListItemIcon>
-              <ListItemText>Quiz</ListItemText>
+              <ListItemText>Quizes</ListItemText>
             </ListItem>
-            <ListItem button>
-              <ListItemIcon><EventNoteIcon /></ListItemIcon>
-              <ListItemText>Schedules</ListItemText>
+            <ListItem button onClick={()=>changeSelected('students')}>
+              <ListItemIcon><GroupIcon /></ListItemIcon>
+              <ListItemText>Students</ListItemText>
             </ListItem>
             <ListItem button>
               <ListItemIcon><VideoCallIcon /></ListItemIcon>
@@ -171,11 +185,12 @@ export default function Dashboard() {
         </Drawer>
         <Main open={open}>
           <DrawerHeader />
-          <ProfileCard/>
-          <div style={{height:10}}></div>
-          <EducationCard/>
-          <div style={{height:10}}></div>
-          <AboutCard/>
+          <>{selectedDash==='profile'&&<MyProfile/>}</>
+          <>{selectedDash==='schedules'&&<Schedules/>}</>
+          <>{selectedDash==='rooms'&&<Rooms/>}</>
+          <>{selectedDash==='messages'&&<Messages/>}</>
+          <>{selectedDash==='quizes'&&<CreateQuiz/>}</>
+          <>{selectedDash==='students'&&<Students/>}</>
         </Main>
       </Box>
     </div>

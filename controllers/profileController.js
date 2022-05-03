@@ -98,8 +98,37 @@ const update = async (req, res) => {
 //         })
 //     }
 // }
+
+const uploadProfile = async (req, res) => {
+    const id = req.params.id
+    try {
+
+        const result = await Profile.update({
+            img: req.file.path
+        }, {
+            where: {
+                userId:id
+            }
+        })
+        if (result) {
+            res.status(200).json({
+                message: "Profile picture uploaded successfully"
+            })
+        } else {
+            res.status(400).json({
+                message: "No user with this ID"
+            })
+        }
+    } catch (error) {
+        res.status(500).json({
+            message: "Internal server problem!"
+        })
+    }
+}
+
 module.exports = {
     create,
     show,
-    update
+    update,
+    uploadProfile
 }

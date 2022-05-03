@@ -5,18 +5,20 @@ import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
-import ImageAvatar from './ImageAvarar';
 import Grid from '@mui/material/Grid';
 import IconButton from '@mui/material/IconButton';
 import AddIcon from '@mui/icons-material/Add';
 import EditIcon from '@mui/icons-material/Edit';
-import { useSelector } from 'react-redux';
+import { useSelector,useDispatch } from 'react-redux';
 import Modal from '@mui/material/Modal';
 import { Divider } from '@mui/material';
+import EducationForm from './EducationForm';
+import { show} from '../../features/education/educationSlice'
+import moment from 'moment'
 
 const style = {
     position: 'absolute',
-    top: '15%',
+    top: '35%',
     left: '50%',
     transform: 'translate(-50%, -50%)',
     width: '50%',
@@ -32,38 +34,33 @@ const style = {
      fontWeight:600,
  };
 
-export default function ProfileCard() {
-    const { user } = useSelector((state) => state.auth)
+export default function EducationCard() {
+    const {user}=useSelector((state)=>state.auth);
     const { profile } = useSelector((state) => state.profile)
     const [open, setOpen] = React.useState(false);
+    const [data,setData]=React.useState({});
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
+    const dispatch=useDispatch();
+
+    React.useEffect(async () => {
+        dispatch(show(user.data.id));
+      },[]);
+    const { education } = useSelector((state) => state.education)
     return (
         <Box sx={{ minWidth: 275 }}>
             <Card variant="outlined">
                 <React.Fragment>
                     <CardContent>
-                        <Box
-                            sx={{
-                                width: '100%',
-                                height: 300,
-                                backgroundColor: '#959e97',
-                                justifyContent: "center",
-                                alignItems: 'center',
-                                display: "flex"
-                            }}
-                        >
-                            <ImageAvatar />
-                        </Box>
                         <Grid container rowSpacing={1} columnSpacing={{ xs: 1, lg: 4 }}>
                             <Grid item lg={10}>
                                 <Typography sx={{ fontSize: 18, fontWeight: 600, paddingTop: 2 }} color="text.primary" gutterBottom>
-                                    Yohannes Afework
+                                    Education
                                 </Typography>
                             </Grid>
                             <Grid item lg={2}>
                                 <IconButton onClick={handleOpen}>
-                                    {profile ?
+                                    {education ?
                                         < EditIcon /> : < AddIcon />}
                                 </IconButton>
                                 <Modal
@@ -74,31 +71,33 @@ export default function ProfileCard() {
                                 >
                                     <Box sx={style}>
                                         <Typography sx={titleStyle} id="modal-modal-title" variant="h6" component="h2">
-                                            {profile?"Update Profile":"Create Profile"}
+                                            {education ? "Update Education" : "Post Education"}
                                         </Typography>
-                                        <Divider/>
-                                        
+                                        <Divider />
+                                        <EducationForm/>
                                     </Box>
                                 </Modal>
                             </Grid>
                         </Grid>
+                        <Typography sx={{ fontSize: 17, paddingTop: 2 }} color="text.primary" gutterBottom>
+                            {education? education.data.school:""}
+                        </Typography>
                         <Grid container rowSpacing={1} columnSpacing={{ xs: 1, lg: 4 }}>
                             <Grid item lg={9}>
                                 <Typography variant="body2">
-                                    Mathes teacher
+                                {education? education.data.field:""}
                                     <br />
-                                    {'Addis Ababa'}
+                                    {education?moment(education.data.start).format('YYYY'):''} - {education?moment(education.data.end).format('YYYY'):''}
                                 </Typography>
                             </Grid>
                             <Grid item lg={3}>
                                 <Typography variant="body2">
-                                    200 Birr per hour
+                                    {education?education.data.grade:''}
                                 </Typography>
                             </Grid>
                         </Grid>
                     </CardContent>
                 </React.Fragment>
             </Card>
-        </Box>
-    );
+        </Box>)
 }

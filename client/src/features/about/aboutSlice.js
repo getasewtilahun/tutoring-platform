@@ -1,21 +1,21 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
-import profileService from './profileService'
+import aboutService from './aboutService'
 
 const initialState = {
-  profile: null,
+  about: null,
   isError: false,
   isSuccess: false,
   isLoading: false,
-  message: '',
+  message: ''
 }
 
-// create user profile
+// create education 
 export const create = createAsyncThunk(
-  'profile/create',
-  async (userData, thunkAPI) => {
+  'about/create',
+  async (data, thunkAPI) => {
     try {
       const token = thunkAPI.getState().auth.user.token
-      return await profileService.create(userData,token)
+      return await aboutService.create(data, token)
     } catch (error) {
       const message =
         (error.response &&
@@ -28,13 +28,12 @@ export const create = createAsyncThunk(
   }
 )
 
-// show user profile
+// show education 
 export const show = createAsyncThunk(
-  'profile/show',
-  async (userId, thunkAPI) => {
+  'about/show',
+  async (id, thunkAPI) => {
     try {
-      const token = thunkAPI.getState().auth.user.token
-      return await profileService.show(userId,token)
+      return await aboutService.show(id)
     } catch (error) {
       const message =
         (error.response &&
@@ -47,13 +46,12 @@ export const show = createAsyncThunk(
   }
 )
 
-// create user profile
 export const update = createAsyncThunk(
-  'profile/update',
-  async (userId,userData, thunkAPI) => {
+  'about/update',
+  async (id, data, thunkAPI) => {
     try {
       const token = thunkAPI.getState().auth.user.token
-      return await profileService.update(userId,userData,token)
+      return await aboutService.update(id, data, token)
     } catch (error) {
       const message =
         (error.response &&
@@ -66,8 +64,8 @@ export const update = createAsyncThunk(
   }
 )
 
-export const profileSlice = createSlice({
-  name: 'profile',
+export const aboutSlice = createSlice({
+  name: 'about',
   initialState,
   reducers: {
     reset: (state) => {
@@ -77,6 +75,7 @@ export const profileSlice = createSlice({
       state.message = ''
     },
   },
+
   extraReducers: (builder) => {
     builder
       .addCase(create.pending, (state) => {
@@ -85,7 +84,7 @@ export const profileSlice = createSlice({
       .addCase(create.fulfilled, (state, action) => {
         state.isLoading = false
         state.isSuccess = true
-        state.profile = action.payload
+        state.about = action.payload
       })
       .addCase(create.rejected, (state, action) => {
         state.isLoading = false
@@ -98,11 +97,10 @@ export const profileSlice = createSlice({
       .addCase(show.fulfilled, (state, action) => {
         state.isLoading = false
         state.isSuccess = true
-        state.profile = action.payload
+        state.about = action.payload
       })
       .addCase(show.rejected, (state, action) => {
         state.isLoading = false
-        state.isError = true
         state.message = action.payload
       })
       .addCase(update.pending, (state) => {
@@ -111,6 +109,7 @@ export const profileSlice = createSlice({
       .addCase(update.fulfilled, (state, action) => {
         state.isLoading = false
         state.isSuccess = true
+        state.about = action.payload
       })
       .addCase(update.rejected, (state, action) => {
         state.isLoading = false
@@ -120,5 +119,5 @@ export const profileSlice = createSlice({
   },
 })
 
-export const { reset } = profileSlice.actions
-export default profileSlice.reducer
+export const { reset } = aboutSlice.actions
+export default aboutSlice.reducer
