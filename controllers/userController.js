@@ -2,6 +2,9 @@ require('dotenv').config();
 const User = require('../models/User');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const Profile = require('../models/Profile');
+const Education = require('../models/Education');
+const About = require('../models/About');
 
 const register = async (req, res) => {
     const { firstName,lastName,email, password, role } = req.body;
@@ -103,9 +106,111 @@ const login = async (req, res) => {
         })
     }
 }
+const fetchAll=async(req,res)=>{
+    try {
+        const users=await User.findAll({
+            include:Profile
+        })
+        if(users){
+            res.status(200).json({
+                data:users,
+                message:"users fetched successfully!"
+            })
+        }else{
+            res.status(500).json({
+                message:"Internal server problem!"
+            })
+        }
+    } catch (error) {
+        res.status(500).json({
+            message:"something went wrong!"
+        })
+    }
+}
 
+const fetchTutor=async(req,res)=>{
+    try {
+        const users=await User.findAll({
+            where:{
+                role:"tutor"
+            },
+            include:Profile
+        })
+        if(users){
+            res.status(200).json({
+                data:users,
+                message:"users fetched successfully!"
+            })
+        }else{
+            res.status(500).json({
+                message:"Internal server problem!"
+            })
+        }
+    } catch (error) {
+        res.status(500).json({
+            message:"something went wrong!"
+        })
+    }
+}
+
+const show=async(req,res)=>{
+    const id=req.params.id
+    try {
+        const user=await User.findOne({
+            where:{
+                id
+            },
+            include:[{model:Profile},{model:Education},{model:About}]
+        })
+        if(user){
+            res.status(200).json({
+                data:user,
+                message:"user fetched successfully!"
+            })
+        }else{
+            res.status(500).json({
+                message:"Internal server problem!"
+            })
+        }
+    } catch (error) {
+        res.status(500).json({
+            message:"something went wrong!"
+        })
+    }
+}
+
+const homeTutor=async(req,res)=>{
+    try {
+        const users=await User.findAll({
+            where:{
+                role:"tutor"
+            },
+            include:Profile,
+            limit: 5,
+        },
+        )
+        if(users){
+            res.status(200).json({
+                data:users,
+                message:"users fetched successfully!"
+            })
+        }else{
+            res.status(500).json({
+                message:"Internal server problem!"
+            })
+        }
+    } catch (error) {
+        res.status(500).json({
+            message:"something went wrong!"
+        })
+    }
+}
 
 module.exports = {
     register,
-    login
+    login,
+    fetchAll,
+    fetchTutor,
+    homeTutor,
+    show,
 }

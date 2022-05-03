@@ -177,13 +177,13 @@ export default function Navbar() {
                         <Element to='/' navDisplay={displayMenu}>Home</Element>
                     </List>
                     <List navDisplay={displayMenu}>
-                        <Element to='/' navDisplay={displayMenu}>Find a tutor</Element>
+                        <Element to='/tutors' navDisplay={displayMenu}>Find a tutor</Element>
                     </List>
                     <List navDisplay={displayMenu}>
                         <Element to='/' navDisplay={displayMenu}>How it Works</Element>
                     </List>
                     <List navDisplay={displayMenu}>
-                        <Element to='/' navDisplay={displayMenu}>Become a tutor</Element>
+                        <Element to='/register' navDisplay={displayMenu}>Become a tutor</Element>
                     </List>
                 </UListLeft>
                 <UListRight navDisplay={displayMenu}>

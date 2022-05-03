@@ -8,10 +8,6 @@ const Education=sequelize.define("education",{
         autoIncrement:true,
         allowNull:false,
     },
-    userId:{
-        type:DataTypes.INTEGER,
-        allowNull:false,
-    },
     school:{
         type:DataTypes.STRING,
         allowNull:false,

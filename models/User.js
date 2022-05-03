@@ -3,7 +3,7 @@ const sequelize=require('../config/db');
 const About = require('./About');
 const Profile = require('./Profile');
 const Report = require('./Report');
-
+const Education =require('./Education')
 const User=sequelize.define("user",{
     id:{
         type:DataTypes.INTEGER,
@@ -47,4 +47,5 @@ User.hasMany(Report, {
 })
 User.hasOne(About)
 User.hasOne(Profile)
+User.hasOne(Education)
 module.exports = User

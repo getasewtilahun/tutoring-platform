@@ -20,9 +20,12 @@ import VideoCallIcon from '@mui/icons-material/VideoCall';
 import QuestionAnswerIcon from '@mui/icons-material/QuestionAnswer';
 import EventNoteIcon from '@mui/icons-material/EventNote';
 import HomeIcon from '@mui/icons-material/Home';
-import GroupIcon from '@mui/icons-material/Group';
+import PersonIcon from '@mui/icons-material/Person';
 import LogoutIcon from '@mui/icons-material/Logout';
-
+import {useNavigate} from 'react-router-dom'
+import GroupIcon from '@mui/icons-material/Group';
+import Users from './Users';
+import Subjects from './Subjects';
 const drawerWidth = 240;
 
 const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })(
@@ -74,7 +77,16 @@ const DrawerHeader = styled('div')(({ theme }) => ({
 export default function Dashboard() {
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
+  const [selectedDash,setSelectedDash]=React.useState('users')
 
+  const navigate=useNavigate();
+  const navToHome=()=>{
+    navigate('/')
+  }
+  const changeSelected =(name)=>{
+    setSelectedDash(name);
+    console.log(selectedDash);
+  }
   const handleDrawerOpen = () => {
     setOpen(true);
   };
@@ -83,8 +95,8 @@ export default function Dashboard() {
     setOpen(false);
   };
   return (
-    <div>
-      <Box sx={{ display: 'flex' }}>
+    <div style={{backgroundColor:'#d7e0d9'}}>
+      <Box sx={{ display: 'flex'}}>
         <CssBaseline />
         <AppBar position="fixed" open={open}>
           <Toolbar>
@@ -98,7 +110,7 @@ export default function Dashboard() {
               <MenuIcon />
             </IconButton>
             <Typography variant="h6" noWrap component="div">
-              Student Dashboard
+              Tutor Dashboard
             </Typography>
           </Toolbar>
         </AppBar>
@@ -122,36 +134,36 @@ export default function Dashboard() {
           </DrawerHeader>
           <Divider />
           <List>
-            <ListItem button>
+            <ListItem button onClick={navToHome}> 
               <ListItemIcon><HomeIcon /></ListItemIcon>
               <ListItemText>Home</ListItemText>
             </ListItem>
-            <ListItem button>
+            <ListItem button onClick={()=>changeSelected('users')}>
               <ListItemIcon><GroupIcon/></ListItemIcon>
               <ListItemText>Users</ListItemText>
             </ListItem>
-            <ListItem button>
+            <ListItem button onClick={()=>changeSelected('subjects')}>
               <ListItemIcon><EventNoteIcon /></ListItemIcon>
-              <ListItemText>Schedules</ListItemText>
+              <ListItemText>Subjects</ListItemText>
             </ListItem>
-            <ListItem button>
+            <ListItem button onClick={()=>changeSelected('rooms')}>
               <ListItemIcon><VideoCallIcon /></ListItemIcon>
               <ListItemText>Rooms</ListItemText>
             </ListItem>
           </List>
           <Divider />
           <List>
-            <ListItem button>
+            <ListItem button onClick={()=>changeSelected('messages')}>
               <ListItemIcon><MessageIcon /></ListItemIcon>
-              <ListItemText>Message</ListItemText>
+              <ListItemText>Messages</ListItemText>
             </ListItem>
-            <ListItem button>
+            <ListItem button onClick={()=>changeSelected('quizes')}>
               <ListItemIcon><QuestionAnswerIcon /></ListItemIcon>
-              <ListItemText>Quiz</ListItemText>
+              <ListItemText>Quizes</ListItemText>
             </ListItem>
-            <ListItem button>
-              <ListItemIcon><EventNoteIcon /></ListItemIcon>
-              <ListItemText>Schedules</ListItemText>
+            <ListItem button onClick={()=>changeSelected('students')}>
+              <ListItemIcon><GroupIcon /></ListItemIcon>
+              <ListItemText>Students</ListItemText>
             </ListItem>
             <ListItem button>
               <ListItemIcon><VideoCallIcon /></ListItemIcon>
@@ -168,6 +180,8 @@ export default function Dashboard() {
         </Drawer>
         <Main open={open}>
           <DrawerHeader />
+          <>{selectedDash==='users'&&<Users/>}</>
+          <>{selectedDash==='categories'&&<Subjects/>}</>
         </Main>
       </Box>
     </div>

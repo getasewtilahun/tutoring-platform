@@ -8,6 +8,8 @@ import AdminDashbaord from './pages/admin/Dashboard'
 import StudentDashboard from './pages/student/Dashboard'
 import TutorDashboard from './pages/tutor/Dashboard'
 import CreateQuiz from './pages/tutor/CreateQuiz'
+import Tutors from './pages/Tutors'
+import TutorProfile from './pages/TutorProfile'
 function App() {
   return (
     <div className="App">
@@ -21,6 +23,8 @@ function App() {
         {/* student routes */}
         <Route path='/student/dashboard' element={<StudentDashboard/>} />
         {/* tutor routes */}
+        <Route path='/tutors' element={<Tutors/>}  />
+        <Route path='/tutor/:id' element={<TutorProfile/>} />
         <Route path='/tutor/dashboard' element={<TutorDashboard/>} />
         <Route path='/tutor/quiz/create' element={<CreateQuiz/>} />
       </Routes>
