@@ -6,6 +6,7 @@ import styled from 'styled-components'
 import { useLocation } from 'react-router-dom'
 import axios from 'axios'
 import moment from 'moment'
+import TutorProfileSidebar from '../components/TutorProfileSidebar'
 const Spacer = styled.div`
 display:flex;
 flex-direction:column;
@@ -35,8 +36,7 @@ export default function TutorProfile() {
             <Navbar />
             <Spacer />
             <Grid container spacing={2}>
-                <Grid item lg={2}>
-
+                <Grid item lg={1}>
                 </Grid>
                 <Grid item lg={6}>
                     <Card variant="outlined">
@@ -140,8 +140,8 @@ export default function TutorProfile() {
                         </React.Fragment>
                     </Card>
                 </Grid>
-                <Grid item lg={4}>
-
+                <Grid item lg={5}>
+                    <TutorProfileSidebar/>
                 </Grid>
             </Grid>
             <Spacer />

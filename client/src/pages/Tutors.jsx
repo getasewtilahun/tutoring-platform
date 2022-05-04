@@ -42,7 +42,7 @@ export default function Tutors() {
 
     console.log(tutors)
     return (
-        <div>
+        <div >
             <Navbar />
             <Title>Find Your Tutor Here</Title>
             <Grid container spacing={2}>
