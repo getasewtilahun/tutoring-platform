@@ -20,6 +20,14 @@ import CameraAltIcon from '@mui/icons-material/CameraAlt';
 import styled from 'styled-components';
 import axios from 'axios';
 import { useState } from 'react';
+import ClearIcon from '@mui/icons-material/Clear';
+
+const Row3 = styled.div`
+display:flex;
+justify-content:space-between;
+`
+
+
 const style = {
     position: 'absolute',
     top: '35%',
@@ -65,92 +73,98 @@ export default function ProfileCard() {
         const config = {
             headers: {
                 Authorization: `Bearer ${user.token}`,
-        },
-    }
-    const res = await axios.put(`http://localhost:5000/api/profile-image/${user.data.id}`, formData,{
-        headers: { 'Content-Type': 'multipart/form-data' }
-    });
-    if (res) {
-        dispatch(show(user.data.id))
-    }
-};
-return (
-    <Box sx={{ minWidth: 275 }}>
-        <Card variant="outlined">
-            <React.Fragment>
-                <CardContent>
-                    <Box
-                        sx={{
-                            width: '100%',
-                            height: 300,
-                            backgroundColor: '#959e97',
-                            justifyContent: "center",
-                            alignItems: 'center',
-                            display: "flex"
-                        }}
-                    >
-                        <Stack>
-                            <Avatar
-                                alt="Remy Sharp"
-                                src={profile?profile.data.img?'http://localhost:5000/'+profile.data.img:'':''}
-                                sx={{
-                                    width: 150, height: 150, justifyContent: "center", display: "flex"
-                                }}
-                            >
-                            </Avatar>
-                            <Input type="file" onChange={uploadPro} id="contained-button-file" />
-                            <Label htmlFor="contained-button-file">
-                                <CameraAltIcon style={{ color: "blue" }} />
-                            </Label>
-                        </Stack>
-                    </Box>
-                    <Grid container rowSpacing={1} columnSpacing={{ xs: 1, lg: 4 }}>
-                        <Grid item lg={10}>
-                            <Typography sx={{ fontSize: 18, fontWeight: 600, paddingTop: 2 }} color="text.primary" gutterBottom>
-                                {user.data.firstName} {user.data.lastName}
-                            </Typography>
-                        </Grid>
-                        <Grid item lg={2}>
-                            <IconButton onClick={handleOpen}>
-                                {profile ?
-                                    < EditIcon /> : < AddIcon />}
-                            </IconButton>
-                            <Modal
-                                open={open}
-                                onClose={handleClose}
-                                aria-labelledby="modal-modal-title"
-                                aria-describedby="modal-modal-description"
-                            >
-                                <Box sx={style}>
-                                    <Typography sx={titleStyle} id="modal-modal-title" variant="h6" component="h2">
-                                        {profile ? "Update Profile" : "Create Profile"}
-                                    </Typography>
-                                    <Divider />
-                                    <ProfileForm />
-                                </Box>
-                            </Modal>
-                        </Grid>
-                    </Grid>
-                    <Grid container rowSpacing={1} columnSpacing={{ xs: 1, lg: 4 }}>
-                        <Grid item lg={9}>
-                            <Typography variant="body2">
-                                {profile ? profile.data.headline : "Your title"}
-                                <br />
-                                {profile ? profile.data.address : "your address"}
-                                <br />
-                                {profile ? profile.data.phone : "your phone"}
-                            </Typography>
-                        </Grid>
-                        <Grid item lg={3}>
-                            <Typography variant="body2">
+            },
+        }
+        const res = await axios.put(`http://localhost:5000/api/profile-image/${user.data.id}`, formData, {
+            headers: { 'Content-Type': 'multipart/form-data' }
+        });
+        if (res) {
+            dispatch(show(user.data.id))
+        }
+    };
+    return (
+        <Box sx={{ minWidth: 275 }}>
+            <Card variant="outlined">
+                <React.Fragment>
+                    <CardContent>
+                        <Box
+                            sx={{
+                                width: '100%',
+                                height: 300,
+                                backgroundColor: '#959e97',
+                                justifyContent: "center",
+                                alignItems: 'center',
+                                display: "flex"
+                            }}
+                        >
+                            <Stack>
+                                <Avatar
+                                    alt="Remy Sharp"
+                                    src={profile ? profile.data.img ? 'http://localhost:5000/' + profile.data.img : '' : ''}
+                                    sx={{
+                                        width: 150, height: 150, justifyContent: "center", display: "flex"
+                                    }}
+                                >
+                                </Avatar>
+                                <Input type="file" onChange={uploadPro} id="contained-button-file" />
+                                <Label htmlFor="contained-button-file">
+                                    <CameraAltIcon style={{ color: "blue" }} />
+                                </Label>
+                            </Stack>
+                        </Box>
+                        <Grid container rowSpacing={1} columnSpacing={{ xs: 1, lg: 4 }}>
+                            <Grid item lg={10}>
+                                <Typography sx={{ fontSize: 18, fontWeight: 600, paddingTop: 2 }} color="text.primary" gutterBottom>
+                                    {user.data.firstName} {user.data.lastName}
+                                </Typography>
+                            </Grid>
+                            <Grid item lg={2}>
+                                <IconButton onClick={handleOpen}>
+                                    {profile ?
+                                        < EditIcon /> : < AddIcon />}
+                                </IconButton>
+                                <Modal
+                                    open={open}
+                                    onClose={handleClose}
+                                    aria-labelledby="modal-modal-title"
+                                    aria-describedby="modal-modal-description"
+                                >
+                                    <Box sx={style}>
 
-                                {profile ? profile.data.price + " Birr per hour" : 'price per hour'}
-                            </Typography>
+                                        <Row3>
+                                            <Typography sx={titleStyle} id="modal-modal-title" variant="h6" component="h2">
+                                                {profile ? "Update Profile" : "Create Profile"}
+                                            </Typography>
+                                            <IconButton onClick={handleClose}>
+                                                <ClearIcon />
+                                            </IconButton>
+                                        </Row3>
+                                        <Divider />
+                                        <ProfileForm />
+                                    </Box>
+                                </Modal>
+                            </Grid>
                         </Grid>
-                    </Grid>
-                </CardContent>
-            </React.Fragment>
-        </Card>
-    </Box>
-);
+                        <Grid container rowSpacing={1} columnSpacing={{ xs: 1, lg: 4 }}>
+                            <Grid item lg={9}>
+                                <Typography variant="body2">
+                                    {profile ? profile.data.headline : "Your title"}
+                                    <br />
+                                    {profile ? profile.data.address : "your address"}
+                                    <br />
+                                    {profile ? profile.data.phone : "your phone"}
+                                </Typography>
+                            </Grid>
+                            <Grid item lg={3}>
+                                <Typography variant="body2">
+
+                                    {profile ? profile.data.price + " Birr per hour" : 'price per hour'}
+                                </Typography>
+                            </Grid>
+                        </Grid>
+                    </CardContent>
+                </React.Fragment>
+            </Card>
+        </Box>
+    );
 }

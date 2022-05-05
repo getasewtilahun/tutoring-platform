@@ -31,6 +31,11 @@ import HomePage from '../Home'
 import Messages from './Messages';
 import GroupIcon from '@mui/icons-material/Group';
 import Students from './Students';
+import Review from './Review';
+import Report from './Report';
+import ReportIcon from '@mui/icons-material/Report';
+import RateReviewIcon from '@mui/icons-material/RateReview';
+
 const drawerWidth = 240;
 
 const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })(
@@ -170,9 +175,13 @@ export default function Dashboard() {
               <ListItemIcon><GroupIcon /></ListItemIcon>
               <ListItemText>Students</ListItemText>
             </ListItem>
-            <ListItem button>
-              <ListItemIcon><VideoCallIcon /></ListItemIcon>
-              <ListItemText>Rooms</ListItemText>
+            <ListItem button onClick={()=>changeSelected('review')}>
+              <ListItemIcon><RateReviewIcon /></ListItemIcon>
+              <ListItemText>Review</ListItemText>
+            </ListItem>
+            <ListItem button onClick={()=>changeSelected('report')}>
+              <ListItemIcon><ReportIcon/></ListItemIcon>
+              <ListItemText>Report</ListItemText>
             </ListItem>
           </List>
           <Divider/>
@@ -191,6 +200,8 @@ export default function Dashboard() {
           <>{selectedDash==='messages'&&<Messages/>}</>
           <>{selectedDash==='quizes'&&<CreateQuiz/>}</>
           <>{selectedDash==='students'&&<Students/>}</>
+          <>{selectedDash==='review'&&<Review/>}</>
+          <>{selectedDash==='report'&&<Report/>}</>
         </Main>
       </Box>
     </div>

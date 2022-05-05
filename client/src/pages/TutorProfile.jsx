@@ -1,4 +1,4 @@
-import { Avatar, Box, Card, CardContent, Grid, Stack, Typography } from '@mui/material'
+import { Avatar, Box, Button, Card, CardContent, Divider, Grid, Stack, Typography } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 import Footer from '../components/Footer'
 import Navbar from '../components/Navbar'
@@ -7,10 +7,23 @@ import { useLocation } from 'react-router-dom'
 import axios from 'axios'
 import moment from 'moment'
 import TutorProfileSidebar from '../components/TutorProfileSidebar'
+import EventNoteIcon from '@mui/icons-material/EventNote';
+import ReportIcon from '@mui/icons-material/Report';
 const Spacer = styled.div`
 display:flex;
 flex-direction:column;
 height:40px;
+`
+const Row=styled.div`
+display:flex;
+justify-content:space-between;
+`
+const Space=styled.div`
+height:20px;
+`
+const El=styled.p`
+padding-left:10px;
+padding-top:5px;
 `
 export default function TutorProfile() {
     const location = useLocation();
@@ -19,26 +32,26 @@ export default function TutorProfile() {
     const [profile,setProfile]=useState({})
     const [education,setEducation]=useState({})
     const [about,setAbout]=useState({})
-
+    const [tutId,setTutId]=useState()
     useEffect(async()=>{
         const res= await axios.get(`http://localhost:5000/api/user/${id}`)
         if(res.status==200){
+            setTutId(res.data.data.id)
             setUser(res.data.data)
             setProfile(res.data.data.profile)
             setEducation(res.data.data.education)
             setAbout(res.data.data.about)
         }
     },[]);
-    console.log(user)
 
     return (
         <div>
             <Navbar />
             <Spacer />
             <Grid container spacing={2}>
-                <Grid item lg={1}>
+                <Grid item lg={1} sm={0}>
                 </Grid>
-                <Grid item lg={6}>
+                <Grid item lg={6} sm={12}>
                     <Card variant="outlined">
                         <React.Fragment>
                             <CardContent>
@@ -88,6 +101,13 @@ export default function TutorProfile() {
                                         </Typography>
                                     </Grid>
                                 </Grid>
+                                <Space/>
+                                <Divider/>
+                                <Space/>
+                                <Row>
+                                    <Button variant='contained'><EventNoteIcon/> <El>Schedule Class</El> </Button>
+                                    <Button variant='contained'><ReportIcon/><El>Report Complaint</El> </Button>
+                                </Row>
                             </CardContent>
                         </React.Fragment>
                     </Card>
@@ -140,8 +160,8 @@ export default function TutorProfile() {
                         </React.Fragment>
                     </Card>
                 </Grid>
-                <Grid item lg={5}>
-                    <TutorProfileSidebar/>
+                <Grid item lg={5} sm={0}>
+                    <TutorProfileSidebar id={tutId}/>
                 </Grid>
             </Grid>
             <Spacer />

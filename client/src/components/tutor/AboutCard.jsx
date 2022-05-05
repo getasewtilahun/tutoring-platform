@@ -15,6 +15,14 @@ import { Divider } from '@mui/material';
 import AboutForm from './AboutForm';
 import { useEffect } from 'react';
 import { show } from '../../features/about/aboutSlice';
+import ClearIcon from '@mui/icons-material/Clear';
+import styled from 'styled-components';
+
+const Row3 = styled.div`
+display:flex;
+justify-content:space-between;
+`
+
 const style = {
     position: 'absolute',
     top: '35%',
@@ -34,11 +42,11 @@ const titleStyle = {
 };
 
 export default function AboutCard() {
-    const {user}=useSelector((state)=>state.auth)
-    const dispatch=useDispatch();
+    const { user } = useSelector((state) => state.auth)
+    const dispatch = useDispatch();
     React.useEffect(async () => {
         dispatch(show(user.data.id));
-      },[]);
+    }, []);
     const { about } = useSelector((state) => state.about)
     const [open, setOpen] = React.useState(false);
     const handleOpen = () => setOpen(true);
@@ -67,17 +75,23 @@ export default function AboutCard() {
                                     aria-describedby="modal-modal-description"
                                 >
                                     <Box sx={style}>
-                                        <Typography sx={titleStyle} id="modal-modal-title" variant="h6" component="h2">
-                                            {about ? "Update About Yourself" : "Post About Yourself"}
-                                        </Typography>
+                                        <Row3>
+                                            <Typography sx={titleStyle} id="modal-modal-title" variant="h6" component="h2">
+                                                {about ? "Update About Yourself" : "Post About Yourself"}
+                                            </Typography>
+                                            <IconButton onClick={handleClose}>
+                                                <ClearIcon />
+                                            </IconButton>
+                                        </Row3>
+
                                         <Divider />
-                                        <AboutForm/>
+                                        <AboutForm />
                                     </Box>
                                 </Modal>
                             </Grid>
                         </Grid>
                         <Typography sx={{ fontSize: 17, paddingTop: 2 }} color="text.primary" gutterBottom>
-                        {about?about.data.content:'Write about yourself'}
+                            {about ? about.data.content : 'Write about yourself'}
                         </Typography>
                     </CardContent>
                 </React.Fragment>
