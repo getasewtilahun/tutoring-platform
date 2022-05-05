@@ -3,7 +3,8 @@ const sequelize=require('../config/db');
 const About = require('./About');
 const Profile = require('./Profile');
 const Report = require('./Report');
-const Education =require('./Education')
+const Education =require('./Education');
+const Review = require('./Review');
 const User=sequelize.define("user",{
     id:{
         type:DataTypes.INTEGER,
@@ -43,6 +44,12 @@ User.hasMany(Report, {
     foreignKey: 'studentId'
 })
 User.hasMany(Report, {
+    foreignKey: 'tutorId'
+})
+User.hasOne(Review, {
+    foreignKey: 'studentId'
+})
+User.hasMany(Review, {
     foreignKey: 'tutorId'
 })
 User.hasOne(About)

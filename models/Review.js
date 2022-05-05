@@ -8,6 +8,10 @@ const Review=sequelize.define("review",{
         autoIncrement:true,
         allowNull:false,
     },
+    rate:{
+        type:DataTypes.INTEGER,
+        allowNull:false,
+    },
     content:{
         type:DataTypes.TEXT,
         allowNull:false,

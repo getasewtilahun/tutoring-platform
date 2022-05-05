@@ -1,16 +1,17 @@
 const Review=require('../models/Review')
 
 const create = async (req, res) => {
-    const {content,tutorId,studentId} =req.body
+    const {rate,content,tutorId,studentId} =req.body
     if(!content){
         res.status(409).json({
             message:"All fields are required!"
         })
     }
     try {
-        const result = await Review.create({ 
+        const result = await Review.create({
             studentId,
             tutorId,
+            rate, 
             content,
         });
         if (result) {
@@ -37,7 +38,7 @@ const fetchAll=async(req,res)=>{
     try {
         const result=await Review.findAll({
             where:{
-                tutorId
+                tutorId:tutorId
             }
         })
         if(result){
