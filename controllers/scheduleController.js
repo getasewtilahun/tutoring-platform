@@ -1,61 +1,71 @@
-const Subject = require('../models/Subject');
+const Schedule = require('../models/Schedule');
+const Sequelize = require('sequelize')
+const create = async (req, res) => {
+    const { title, startDate, endDate, desc, tutorId, studentId } = req.body
 
-const create=async(req,res)=>{
-    const {name,desc,img}=req.body
-
-    if((!name)||(!desc)||(!img)){
+    if ((!title) || (!startDate) || (!endDate)) {
         res.status(400).json({
-            message:"All fields are required!",
+            message: "All fields are required!",
         })
-    }
+    } else {
 
-    try {
-        const subject =await Subject.create({
-            name,
-            desc,
-            img
-        })
-        if(subject){
-            res.status(201).json({
-                message:"Subject created successfully!",
+        try {
+            const schedule = await Schedule.create({
+                tutorId,
+                studentId,
+                title,
+                endDate,
+                startDate,
+                desc,
             })
-        }else{
+            if (schedule) {
+                res.status(201).json({
+                    message: "Schedule Submited successfully!",
+                })
+            } else {
+                res.status(500).json({
+                    message: "Something went wrong!"
+                })
+            }
+        } catch (error) {
             res.status(500).json({
-                message:"Something went wrong!"
+                message: "Internal server problem occured!"
             })
         }
-    } catch (error) {
-        res.status(500).json({
-            message:"Internal server problem occured!"
-        })
     }
 }
 
-const fetchAll=async(req,res)=>{
+const fetchAll = async (req, res) => {
+    const userId = req.params.id
     try {
-        const subjects=await Subject.findAll()
-        if(subjects){
+        const result = await Schedule.findAll({
+            where: Sequelize.or(
+                { tutorId: userId },
+                { studentId: userId }
+            )
+        })
+        if (result) {
             res.status(200).json({
-                data:subjects,
-                message:"subjects fetched successfully"
+                data: result,
+                message: "Schedules fetched successfully"
             })
-        }else{
+        } else {
             res.status(500).json({
-                message:"Internal server problem"
+                message: "Internal server problem"
             })
         }
     } catch (error) {
         res.status(500).json({
-            message:"Internal server problem"
+            message: "Internal server problem"
         })
     }
 }
 
-const update=async(req,res)=>{
+const accept=async(req,res)=>{
     const id=req.params.id;
 
     try {
-        const result=await Subject.update(req.body,{
+        const result=await Schedule.update(req.body,{
             where:{
                 id
             }
@@ -63,11 +73,11 @@ const update=async(req,res)=>{
 
         if(result){
             res.status(200).json({
-                message:"Subject updated successfully"
+                message:"Schedule accepted successfully."
             })
         }else{
             res.status(500).json({
-                message:"No subject with this id!"
+                message:"No schedule with the specified ID!"
             })
         }
     } catch (error) {
@@ -81,18 +91,18 @@ const remove=async(req,res)=>{
     const id=req.params.id
 
     try {
-        const result=await Subject.destroy({
+        const result=await Schedule.destroy({
             where:{
                 id
             }
         })
         if(result){
             res.status(200).json({
-                message:"Subject deleted successfully!"
+                message:"Schedule deleted successfully!"
             })
         }else{
             res.status(500).json({
-                message:"No subject with this id",
+                message:"No schedule with the specified ID",
             })
         }
     } catch (error) {
@@ -102,9 +112,9 @@ const remove=async(req,res)=>{
     }
 }
 
-module.exports={
+module.exports = {
     create,
     fetchAll,
-    update,
-    remove
+    accept,
+    remove,
 }

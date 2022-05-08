@@ -22,6 +22,20 @@ import EventNoteIcon from '@mui/icons-material/EventNote';
 import HomeIcon from '@mui/icons-material/Home';
 import PersonIcon from '@mui/icons-material/Person';
 import LogoutIcon from '@mui/icons-material/Logout';
+import { useNavigate } from 'react-router-dom';
+import ReportIcon from '@mui/icons-material/Report';
+import Schedules from './Schedules';
+import Rooms from './Rooms';
+import Messages from './Messages';
+import Report from './Report';
+import Profile from './Profile';
+
+import { logout, reset } from '../../features/auth/authSlice'
+import { reset as eduReset} from '../../features/education/educationSlice'
+import { reset as proReset } from '../../features/profile/profileSlice'
+import { reset as aboutReset} from '../../features/about/aboutSlice'
+import { useDispatch } from 'react-redux';
+
 
 const drawerWidth = 240;
 
@@ -74,6 +88,16 @@ const DrawerHeader = styled('div')(({ theme }) => ({
 export default function Dashboard() {
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
+  const [selectedDash,setSelectedDash]=React.useState('profile')
+
+  const navigate=useNavigate();
+  const navToHome=()=>{
+    navigate('/')
+  }
+  const changeSelected =(name)=>{
+    setSelectedDash(name);
+    console.log(selectedDash);
+  }
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -82,6 +106,17 @@ export default function Dashboard() {
   const handleDrawerClose = () => {
     setOpen(false);
   };
+ 
+  const dispatch=useDispatch()
+  const onLogout = () => {
+    dispatch(logout())
+    dispatch(reset())
+    dispatch(eduReset())
+    dispatch(proReset())
+    dispatch(aboutReset())
+    navigate('/')
+  }
+
   return (
     <div>
       <Box sx={{ display: 'flex' }}>
@@ -122,36 +157,36 @@ export default function Dashboard() {
           </DrawerHeader>
           <Divider />
           <List>
-            <ListItem button>
+            <ListItem button onClick={navToHome}>
               <ListItemIcon><HomeIcon /></ListItemIcon>
               <ListItemText>Home</ListItemText>
             </ListItem>
-            <ListItem button>
+            <ListItem button onClick={()=>changeSelected('profile')}>
               <ListItemIcon><PersonIcon/></ListItemIcon>
               <ListItemText>Profile</ListItemText>
             </ListItem>
-            <ListItem button>
+            <ListItem button onClick={()=>changeSelected('schedules')}>
               <ListItemIcon><EventNoteIcon /></ListItemIcon>
               <ListItemText>Schedules</ListItemText>
             </ListItem>
-            <ListItem button>
+            <ListItem button onClick={()=>changeSelected('rooms')}>
               <ListItemIcon><VideoCallIcon /></ListItemIcon>
               <ListItemText>Rooms</ListItemText>
             </ListItem>
           </List>
           <Divider />
           <List>
-            <ListItem button>
+            <ListItem button onClick={()=>changeSelected('messages')}>
               <ListItemIcon><MessageIcon /></ListItemIcon>
-              <ListItemText>Message</ListItemText>
+              <ListItemText>Messages</ListItemText>
             </ListItem>
-            <ListItem button>
+            <ListItem button onClick={()=>changeSelected('quizes')}>
               <ListItemIcon><QuestionAnswerIcon /></ListItemIcon>
-              <ListItemText>Quiz</ListItemText>
+              <ListItemText>Quizes</ListItemText>
             </ListItem>
-            <ListItem button>
-              <ListItemIcon><EventNoteIcon /></ListItemIcon>
-              <ListItemText>Schedules</ListItemText>
+            <ListItem button onClick={()=>changeSelected('reports')}>
+              <ListItemIcon><ReportIcon /></ListItemIcon>
+              <ListItemText>Reports</ListItemText>
             </ListItem>
             <ListItem button>
               <ListItemIcon><VideoCallIcon /></ListItemIcon>
@@ -160,7 +195,7 @@ export default function Dashboard() {
           </List>
           <Divider/>
           <List>
-            <ListItem button>
+            <ListItem button onClick={onLogout}>
               <ListItemIcon><LogoutIcon /></ListItemIcon>
               <ListItemText>Logout</ListItemText>
             </ListItem>
@@ -168,6 +203,13 @@ export default function Dashboard() {
         </Drawer>
         <Main open={open}>
           <DrawerHeader />
+          <>{selectedDash==='profile'&&<Profile/>}</>
+          <>{selectedDash==='schedules'&&<Schedules/>}</>
+          <>{selectedDash==='rooms'&&<Rooms/>}</>
+          <>{selectedDash==='messages'&&<Messages/>}</>
+          {/* <>{selectedDash==='quizes'&&</>}</> */}
+          {/* <>{selectedDash==='students'&&<Students/>}</> */}
+          <>{selectedDash==='reports'&&<Report/>}</>
         </Main>
       </Box>
     </div>

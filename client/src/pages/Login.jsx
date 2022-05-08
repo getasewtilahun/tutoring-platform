@@ -133,9 +133,9 @@ export default function Login() {
                     <Title>LOGIN</Title>
                     <Form onSubmit={handleSubmit}>
                         <Input type={"email"} placeholder={"E-mail"} onChange={e => { setEmail(e.target.value) }}></Input>
-                        <Error >Email field is required!</Error>
+                        {/* <Error >Email field is required!</Error> */}
                         <Input type={"password"} placeholder={"Password"} onChange={e => { setPassword(e.target.value) }}></Input>
-                        <Error >Password field is required!</Error>
+                        {/* <Error >Password field is required!</Error> */}
                         <Button type='submit'>Login</Button>
                         <Row>
                             <Text>Don't have an account?</Text>

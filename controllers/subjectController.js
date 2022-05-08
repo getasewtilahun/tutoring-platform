@@ -1,108 +1,109 @@
 const Subject = require('../models/Subject');
 
-const create=async(req,res)=>{
-    const {name,desc,img}=req.body
+const create = async (req, res) => {
+    const { name, desc, img } = req.body
 
-    if((!name)||(!desc)||(!img)){
+    if ((!name) || (!desc) || (!img)) {
         res.status(400).json({
-            message:"All fields are required!",
+            message: "All fields are required!",
         })
-    }
+    } else {
 
-    try {
-        const subject =await Subject.create({
-            name,
-            desc,
-            img
-        })
-        if(subject){
-            res.status(201).json({
-                message:"Subject created successfully!",
+        try {
+            const subject = await Subject.create({
+                name,
+                desc,
+                img
             })
-        }else{
+            if (subject) {
+                res.status(201).json({
+                    message: "Subject created successfully!",
+                })
+            } else {
+                res.status(500).json({
+                    message: "Something went wrong!"
+                })
+            }
+        } catch (error) {
             res.status(500).json({
-                message:"Something went wrong!"
+                message: "Internal server problem occured!"
             })
         }
-    } catch (error) {
-        res.status(500).json({
-            message:"Internal server problem occured!"
-        })
     }
 }
 
-const fetchAll=async(req,res)=>{
+const fetchAll = async (req, res) => {
     try {
-        const subjects=await Subject.findAll()
-        if(subjects){
+        const subjects = await Subject.findAll()
+        if (subjects) {
             res.status(200).json({
-                data:subjects,
-                message:"subjects fetched successfully"
+                data: subjects,
+                message: "subjects fetched successfully"
             })
-        }else{
+        } else {
             res.status(500).json({
-                message:"Internal server problem"
+                message: "Internal server problem"
             })
         }
     } catch (error) {
         res.status(500).json({
-            message:"Internal server problem"
+            message: "Internal server problem"
         })
     }
 }
 
-const update=async(req,res)=>{
-    const id=req.params.id;
+const update = async (req, res) => {
+    const id = req.params.id;
 
     try {
-        const result=await Subject.update(req.body,{
-            where:{
+        const result = await Subject.update(req.body, {
+            where: {
                 id
             }
         })
 
-        if(result){
+        if (result) {
             res.status(200).json({
-                message:"Subject updated successfully"
+                message: "Subject updated successfully"
             })
-        }else{
+        } else {
             res.status(500).json({
-                message:"No subject with this id!"
+                message: "No subject with this id!"
             })
         }
     } catch (error) {
         res.status(500).json({
-            message:"Internal server problem!"
+            message: "Internal server problem!"
         })
     }
 }
 
-const remove=async(req,res)=>{
-    const id=req.params.id
+const remove = async (req, res) => {
+    const id = req.params.id
 
     try {
-        const result=await Subject.destroy({
-            where:{
+        const result = await Subject.destroy({
+            where: {
                 id
             }
         })
-        if(result){
+        if (result) {
             res.status(200).json({
-                message:"Subject deleted successfully!"
+                message: "Subject deleted successfully!"
             })
-        }else{
+        } else {
             res.status(500).json({
-                message:"No subject with this id",
+                message: "No subject with this id",
             })
         }
     } catch (error) {
         res.status(500).json({
-            message:"Internal server problem!"
+            message: "Internal server problem!"
         })
     }
 }
 
-module.exports={
+module.exports = {
     create,
     fetchAll,
     update,

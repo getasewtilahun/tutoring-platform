@@ -15,17 +15,22 @@ import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import ListItem from '@mui/material/ListItem';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-import MessageIcon from '@mui/icons-material/Message';
-import VideoCallIcon from '@mui/icons-material/VideoCall';
-import QuestionAnswerIcon from '@mui/icons-material/QuestionAnswer';
 import EventNoteIcon from '@mui/icons-material/EventNote';
 import HomeIcon from '@mui/icons-material/Home';
-import PersonIcon from '@mui/icons-material/Person';
 import LogoutIcon from '@mui/icons-material/Logout';
 import {useNavigate} from 'react-router-dom'
 import GroupIcon from '@mui/icons-material/Group';
 import Users from './Users';
 import Subjects from './Subjects';
+import SubjectIcon from '@mui/icons-material/Subject';
+import ReportIcon from '@mui/icons-material/Report';
+import Reports from './Reports';
+import { useDispatch } from 'react-redux';
+import { logout, reset } from '../../features/auth/authSlice'
+import { reset as eduReset} from '../../features/education/educationSlice'
+import { reset as proReset } from '../../features/profile/profileSlice'
+import { reset as aboutReset} from '../../features/about/aboutSlice'
+
 const drawerWidth = 240;
 
 const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })(
@@ -94,6 +99,16 @@ export default function Dashboard() {
   const handleDrawerClose = () => {
     setOpen(false);
   };
+
+  const dispatch=useDispatch()
+  const onLogout = () => {
+    dispatch(logout())
+    dispatch(reset())
+    dispatch(eduReset())
+    dispatch(proReset())
+    dispatch(aboutReset())
+    navigate('/')
+  }
   return (
     <div style={{backgroundColor:'#d7e0d9'}}>
       <Box sx={{ display: 'flex'}}>
@@ -143,36 +158,17 @@ export default function Dashboard() {
               <ListItemText>Users</ListItemText>
             </ListItem>
             <ListItem button onClick={()=>changeSelected('subjects')}>
-              <ListItemIcon><EventNoteIcon /></ListItemIcon>
+              <ListItemIcon><SubjectIcon /></ListItemIcon>
               <ListItemText>Subjects</ListItemText>
             </ListItem>
-            <ListItem button onClick={()=>changeSelected('rooms')}>
-              <ListItemIcon><VideoCallIcon /></ListItemIcon>
-              <ListItemText>Rooms</ListItemText>
+            <ListItem button onClick={()=>changeSelected('reports')}>
+              <ListItemIcon><ReportIcon /></ListItemIcon>
+              <ListItemText>Reports</ListItemText>
             </ListItem>
           </List>
           <Divider />
           <List>
-            <ListItem button onClick={()=>changeSelected('messages')}>
-              <ListItemIcon><MessageIcon /></ListItemIcon>
-              <ListItemText>Messages</ListItemText>
-            </ListItem>
-            <ListItem button onClick={()=>changeSelected('quizes')}>
-              <ListItemIcon><QuestionAnswerIcon /></ListItemIcon>
-              <ListItemText>Quizes</ListItemText>
-            </ListItem>
-            <ListItem button onClick={()=>changeSelected('students')}>
-              <ListItemIcon><GroupIcon /></ListItemIcon>
-              <ListItemText>Students</ListItemText>
-            </ListItem>
-            <ListItem button>
-              <ListItemIcon><VideoCallIcon /></ListItemIcon>
-              <ListItemText>Rooms</ListItemText>
-            </ListItem>
-          </List>
-          <Divider/>
-          <List>
-            <ListItem button>
+            <ListItem button onClick={onLogout}>
               <ListItemIcon><LogoutIcon /></ListItemIcon>
               <ListItemText>Logout</ListItemText>
             </ListItem>
@@ -181,7 +177,8 @@ export default function Dashboard() {
         <Main open={open}>
           <DrawerHeader />
           <>{selectedDash==='users'&&<Users/>}</>
-          <>{selectedDash==='categories'&&<Subjects/>}</>
+          <>{selectedDash==='subjects'&&<Subjects/>}</>
+          <>{selectedDash==='reports'&&<Reports/>}</>
         </Main>
       </Box>
     </div>

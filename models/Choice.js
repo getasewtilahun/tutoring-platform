@@ -1,21 +1,22 @@
 const {Sequelize,DataTypes}=require('sequelize')
 const sequelize=require('../config/db')
-const Choice = require('./Choice')
 
-const Question=sequelize.define("question",{
+const Choice=sequelize.define('choice',{
     id:{
         type:DataTypes.INTEGER,
         primaryKey:true,
         autoIncrement:true,
+    },
+    choice:{
+        type:DataTypes.STRING,
         allowNull:false,
     },
-    question:{
-        type:DataTypes.TEXT,
-        allowNull:false,
-    },
+    answer:{
+        type:DataTypes.BOOLEAN,
+        defaultValue:false,
+    }
 },{
     timestamps:true,
 })
 
-Question.hasMany(Choice)
-module.exports=Question
+module.exports=Choice

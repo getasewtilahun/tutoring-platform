@@ -9,6 +9,7 @@ import moment from 'moment'
 import TutorProfileSidebar from '../components/TutorProfileSidebar'
 import EventNoteIcon from '@mui/icons-material/EventNote';
 import ReportIcon from '@mui/icons-material/Report';
+import ScheduleAndReport from '../components/student/ScheduleAndReport'
 const Spacer = styled.div`
 display:flex;
 flex-direction:column;
@@ -32,11 +33,9 @@ export default function TutorProfile() {
     const [profile,setProfile]=useState({})
     const [education,setEducation]=useState({})
     const [about,setAbout]=useState({})
-    const [tutId,setTutId]=useState()
     useEffect(async()=>{
         const res= await axios.get(`http://localhost:5000/api/user/${id}`)
         if(res.status==200){
-            setTutId(res.data.data.id)
             setUser(res.data.data)
             setProfile(res.data.data.profile)
             setEducation(res.data.data.education)
@@ -88,6 +87,8 @@ export default function TutorProfile() {
                                 <Grid container rowSpacing={1} columnSpacing={{ xs: 1, lg: 4 }}>
                                     <Grid item lg={9}>
                                         <Typography variant="body2">
+                                            {profile?profile.headline:''}
+                                            <br />
                                             {profile?profile.address:''}
                                             <br />
                                             {profile?profile.phone:''}
@@ -104,10 +105,7 @@ export default function TutorProfile() {
                                 <Space/>
                                 <Divider/>
                                 <Space/>
-                                <Row>
-                                    <Button variant='contained'><EventNoteIcon/> <El>Schedule Class</El> </Button>
-                                    <Button variant='contained'><ReportIcon/><El>Report Complaint</El> </Button>
-                                </Row>
+                                <ScheduleAndReport id={id}/>
                             </CardContent>
                         </React.Fragment>
                     </Card>
@@ -161,7 +159,7 @@ export default function TutorProfile() {
                     </Card>
                 </Grid>
                 <Grid item lg={5} sm={0}>
-                    <TutorProfileSidebar id={tutId}/>
+                    <TutorProfileSidebar id={id}/>
                 </Grid>
             </Grid>
             <Spacer />

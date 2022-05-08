@@ -5,6 +5,8 @@ const Profile = require('./Profile');
 const Report = require('./Report');
 const Education =require('./Education');
 const Review = require('./Review');
+const Schedule = require('./Schedule');
+const Quiz = require('./Quiz');
 const User=sequelize.define("user",{
     id:{
         type:DataTypes.INTEGER,
@@ -41,18 +43,27 @@ const User=sequelize.define("user",{
 }
 )
 User.hasMany(Report, {
-    foreignKey: 'studentId'
+    foreignKey: 'studentId',
 })
 User.hasMany(Report, {
-    foreignKey: 'tutorId'
-})
-User.hasOne(Review, {
-    foreignKey: 'studentId'
+    foreignKey: 'tutorId',
 })
 User.hasMany(Review, {
-    foreignKey: 'tutorId'
+    foreignKey: 'studentId',
+    as:"Student",
+})
+User.hasMany(Review, {
+    foreignKey: 'tutorId',
+    as:"Tutor",
+})
+User.hasMany(Schedule, {
+    foreignKey: 'studentId',
+})
+User.hasMany(Schedule, {
+    foreignKey: 'tutorId',
 })
 User.hasOne(About)
 User.hasOne(Profile)
 User.hasOne(Education)
+User.hasMany(Quiz)
 module.exports = User

@@ -22,7 +22,7 @@ import EventNoteIcon from '@mui/icons-material/EventNote';
 import HomeIcon from '@mui/icons-material/Home';
 import PersonIcon from '@mui/icons-material/Person';
 import LogoutIcon from '@mui/icons-material/Logout';
-import {useNavigate} from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import MyProfile from '../../components/tutor/MyProfile';
 import CreateQuiz from './CreateQuiz';
 import Schedules from './Schedules';
@@ -32,9 +32,15 @@ import Messages from './Messages';
 import GroupIcon from '@mui/icons-material/Group';
 import Students from './Students';
 import Review from './Review';
-import Report from './Report';
-import ReportIcon from '@mui/icons-material/Report';
 import RateReviewIcon from '@mui/icons-material/RateReview';
+import AddIcon from '@mui/icons-material/Add';
+
+import { logout, reset } from '../../features/auth/authSlice'
+import { reset as eduReset} from '../../features/education/educationSlice'
+import { reset as proReset } from '../../features/profile/profileSlice'
+import { reset as aboutReset} from '../../features/about/aboutSlice'
+import { useDispatch } from 'react-redux';
+import Quizes from './Quizes';
 
 const drawerWidth = 240;
 
@@ -87,13 +93,15 @@ const DrawerHeader = styled('div')(({ theme }) => ({
 export default function Dashboard() {
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
-  const [selectedDash,setSelectedDash]=React.useState('profile')
+  const [selectedDash, setSelectedDash] = React.useState('profile')
 
-  const navigate=useNavigate();
-  const navToHome=()=>{
+  const dispatch = useDispatch()
+
+  const navigate = useNavigate();
+  const navToHome = () => {
     navigate('/')
   }
-  const changeSelected =(name)=>{
+  const changeSelected = (name) => {
     setSelectedDash(name);
     console.log(selectedDash);
   }
@@ -104,9 +112,18 @@ export default function Dashboard() {
   const handleDrawerClose = () => {
     setOpen(false);
   };
+
+  const onLogout = () => {
+    dispatch(logout())
+    dispatch(reset())
+    dispatch(eduReset())
+    dispatch(proReset())
+    dispatch(aboutReset())
+    navigate('/')
+  }
   return (
-    <div style={{backgroundColor:'#d7e0d9'}}>
-      <Box sx={{ display: 'flex'}}>
+    <div >
+      <Box sx={{ display: 'flex' }}>
         <CssBaseline />
         <AppBar position="fixed" open={open}>
           <Toolbar>
@@ -144,49 +161,49 @@ export default function Dashboard() {
           </DrawerHeader>
           <Divider />
           <List>
-            <ListItem button onClick={navToHome}> 
+            <ListItem button onClick={navToHome}>
               <ListItemIcon><HomeIcon /></ListItemIcon>
               <ListItemText>Home</ListItemText>
             </ListItem>
-            <ListItem button onClick={()=>changeSelected('profile')}>
-              <ListItemIcon><PersonIcon/></ListItemIcon>
+            <ListItem button onClick={() => changeSelected('profile')}>
+              <ListItemIcon><PersonIcon /></ListItemIcon>
               <ListItemText>Profile</ListItemText>
             </ListItem>
-            <ListItem button onClick={()=>changeSelected('schedules')}>
+            <ListItem button onClick={() => changeSelected('schedules')}>
               <ListItemIcon><EventNoteIcon /></ListItemIcon>
               <ListItemText>Schedules</ListItemText>
             </ListItem>
-            <ListItem button onClick={()=>changeSelected('rooms')}>
+            <ListItem button onClick={() => changeSelected('rooms')}>
               <ListItemIcon><VideoCallIcon /></ListItemIcon>
               <ListItemText>Rooms</ListItemText>
             </ListItem>
           </List>
           <Divider />
           <List>
-            <ListItem button onClick={()=>changeSelected('messages')}>
+            <ListItem button onClick={() => changeSelected('messages')}>
               <ListItemIcon><MessageIcon /></ListItemIcon>
               <ListItemText>Messages</ListItemText>
             </ListItem>
-            <ListItem button onClick={()=>changeSelected('quizes')}>
+            <ListItem button onClick={() => changeSelected('quizes')}>
               <ListItemIcon><QuestionAnswerIcon /></ListItemIcon>
               <ListItemText>Quizes</ListItemText>
             </ListItem>
-            <ListItem button onClick={()=>changeSelected('students')}>
+            <ListItem button onClick={() => changeSelected('create')}>
+              <ListItemIcon><AddIcon /></ListItemIcon>
+              <ListItemText>Create Quiz</ListItemText>
+            </ListItem>
+            <ListItem button onClick={() => changeSelected('students')}>
               <ListItemIcon><GroupIcon /></ListItemIcon>
               <ListItemText>Students</ListItemText>
             </ListItem>
-            <ListItem button onClick={()=>changeSelected('review')}>
+            <ListItem button onClick={() => changeSelected('review')}>
               <ListItemIcon><RateReviewIcon /></ListItemIcon>
               <ListItemText>Review</ListItemText>
             </ListItem>
-            <ListItem button onClick={()=>changeSelected('report')}>
-              <ListItemIcon><ReportIcon/></ListItemIcon>
-              <ListItemText>Report</ListItemText>
-            </ListItem>
           </List>
-          <Divider/>
+          <Divider />
           <List>
-            <ListItem button>
+            <ListItem button onClick={onLogout}>
               <ListItemIcon><LogoutIcon /></ListItemIcon>
               <ListItemText>Logout</ListItemText>
             </ListItem>
@@ -194,14 +211,14 @@ export default function Dashboard() {
         </Drawer>
         <Main open={open}>
           <DrawerHeader />
-          <>{selectedDash==='profile'&&<MyProfile/>}</>
-          <>{selectedDash==='schedules'&&<Schedules/>}</>
-          <>{selectedDash==='rooms'&&<Rooms/>}</>
-          <>{selectedDash==='messages'&&<Messages/>}</>
-          <>{selectedDash==='quizes'&&<CreateQuiz/>}</>
-          <>{selectedDash==='students'&&<Students/>}</>
-          <>{selectedDash==='review'&&<Review/>}</>
-          <>{selectedDash==='report'&&<Report/>}</>
+          <>{selectedDash === 'profile' && <MyProfile />}</>
+          <>{selectedDash === 'schedules' && <Schedules />}</>
+          <>{selectedDash === 'rooms' && <Rooms />}</>
+          <>{selectedDash === 'messages' && <Messages />}</>
+          <>{selectedDash === 'quizes' && <Quizes />}</>
+          <>{selectedDash === 'students' && <Students />}</>
+          <>{selectedDash === 'review' && <Review />}</>
+          <>{selectedDash === 'create' && <CreateQuiz />}</>
         </Main>
       </Box>
     </div>

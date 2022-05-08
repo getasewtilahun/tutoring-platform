@@ -9,30 +9,24 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
+
+import { Button, Pagination } from '@mui/material';
 import usePagination from '../../components/MyPagination';
-import { Pagination } from '@mui/material';
-import Rating from '@mui/material/Rating';
-import styled from 'styled-components'
 
-const Spacer=styled.div`
-height:20px;
-`
-
-export default function Review() {
-    const [review, setReview] = useState([])
-    const { user } = useSelector((state) => state.auth)
+export default function Reports() {
+    const [reports, setReports] = useState([])
 
     useEffect(async () => {
-        const res = await axios.get(`http://localhost:5000/api/review/${user.data.id}`);
+        const res = await axios.get('http://localhost:5000/api/report');
         if (res.status == 200) {
-            setReview(res.data.data)
+            setReports(res.data.data)
         }
     }, [])
     const [page, setPage] = useState(1);
     const PER_PAGE = 10;
 
-    const count = Math.ceil(review.length / PER_PAGE);
-    const _DATA = usePagination(review, PER_PAGE);
+    const count = Math.ceil(reports.length / PER_PAGE);
+    const _DATA = usePagination(reports, PER_PAGE);
 
     const handleChange = (e, p) => {
         setPage(p);
@@ -42,25 +36,27 @@ export default function Review() {
     return (
         <div>
             <TableContainer component={Paper}>
-                <Table sx={{ minWidth: 650 }} aria-label="simple table">
+                <Table sx={{ minWidth: 650, tableLayout: 'fixed' }} aria-label="simple table">
                     <TableHead>
                         <TableRow>
-                            <TableCell>No</TableCell>
-                            <TableCell align="left">Rate</TableCell>
-                            <TableCell align="left">Review</TableCell>
+                            <TableCell style={{ width: 30 }}>No</TableCell>
+                            <TableCell align="left" style={{ width: 260 }}>Tutor</TableCell>
+                            <TableCell align="left" style={{ width: 160 }}>Content</TableCell>
+                            <TableCell align="left" style={{ width: 60 }}>Delete</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {_DATA.currentData().map((rev, index) => (
+                        {_DATA.currentData().map((report, index) => (
                             <TableRow
                                 key={index}
                                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                             >
-                                <TableCell component="th" scope="row">
+                                <TableCell component="th" scope="row" style={{ width: 160 }}>
                                     {index + 1}
                                 </TableCell>
-                                <TableCell align="left">      <Rating name="read-only" value={rev.rate} readOnly /></TableCell>
-                                <TableCell align="left">{rev.content}</TableCell>
+                                <TableCell align="left" style={{ width: 160 }}>{report.firstName + ' ' + report.lastName}</TableCell>
+                                <TableCell>{report.content}</TableCell>
+                                <TableCell><Button variant='contained' style={{ backgroundColor: "#bb2124", }}>Delete</Button></TableCell>
                             </TableRow>
                         ))}
                     </TableBody>
@@ -72,7 +68,6 @@ export default function Review() {
                     onChange={handleChange}
                     color="primary"
                 />
-                <Spacer/>
             </TableContainer>
         </div>
     )

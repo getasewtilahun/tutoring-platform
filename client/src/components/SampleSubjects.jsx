@@ -61,6 +61,7 @@ border:none;
 export default function SampleSubjects() {
     return (
         <div>
+            <img src="" alt="" />
             <Wrapper>
                 <Title>Find online tutors in any subject</Title>
                 <Container>

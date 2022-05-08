@@ -13,6 +13,10 @@ const educationRoutes = require('./routes/educationRoutes')
 const reportRoutes = require('./routes/reportRoutes')
 const reviewRoutes=require('./routes/reviewRoutes')
 const aboutRoutes=require('./routes/aboutRoutes')
+const scheduleRoutes=require('./routes/scheduleRoutes')
+const quizRoutes=require('./routes/quizRoutes')
+const questionRoutes=require('./routes/questionRoutes')
+const choiceRoutes=require('./routes/choiceRoutes')
 
 app.use(express.json())
 app.use('/images', express.static('images'));
@@ -24,6 +28,11 @@ app.use('/api', educationRoutes)
 app.use('/api', reportRoutes)
 app.use('/api',reviewRoutes)
 app.use('/api',aboutRoutes)
+app.use('/api',scheduleRoutes)
+app.use('/api',quizRoutes)
+app.use('/api',questionRoutes)
+app.use('/api',choiceRoutes)
+
 
 db.sync().then(result => {
     if (result) {

@@ -36,30 +36,7 @@ export default function Schedules() {
     _DATA.jump(p);
   };
 
-  // accept reject and delete functions
-  const accept=async(value)=>{
-    const data={
-      status:"accepted"
-    }
-    const res = await axios.put(`http://localhost:5000/api/schedule/accept/${value}`,data);
-    if(res.status===200){
-      toast.success(res.data.message)
-    }else{
-      toast.error(res.data.message)
-    }
-  }
-  const reject=async(value)=>{
-    const data={
-      status:"rejected"
-    }
-    const res = await axios.put(`http://localhost:5000/api/schedule/accept/${value}`,data);
-    if(res.status===200){
-      toast.success("Schedule rejected successfully.")
-    }else{
-      toast.error("Error occured while rejecting a schedule.")
-    }
-  }
-
+  // Delete schedules
   const remove=async(value)=>{
     const res = await axios.delete(`http://localhost:5000/api/schedule/${value}`);
     if(res.status===200){
@@ -67,11 +44,10 @@ export default function Schedules() {
     }else{
       toast.error(res.data.message)
     }
-    window.location.reload(true);
   }
+
   return (
     <div>
-
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 650, tableLayout: 'fixed' }} aria-label="simple table">
           <TableHead>
@@ -80,8 +56,8 @@ export default function Schedules() {
               <TableCell align="center" style={{ width: 260 }}>Title</TableCell>
               <TableCell align="center" style={{ width: 160 }}>Start Time</TableCell>
               <TableCell align="center" style={{ width: 160 }}>End Time</TableCell>
-              <TableCell align="center" style={{ width: 60 }}>Accept</TableCell>
-              <TableCell align="center" style={{ width: 60 }}>Reject</TableCell>
+              <TableCell align="center" style={{ width: 60 }}>Status</TableCell>
+              <TableCell align="center" style={{ width: 60 }}>Edit</TableCell>
               <TableCell align="center" style={{ width: 60 }}>Delete</TableCell>
             </TableRow>
           </TableHead>
@@ -97,8 +73,8 @@ export default function Schedules() {
                 <TableCell align="left" style={{ width: 160 }}>{schedule.title}</TableCell>
                 <TableCell align="left" style={{ width: 160 }}>{moment(schedule.startDate).format('LLL')}</TableCell>
                 <TableCell align="left" style={{ width: 160 }}>{moment(schedule.endDate).format('LLL')}</TableCell>
-                <TableCell>{schedule.status === "pending" && <Button variant='contained' onClick={()=>accept(schedule.id)}>Accept</Button>}{schedule.status === "accepted" && <Button>Accepted</Button>}</TableCell>
-                <TableCell>{schedule.status === 'pending' && <Button variant='contained' style={{ backgroundColor: "#bb2124", }} onClick={()=>reject(schedule.id)}>Reject</Button>}{schedule.status === 'rejected' && <Button>Rejected</Button>}</TableCell>
+                <TableCell>{schedule.status}</TableCell>
+                <TableCell>{<Button variant='contained'>Edit</Button>}</TableCell>
                 <TableCell><Button variant='contained' style={{ backgroundColor: "#bb2124", }} onClick={()=>remove(schedule.id)}>Delete</Button></TableCell>
               </TableRow>
             ))}

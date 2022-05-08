@@ -8,22 +8,27 @@ const Schedule=sequelize.define("schedule",{
         autoIncrement:true,
         allowNull:false,
     },
-    userId:{
-        type:DataTypes.INTEGER,
+    title:{
+        type:DataTypes.STRING,
         allowNull:false,
     },
-    tutorId:{
-        type:DataTypes.INTEGER,
+    startDate:{
+        type:DataTypes.DATE,
         allowNull:false,
     },
-    date:{
+    endDate:{
         type:DataTypes.DATE,
         allowNull:false,
     },
     desc:{
         type:DataTypes.STRING,
-        allowNull:false,
+        allowNull:true,
     },
+    status:{
+        type:DataTypes.STRING,
+        defaultValue:'pending',
+        allowNull:false,
+    }
 },
 {
     timestamps:true,

@@ -10,6 +10,7 @@ import TutorDashboard from './pages/tutor/Dashboard'
 import CreateQuiz from './pages/tutor/CreateQuiz'
 import Tutors from './pages/Tutors'
 import TutorProfile from './pages/TutorProfile'
+import Quiz from './pages/Quiz'
 function App() {
   return (
     <div className="App">
@@ -27,6 +28,7 @@ function App() {
         <Route path='/tutor/:id' element={<TutorProfile/>} />
         <Route path='/tutor/dashboard' element={<TutorDashboard/>} />
         <Route path='/tutor/quiz/create' element={<CreateQuiz/>} />
+        <Route path='/quiz/:id' element={<Quiz/>}/>
       </Routes>
       </BrowserRouter>
       <ToastContainer />

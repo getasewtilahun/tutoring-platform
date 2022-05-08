@@ -6,8 +6,8 @@ const register = async (userData) => {
 
   if (response.status===200) {
     localStorage.setItem('user', JSON.stringify(response.data))
+    console.log(response.data)
   }
-
   return response.data
 }
 

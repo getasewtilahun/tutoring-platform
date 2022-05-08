@@ -74,7 +74,6 @@ height:20px;
 `
 export default function TutorProfileSidebar({ id }) {
     const [value, setValue] = React.useState(0);
-
     const [content, setContent] = React.useState('')
     const [open, setOpen] = React.useState(false);
     const handleOpen = () => setOpen(true);
@@ -96,19 +95,31 @@ export default function TutorProfileSidebar({ id }) {
         }
     }
 
-    const [review, setReview] = useState([])
+    // const [review, setReview] = useState([])
+    const [myReview,setMyReview]=useState({})
+
     useEffect(async () => {
         const res = await axios.get(`http://localhost:5000/api/review/${id}`);
         if (res.status == 200) {
-            setReview(res.data.data)
+            setMyReview(res.data.data)
         }
+        // const result = await axios.get(`http://localhost:5000/api/my-review/${user.data.id}`);
+        // if (result.status == 200) {
+        //     setMyReview(result.data.data)
+        // }
     },[])
     let total=0;
-    for(var i=0;i<review.length;i++){
-        total+=review[i].rate;
+    let review=[];
+
+    for(var i=0;i<myReview.length;i++){
+        if(myReview[i].tutorId==id){
+            total+=myReview[i].rate;
+            review.push(myReview[i])
+        }
+        
     }
     let totalRate=Math.round((total/review.length) * 10) / 10;
-    console.log(totalRate);
+    console.log(review)
     return (
         <div style={{ padding: '0 30px' }}>
             <Card variant="outlined">
@@ -161,12 +172,11 @@ export default function TutorProfileSidebar({ id }) {
                         <Title>Reviews</Title>
                         <Row>
                             <Col>
-                                <Num>{totalRate}</Num>
-                                <Rating name="half-rating-read" defaultValue={3.5}  precision={0.5} readOnly />
+                                <Num>{totalRate?totalRate:0}</Num>
+                                <Rating name="half-rating-read" value={totalRate?totalRate:0}  precision={0.5} readOnly />
                                 <Row2>
                                     <PersonOutlineIcon />
-                                    <P>300,000</P>
-                                    <P>Users</P>
+                                    <P>{review?review.length:0}</P>
                                 </Row2>
                             </Col>
                             <Col>
@@ -186,7 +196,7 @@ export default function TutorProfileSidebar({ id }) {
                                     >
                                     </Avatar>
                                     <Col>
-                                        <Name>Abebe Kebede</Name>
+                                        <Name>{rev.firstName}  {rev.lastName}</Name>
                                         <Rating name="half-rating-read" value={rev.rate} size="small" readOnly sx={{
                                             paddingLeft: "7px"
                                         }} />

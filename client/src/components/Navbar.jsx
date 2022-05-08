@@ -4,6 +4,10 @@ import { Link, useNavigate } from 'react-router-dom'
 import MenuIcon from '@mui/icons-material/Menu'
 import { useSelector, useDispatch } from 'react-redux'
 import { logout, reset } from '../features/auth/authSlice'
+import { reset as eduReset} from '../features/education/educationSlice'
+import { reset as proReset } from '../features/profile/profileSlice'
+import { reset as aboutReset} from '../features/about/aboutSlice'
+
 import { useState } from 'react';
 import KeyboardArrowDownOutlinedIcon from '@mui/icons-material/KeyboardArrowDownOutlined';
 import KeyboardArrowUpOutlinedIcon from '@mui/icons-material/KeyboardArrowUpOutlined';
@@ -138,6 +142,9 @@ export default function Navbar() {
     const onLogout = () => {
         dispatch(logout())
         dispatch(reset())
+        dispatch(eduReset())
+        dispatch(proReset())
+        dispatch(aboutReset())
         setDisplayDropdown(false)
         navigate('/')
     }
