@@ -16,6 +16,7 @@ import Paper from '@mui/material/Paper';
 import usePagination from '../../components/MyPagination';
 import { Pagination } from '@mui/material';
 import Rating from '@mui/material/Rating';
+import { toast } from 'react-toastify';
 
 
 const Spacer = styled.div`
@@ -35,7 +36,7 @@ export default function Quizes() {
   }, [])
 
   const [page, setPage] = useState(1);
-    const PER_PAGE = 10;
+    const PER_PAGE = 8;
 
     const count = Math.ceil(quizzes.length / PER_PAGE);
     const _DATA = usePagination(quizzes, PER_PAGE);
@@ -45,6 +46,22 @@ export default function Quizes() {
         _DATA.jump(p);
     };
   console.log(quizzes)
+  const view=(value)=>{
+    navigate(`/quiz/${value}`)
+  }
+
+  const remove=async(value)=>{
+    const res = await axios.delete(`http://localhost:5000/api/quiz/${value}`);
+    if(res.status===200){
+      toast.success(res.data.message)
+    }else{
+      toast.error(res.data.message)
+    }
+  }
+  const copy = async (value) => {
+    await navigator.clipboard.writeText(`http://localhost:3000/quiz/${value}`);
+    toast.success("Quiz link copied successfully!")
+  }
   return (
     <div>
       <TableContainer component={Paper}>
@@ -54,6 +71,7 @@ export default function Quizes() {
               <TableCell>No</TableCell>
               <TableCell align="left">Title</TableCell>
               <TableCell align="left">View</TableCell>
+              <TableCell align="left">Copy Link</TableCell>
               <TableCell align="left">Delete</TableCell>
             </TableRow>
           </TableHead>
@@ -67,8 +85,9 @@ export default function Quizes() {
                   {index + 1}
                 </TableCell>
                 <TableCell align="left">{quiz.title}</TableCell>
-                <TableCell align="left"><Button variant='contained'>View</Button> </TableCell>
-                <TableCell align="left"><Button variant='contained' sx={{backgroundColor:'#bb2124'}}>Delete</Button> </TableCell>
+                <TableCell align="left"><Button variant='contained' onClick={()=>view(quiz.uniqueId)}>View</Button> </TableCell>
+                <TableCell align="left"><Button variant='contained' onClick={()=>copy(quiz.uniqueId)}>Copy Link</Button> </TableCell>
+                <TableCell align="left"><Button variant='contained' sx={{backgroundColor:'#bb2124'}} onClick={()=>remove(quiz.id)}>Delete</Button> </TableCell>
               </TableRow>
             ))}
           </TableBody>

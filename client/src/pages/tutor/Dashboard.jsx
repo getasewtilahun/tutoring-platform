@@ -41,6 +41,8 @@ import { reset as proReset } from '../../features/profile/profileSlice'
 import { reset as aboutReset} from '../../features/about/aboutSlice'
 import { useDispatch } from 'react-redux';
 import Quizes from './Quizes';
+import DoneIcon from '@mui/icons-material/Done';
+import VerifyAccount from './VerifyAccount';
 
 const drawerWidth = 240;
 
@@ -200,6 +202,10 @@ export default function Dashboard() {
               <ListItemIcon><RateReviewIcon /></ListItemIcon>
               <ListItemText>Review</ListItemText>
             </ListItem>
+            <ListItem button onClick={() => changeSelected('verify')}>
+              <ListItemIcon><DoneIcon/></ListItemIcon>
+              <ListItemText>Verify Account</ListItemText>
+            </ListItem>
           </List>
           <Divider />
           <List>
@@ -219,6 +225,7 @@ export default function Dashboard() {
           <>{selectedDash === 'students' && <Students />}</>
           <>{selectedDash === 'review' && <Review />}</>
           <>{selectedDash === 'create' && <CreateQuiz />}</>
+          <>{selectedDash === 'verify' && <VerifyAccount />}</>
         </Main>
       </Box>
     </div>

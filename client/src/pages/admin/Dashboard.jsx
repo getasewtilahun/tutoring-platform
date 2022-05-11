@@ -30,6 +30,8 @@ import { logout, reset } from '../../features/auth/authSlice'
 import { reset as eduReset} from '../../features/education/educationSlice'
 import { reset as proReset } from '../../features/profile/profileSlice'
 import { reset as aboutReset} from '../../features/about/aboutSlice'
+import AddIcon from '@mui/icons-material/Add';
+import AddSubject from './AddSubject';
 
 const drawerWidth = 240;
 
@@ -110,7 +112,7 @@ export default function Dashboard() {
     navigate('/')
   }
   return (
-    <div style={{backgroundColor:'#d7e0d9'}}>
+    <div>
       <Box sx={{ display: 'flex'}}>
         <CssBaseline />
         <AppBar position="fixed" open={open}>
@@ -125,7 +127,7 @@ export default function Dashboard() {
               <MenuIcon />
             </IconButton>
             <Typography variant="h6" noWrap component="div">
-              Tutor Dashboard
+              Admin Dashboard
             </Typography>
           </Toolbar>
         </AppBar>
@@ -161,6 +163,10 @@ export default function Dashboard() {
               <ListItemIcon><SubjectIcon /></ListItemIcon>
               <ListItemText>Subjects</ListItemText>
             </ListItem>
+            <ListItem button onClick={()=>changeSelected('create')}>
+              <ListItemIcon><AddIcon /></ListItemIcon>
+              <ListItemText>Add Subject</ListItemText>
+            </ListItem>
             <ListItem button onClick={()=>changeSelected('reports')}>
               <ListItemIcon><ReportIcon /></ListItemIcon>
               <ListItemText>Reports</ListItemText>
@@ -179,6 +185,7 @@ export default function Dashboard() {
           <>{selectedDash==='users'&&<Users/>}</>
           <>{selectedDash==='subjects'&&<Subjects/>}</>
           <>{selectedDash==='reports'&&<Reports/>}</>
+          <>{selectedDash==='create'&&<AddSubject/>}</>
         </Main>
       </Box>
     </div>

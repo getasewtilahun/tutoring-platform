@@ -51,6 +51,14 @@ const NotificationContainer=styled.div`
 display:${props => props.displayNotification ? "flex" : "none"};
 flex-direction:column;
 `
+const Select=styled.select`
+padding:8px;
+border-raduis:10px;
+width:25%;
+background-color:white; 
+`
+const Option=styled.option`
+`
 export default function CreateQuiz() {
   const { user } = useSelector((state) => state.auth)
   const [title, setTitle] = useState('')
@@ -87,6 +95,7 @@ export default function CreateQuiz() {
   const [choiceB, setChoiceB] = useState('')
   const [choiceC, setChoiceC] = useState('')
   const [choiceD, setChoiceD] = useState('')
+  const [answer,setAnswer]=useState('')
 
   const submitQuestion = async (e) => {
     const data = {
@@ -96,22 +105,55 @@ export default function CreateQuiz() {
     try {
       const res = await axios.post('http://localhost:5000/api/question', data)
       if (res.status === 201) {
-        await axios.post('http://localhost:5000/api/choice', {
+        if(answer==='a'){
+          await axios.post('http://localhost:5000/api/choice', {
           questionId: res.data.data.id,
-          choice: choiceA
+          choice: choiceA,
+          answer:true,
         })
-        await axios.post('http://localhost:5000/api/choice', {
+        }else{
+          await axios.post('http://localhost:5000/api/choice', {
+            questionId: res.data.data.id,
+            choice: choiceA
+          })
+        }
+        if(answer==='b'){
+          await axios.post('http://localhost:5000/api/choice', {
           questionId: res.data.data.id,
-          choice: choiceB
+          choice: choiceB,
+          answer:true,
         })
-        await axios.post('http://localhost:5000/api/choice', {
+        }else{
+          await axios.post('http://localhost:5000/api/choice', {
+            questionId: res.data.data.id,
+            choice: choiceB
+          })
+        }
+        if(answer==='c'){
+          await axios.post('http://localhost:5000/api/choice', {
           questionId: res.data.data.id,
-          choice: choiceC
+          choice: choiceC,
+          answer:true,
         })
-        await axios.post('http://localhost:5000/api/choice', {
+        }else{
+          await axios.post('http://localhost:5000/api/choice', {
+            questionId: res.data.data.id,
+            choice: choiceC
+          })
+        }
+        if(answer==='d'){
+          await axios.post('http://localhost:5000/api/choice', {
           questionId: res.data.data.id,
-          choice: choiceD
+          choice: choiceD,
+          answer:true,
         })
+        }else{
+          await axios.post('http://localhost:5000/api/choice', {
+            questionId: res.data.data.id,
+            choice: choiceD
+          })
+        }
+        
         // toast.success(res.data.message)
         // setDisplayQuestion(true)
         setQuestion('')
@@ -127,6 +169,7 @@ export default function CreateQuiz() {
     }
   }
   
+  console.log(answer)
   const navigate=useNavigate()
   const saveQuiz=()=>{
     setDisplayQuestion(false);
@@ -177,6 +220,14 @@ export default function CreateQuiz() {
                   <Input value={choiceD} type={"text"} placeholder={"  Enter Choice"} onChange={e => { setChoiceD(e.target.value) }} />
                 </Row>
               </ChoiceContainer>
+              <Spacer/>
+              <Label>Select Answer</Label>
+              <Select onChange={e => { setAnswer(e.target.value) }}>
+                <Option value='a'>A</Option>
+                <Option value='b'>B</Option>
+                <Option value='c'>C</Option>
+                <Option value='d'>D</Option>
+              </Select>
               <Spacer />
               <Spacer/>
               <Spacer/>

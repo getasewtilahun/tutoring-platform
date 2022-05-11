@@ -1,10 +1,12 @@
 const Subject = require('../models/Subject');
 
 const create = async (req, res) => {
-    const { name, desc, img } = req.body
+    const { name, desc } = req.body
+    const img='http://localhost:5000/'+req.file.path
 
     if ((!name) || (!desc) || (!img)) {
         res.status(400).json({
+            data:req.body,
             message: "All fields are required!",
         })
     } else {
@@ -52,9 +54,30 @@ const fetchAll = async (req, res) => {
     }
 }
 
+const fetchSome = async (req, res) => {
+    try {
+        const subjects = await Subject.findAll({
+            limit:8,
+        })
+        if (subjects) {
+            res.status(200).json({
+                data: subjects,
+                message: "subjects fetched successfully"
+            })
+        } else {
+            res.status(500).json({
+                message: "Internal server problem"
+            })
+        }
+    } catch (error) {
+        res.status(500).json({
+            message: "Internal server problem"
+        })
+    }
+}
+
 const update = async (req, res) => {
     const id = req.params.id;
-
     try {
         const result = await Subject.update(req.body, {
             where: {
@@ -107,5 +130,6 @@ module.exports = {
     create,
     fetchAll,
     update,
-    remove
+    remove,
+    fetchSome
 }

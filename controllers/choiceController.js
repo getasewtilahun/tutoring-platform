@@ -2,7 +2,7 @@ const Choice=require('../models/Choice')
 
 
 const create = async (req, res) => {
-    const {choice,questionId} =req.body
+    const {choice,questionId,answer} =req.body
     if(!choice){
         res.status(409).json({
             message:"All fields are required!"
@@ -12,6 +12,7 @@ const create = async (req, res) => {
         const result = await Choice.create({ 
             questionId,
             choice,
+            answer,
         });
         if (result) {
             res.status(201).json({
