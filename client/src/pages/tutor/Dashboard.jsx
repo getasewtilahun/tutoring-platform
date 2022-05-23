@@ -27,8 +27,7 @@ import MyProfile from '../../components/tutor/MyProfile';
 import CreateQuiz from './CreateQuiz';
 import Schedules from './Schedules';
 import Rooms from './Rooms';
-import HomePage from '../Home'
-import Messages from './Messages';
+import Messages from '../Messages';
 import GroupIcon from '@mui/icons-material/Group';
 import Students from './Students';
 import Review from './Review';
@@ -194,10 +193,6 @@ export default function Dashboard() {
               <ListItemIcon><AddIcon /></ListItemIcon>
               <ListItemText>Create Quiz</ListItemText>
             </ListItem>
-            <ListItem button onClick={() => changeSelected('students')}>
-              <ListItemIcon><GroupIcon /></ListItemIcon>
-              <ListItemText>Students</ListItemText>
-            </ListItem>
             <ListItem button onClick={() => changeSelected('review')}>
               <ListItemIcon><RateReviewIcon /></ListItemIcon>
               <ListItemText>Review</ListItemText>
@@ -222,7 +217,6 @@ export default function Dashboard() {
           <>{selectedDash === 'rooms' && <Rooms />}</>
           <>{selectedDash === 'messages' && <Messages />}</>
           <>{selectedDash === 'quizes' && <Quizes />}</>
-          <>{selectedDash === 'students' && <Students />}</>
           <>{selectedDash === 'review' && <Review />}</>
           <>{selectedDash === 'create' && <CreateQuiz />}</>
           <>{selectedDash === 'verify' && <VerifyAccount />}</>

@@ -32,6 +32,8 @@ import { reset as proReset } from '../../features/profile/profileSlice'
 import { reset as aboutReset} from '../../features/about/aboutSlice'
 import AddIcon from '@mui/icons-material/Add';
 import AddSubject from './AddSubject';
+import Verify from './Verify'
+import DoneIcon from '@mui/icons-material/Done';
 
 const drawerWidth = 240;
 
@@ -167,6 +169,10 @@ export default function Dashboard() {
               <ListItemIcon><AddIcon /></ListItemIcon>
               <ListItemText>Add Subject</ListItemText>
             </ListItem>
+            <ListItem button onClick={()=>changeSelected('verify')}>
+              <ListItemIcon><DoneIcon /></ListItemIcon>
+              <ListItemText>Verify</ListItemText>
+            </ListItem>
             <ListItem button onClick={()=>changeSelected('reports')}>
               <ListItemIcon><ReportIcon /></ListItemIcon>
               <ListItemText>Reports</ListItemText>
@@ -186,6 +192,7 @@ export default function Dashboard() {
           <>{selectedDash==='subjects'&&<Subjects/>}</>
           <>{selectedDash==='reports'&&<Reports/>}</>
           <>{selectedDash==='create'&&<AddSubject/>}</>
+          <>{selectedDash==='verify'&&<Verify />}</>
         </Main>
       </Box>
     </div>

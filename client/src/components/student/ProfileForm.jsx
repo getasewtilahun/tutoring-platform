@@ -41,17 +41,15 @@ export default function ProfileForm() {
     const {user} =useSelector((state)=>state.auth)
     const [address, setAddress] = useState(profile?profile.data.address:'')
     const [phone, setPhone] = useState(profile?profile.data.phone:'')
-    const [price, setPrice] = useState(profile?profile.data.price:null)
-    const [headline, setHeadline] = useState(profile?profile.data.headline:'')
+    const [gradeLevel, setGradeLevel] = useState(profile?profile.data.gradeLevel:'')
     const dispatch = useDispatch()
     const submit = async (e) => {
         e.preventDefault();
         try {
             const data = {
                 userId: user.data.id,
-                headline,
+                gradeLevel,
                 phone,
-                price,
                 address,
             }
             if (profile) {
@@ -73,16 +71,13 @@ export default function ProfileForm() {
     }
     return (
         <div>
-
             <Form>
-                <Label>Headline</Label>
-                <Input defaultValue={profile ? profile.data.headline : " "} onChange={(e) => setHeadline(e.target.value)} ></Input>
+                <Label>Grade Level</Label>
+                <Input defaultValue={profile ? profile.data.gradeLevel : " "} onChange={(e) => setGradeLevel(e.target.value)} ></Input>
                 <Label>Location</Label>
                 <Input defaultValue={profile ? profile.data.address : " "} onChange={(e) => setAddress(e.target.value)} ></Input>
                 <Label >Phone number</Label>
                 <Input defaultValue={profile ? profile.data.phone : " "} onChange={(e) => setPhone(e.target.value)} ></Input>
-                <Label>Price per houre</Label>
-                <Input defaultValue={profile ? profile.data.price : " "} onChange={(e) => setPrice(e.target.value)} ></Input>
                 <Box textAlign='center' style={{ margin: "40px", }}>
                     <Button onClick={submit} variant="contained" style={{ width: '20%', }}>Save</Button>
                 </Box>

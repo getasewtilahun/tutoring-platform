@@ -26,7 +26,6 @@ import { useNavigate } from 'react-router-dom';
 import ReportIcon from '@mui/icons-material/Report';
 import Schedules from './Schedules';
 import Rooms from './Rooms';
-import Messages from './Messages';
 import Report from './Report';
 import Profile from './Profile';
 
@@ -35,6 +34,8 @@ import { reset as eduReset} from '../../features/education/educationSlice'
 import { reset as proReset } from '../../features/profile/profileSlice'
 import { reset as aboutReset} from '../../features/about/aboutSlice'
 import { useDispatch } from 'react-redux';
+import Message from '@mui/icons-material/Message';
+import Messages from '../Messages';
 
 
 const drawerWidth = 240;
@@ -173,24 +174,9 @@ export default function Dashboard() {
               <ListItemIcon><VideoCallIcon /></ListItemIcon>
               <ListItemText>Rooms</ListItemText>
             </ListItem>
-          </List>
-          <Divider />
-          <List>
             <ListItem button onClick={()=>changeSelected('messages')}>
               <ListItemIcon><MessageIcon /></ListItemIcon>
               <ListItemText>Messages</ListItemText>
-            </ListItem>
-            <ListItem button onClick={()=>changeSelected('quizes')}>
-              <ListItemIcon><QuestionAnswerIcon /></ListItemIcon>
-              <ListItemText>Quizes</ListItemText>
-            </ListItem>
-            <ListItem button onClick={()=>changeSelected('reports')}>
-              <ListItemIcon><ReportIcon /></ListItemIcon>
-              <ListItemText>Reports</ListItemText>
-            </ListItem>
-            <ListItem button>
-              <ListItemIcon><VideoCallIcon /></ListItemIcon>
-              <ListItemText>Rooms</ListItemText>
             </ListItem>
           </List>
           <Divider/>

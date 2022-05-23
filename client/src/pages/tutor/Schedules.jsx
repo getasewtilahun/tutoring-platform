@@ -14,7 +14,11 @@ import moment from 'moment';
 import { Button, Pagination } from '@mui/material';
 import usePagination from '../../components/MyPagination';
 import { toast } from 'react-toastify';
+import styled from 'styled-components'
 
+const Spacer=styled.div`
+height:10px;
+`
 export default function Schedules() {
   const [schedules, setSchedules] = useState([])
   const { user } = useSelector((state) => state.auth)
@@ -104,6 +108,8 @@ export default function Schedules() {
             ))}
           </TableBody>
         </Table>
+        <Spacer/>
+        <Spacer/>
         <Pagination
           count={count}
           size="large"
@@ -111,6 +117,8 @@ export default function Schedules() {
           onChange={handleChange}
           color="primary"
         />
+        <Spacer/>
+        <Spacer/>
       </TableContainer>
     </div>
   )

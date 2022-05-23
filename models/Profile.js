@@ -18,16 +18,25 @@ const Profile=sequelize.define("profile",{
     },
     price:{
         type:DataTypes.DOUBLE,
-        allowNull:false,
+        allowNull:true,
     },
     address:{
         type:DataTypes.STRING,
         allowNull:false,
     },
+    gradeLevel:{
+        type:DataTypes.STRING,
+        allowNull:true,
+    },
     img:{
         type:DataTypes.STRING,
         allowNull:true,
     },
+    verify:{
+        type:DataTypes.BOOLEAN,
+        defaultValue:false,
+        allowNull:false,
+    }
 },
 {
     timestamps:true,

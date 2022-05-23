@@ -148,17 +148,11 @@ export default function ProfileCard() {
                         <Grid container rowSpacing={1} columnSpacing={{ xs: 1, lg: 4 }}>
                             <Grid item lg={9}>
                                 <Typography variant="body2">
-                                    {profile ? profile.data.headline : "Your title"}
+                                    {profile ? profile.data.gradeLevel : "Your Grade Level here"}
                                     <br />
                                     {profile ? profile.data.address : "your address"}
                                     <br />
                                     {profile ? profile.data.phone : "your phone"}
-                                </Typography>
-                            </Grid>
-                            <Grid item lg={3}>
-                                <Typography variant="body2">
-
-                                    {profile ? profile.data.price + " Birr per hour" : 'price per hour'}
                                 </Typography>
                             </Grid>
                         </Grid>

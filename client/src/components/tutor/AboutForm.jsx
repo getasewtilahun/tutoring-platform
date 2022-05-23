@@ -5,6 +5,8 @@ import { useSelector, useDispatch } from 'react-redux';
 import Button from '@mui/material/Button';
 import { Box } from '@mui/material';
 import {create} from '../../features/about/aboutSlice'
+import axios from 'axios';
+import {show} from '../../features/about/aboutSlice'
 
 const Form = styled.form`
 padding-top:5vh;
@@ -39,15 +41,15 @@ export default function AboutForm() {
             }
             if (about) {
 
-                // const config = {
-                //     headers: {
-                //         Authorization: `Bearer ${user.token}`,
-                //     },
-                // }
-                // const response = await axios.put(`http://localhost:5000/api/about/${user.data.id}`, data, config)
-                // if(response){
-                //     dispatch(show(user.data.id))
-                // }
+                const config = {
+                    headers: {
+                        Authorization: `Bearer ${user.token}`,
+                    },
+                }
+                const response = await axios.put(`http://localhost:5000/api/about/${user.data.id}`, data, config)
+                if(response){
+                    dispatch(show(user.data.id))
+                }
             } else {
                 dispatch(create(data))
             }

@@ -56,7 +56,7 @@ export default function ProfileCard() {
     const [open, setOpen] = React.useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
-    const [selectedFile, setSelectedFile] = useState();
+    const [selectedFile, setSelectedFile] = useState(null);
 
     const dispatch = useDispatch()
     React.useEffect(async () => {
@@ -64,24 +64,21 @@ export default function ProfileCard() {
     }, []);
     const { profile } = useSelector((state) => state.profile)
 
-    const uploadPro = async (event) => {
-        setSelectedFile(event.target.files[0]);
+    React.useEffect(async()=>{
         const formData = new FormData();
         formData.append('img', selectedFile);
         console.log(selectedFile)
-        // dispatch(updateProfile(user.data.id,formData))
-        const config = {
-            headers: {
-                Authorization: `Bearer ${user.token}`,
-            },
-        }
+        
         const res = await axios.put(`http://localhost:5000/api/profile-image/${user.data.id}`, formData, {
             headers: { 'Content-Type': 'multipart/form-data' }
         });
         if (res) {
             dispatch(show(user.data.id))
         }
-    };
+    },[selectedFile])
+    // const uploadPro = async (event) => {
+    //     setSelectedFile(event.target.files[0]);
+    //         };
     return (
         <Box sx={{ minWidth: 275 }}>
             <Card variant="outlined">
@@ -106,7 +103,7 @@ export default function ProfileCard() {
                                     }}
                                 >
                                 </Avatar>
-                                <Input type="file" onChange={uploadPro} id="contained-button-file" />
+                                <Input type="file" onChange={(e) => setSelectedFile(e.target.files[0])} id="contained-button-file" />
                                 <Label htmlFor="contained-button-file">
                                     <CameraAltIcon style={{ color: "blue" }} />
                                 </Label>

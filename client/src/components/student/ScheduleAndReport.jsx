@@ -9,7 +9,7 @@ import { useSelector } from 'react-redux';
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { useNavigate } from 'react-router-dom';
-
+import MessageIcon from '@mui/icons-material/Message';
 
 const Row3 = styled.div`
 display:flex;
@@ -132,10 +132,31 @@ export default function ScheduleAndReport({ id }) {
     }
     console.log(data)
   }
+  const createConv=async()=>{
+    if(user){
+      try {
+        const data={
+          senderId:user.data.id,
+          recieverId:id,
+        }
+        const res =await axios.post('http://localhost:5000/api/conversation',data)
+        if(res.status===201){
+          console.log('success')
+        }
+        navigate('/student/dashboard')
+      } catch (error) {
+        console.log(error)
+      }
+    }else{
+      navigate('/login')
+    }
+  }
   return (
     <div>
       <Row>
         <Button variant='contained' onClick={handleOpen}><EventNoteIcon /> <El>Schedule Class</El> </Button>
+        <Button variant='contained' onClick={createConv}><MessageIcon /> <El>Message</El> </Button>
+      
         <Button variant='contained' onClick={handleOpenRepo}><ReportIcon /><El>Report Complaint</El> </Button>
       </Row>
       <Modal

@@ -10,6 +10,8 @@ import TutorProfileSidebar from '../components/TutorProfileSidebar'
 import EventNoteIcon from '@mui/icons-material/EventNote';
 import ReportIcon from '@mui/icons-material/Report';
 import ScheduleAndReport from '../components/student/ScheduleAndReport'
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+
 const Spacer = styled.div`
 display:flex;
 flex-direction:column;
@@ -25,6 +27,15 @@ height:20px;
 const El=styled.p`
 padding-left:10px;
 padding-top:5px;
+`
+const Cont=styled.div`
+display:flex;
+align-items:center
+`
+const Badge=styled(CheckCircleIcon)`
+color:rgb(32,129,229);
+padding-left:10px;
+padding-top:10px;
 `
 export default function TutorProfile() {
     const location = useLocation();
@@ -77,8 +88,8 @@ export default function TutorProfile() {
                                 </Box>
                                 <Grid container rowSpacing={1} columnSpacing={{ xs: 1, lg: 4 }}>
                                     <Grid item lg={10}>
-                                        <Typography sx={{ fontSize: 18, fontWeight: 600, paddingTop: 2 }} color="text.primary" gutterBottom>
-                                            {user?user.firstName:''} {user?user.lastName:''}
+                                        <Typography sx={{ fontSize: 18, fontWeight: 600, paddingTop: 2}} color="text.primary" gutterBottom>
+                                            {user?user.firstName:''} {user?user.lastName:''}{profile&&profile.verify&&<Badge/>}
                                         </Typography>
                                     </Grid>
                                     <Grid item lg={2}>

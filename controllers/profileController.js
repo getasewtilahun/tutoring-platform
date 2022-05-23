@@ -126,9 +126,33 @@ const uploadProfile = async (req, res) => {
     }
 }
 
+const verify=async(req,res)=>{
+    const userId=req.params.id
+    try {
+        const result=Profile.update({verify:true},{
+            where:{
+                userId
+            }
+        })
+        if(result){
+            res.status(200).json({
+                message:"Account verified!",
+            })
+        }else{
+            res.status(500).json({
+                message:"Something went wrong while verifing!",
+            })
+        }
+    } catch (error) {
+        res.status(500).json({
+            message:"Internal server problem!"
+        })
+    }
+}
 module.exports = {
     create,
     show,
     update,
-    uploadProfile
+    uploadProfile,
+    verify,
 }
