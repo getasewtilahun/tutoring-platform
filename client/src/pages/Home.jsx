@@ -5,6 +5,7 @@ import styled from 'styled-components'
 import Welcome from '../components/Welcome'
 import SampleTutors from '../components/SampleTutors'
 import SampleSubjects from '../components/SampleSubjects'
+import HowTo from '../components/HowTo'
 export default function Home() {
   return (
     <div>
@@ -12,6 +13,7 @@ export default function Home() {
       <Welcome />
       <SampleTutors />
       <SampleSubjects />
+      <HowTo/>
       <Footer />
     </div>
   )

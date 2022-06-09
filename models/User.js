@@ -9,7 +9,8 @@ const Schedule = require('./Schedule');
 const Quiz = require('./Quiz');
 const Message = require('./Message');
 const Conversation = require('./Conversation');
-const Verify=require('./Verify')
+const Verify=require('./Verify');
+const Payment = require('./Payment');
 const User=sequelize.define("user",{
     id:{
         type:DataTypes.INTEGER,
@@ -79,4 +80,10 @@ User.hasMany(Conversation,{
     foreignKey:"recieverId",
 })
 User.hasOne(Verify)
+User.hasMany(Payment,{
+    foreignKey:"studentId",
+})
+User.hasMany(Payment,{
+    foreignKey:"tutorId",
+})
 module.exports = User

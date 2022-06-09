@@ -68,7 +68,6 @@ export default function ProfileCard() {
         const formData = new FormData();
         formData.append('img', selectedFile);
         console.log(selectedFile)
-        
         const res = await axios.put(`http://localhost:5000/api/profile-image/${user.data.id}`, formData, {
             headers: { 'Content-Type': 'multipart/form-data' }
         });

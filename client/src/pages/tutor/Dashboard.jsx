@@ -26,7 +26,6 @@ import { useNavigate } from 'react-router-dom'
 import MyProfile from '../../components/tutor/MyProfile';
 import CreateQuiz from './CreateQuiz';
 import Schedules from './Schedules';
-import Rooms from './Rooms';
 import Messages from '../Messages';
 import GroupIcon from '@mui/icons-material/Group';
 import Students from './Students';
@@ -214,7 +213,6 @@ export default function Dashboard() {
           <DrawerHeader />
           <>{selectedDash === 'profile' && <MyProfile />}</>
           <>{selectedDash === 'schedules' && <Schedules />}</>
-          <>{selectedDash === 'rooms' && <Rooms />}</>
           <>{selectedDash === 'messages' && <Messages />}</>
           <>{selectedDash === 'quizes' && <Quizes />}</>
           <>{selectedDash === 'review' && <Review />}</>

@@ -37,6 +37,7 @@ margin-top: 10px;
 const Spacer=styled.div`
 width:10px;
 `
+
 export default function ({own,message}) {
     const {user}=useSelector((state)=>state.auth)
     const [pro,setPro]=useState({})

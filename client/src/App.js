@@ -14,6 +14,12 @@ import Quiz from './pages/Quiz'
 import { useSelector } from 'react-redux'
 import Messages from './pages/Messages'
 import StudentProfile from './pages/StudentProfile'
+import Meeting from './pages/Meeting'
+import VideoCall from './components/VideoCall'
+import Reviews from './pages/Reviews'
+import Checkout from './pages/student/Checkout'
+import NotAuto from './pages/NotAuto'
+import PageNotFound from './pages/PageNotFound'
 function App() {
   const { user } = useSelector((state) => state.auth)
   
@@ -25,18 +31,25 @@ function App() {
           <Route path='/login' element={<Login />}></Route>
           <Route path='/register' element={<Register />}></Route>
           {/* admin routes */}
-          <Route path='/admin/dashboard' element={user ? <AdminDashbaord /> : <Login />} />
+          <Route path='/admin/dashboard' element={user ?user.data.role==='admin'? <AdminDashbaord /> :<NotAuto/>: <Login />} />
           {/* student routes */}
-          <Route path='/student/dashboard' element={user ? <StudentDashboard /> : <Login />} />
+          <Route path='/student/dashboard' element={user ? user.data.role==='student'? <StudentDashboard /> :<NotAuto/>: <Login />} />
           {/* tutor routes */}
           <Route path='/tutors' element={<Tutors />} />
           <Route path='/tutor/:id' element={<TutorProfile />} />
-          <Route path='/tutor/dashboard' element={user ? <TutorDashboard /> : <Login />} />
-          <Route path='/tutor/quiz/create' element={<CreateQuiz />} />
-          <Route path='/quiz/:id' element={<Quiz />} />
+          <Route path='/tutor/dashboard' element={user ?user.data.role==='tutor'?  <TutorDashboard />:<NotAuto/> : <Login />} />
+          <Route path='/tutor/quiz/create' element={user?user.data.role==="tutor"?<CreateQuiz />:<NotAuto/>:<Login/>} />
+          <Route path='/quiz/:id' element={user?user.data.role==="student"?<Quiz />:<NotAuto/>:<Login/>} />
+          <Route path='/reviews/:id' element={<Reviews/>}/>
+          <Route path='/checkout/:id' element={<Checkout/>}/>
           {/* <Route path='/message' element={user ? <Messages /> : <Login />}></Route> */}
           {/* Student routes */}
           <Route path='/student/:id' element={<StudentProfile />} />
+          {/* Room */}
+          <Route path='/room' element={<Meeting />}/>
+          <Route path='/room/:id' element={<VideoCall/>}/>
+          {/* page not found */}
+          <Route path='*' element={<PageNotFound/>}/>
         </Routes>
       </BrowserRouter>
       <ToastContainer />

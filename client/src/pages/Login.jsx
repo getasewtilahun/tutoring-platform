@@ -91,6 +91,8 @@ display:none}
 export default function Login() {
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
+    const [emailError,setEmailError]=useState(false)
+    const [passwordError,setPasswordError]=useState(false)
 
     const navigate = useNavigate()
     const dispatch = useDispatch()
@@ -121,7 +123,17 @@ export default function Login() {
                 email,
                 password
             }
-            dispatch(login(userData))
+            if(password===''){
+                setPasswordError(true)
+            }
+            if(email==''){
+                setEmailError(true)
+            }
+            if(emailError||passwordError){
+                
+            }else{
+                dispatch(login(userData))
+            }
         } catch (error) {
             console.log("login unsuccessfull!")
         }
@@ -132,10 +144,10 @@ export default function Login() {
                 <Wrapper>
                     <Title>LOGIN</Title>
                     <Form onSubmit={handleSubmit}>
-                        <Input type={"email"} placeholder={"E-mail"} onChange={e => { setEmail(e.target.value) }}></Input>
-                        {/* <Error >Email field is required!</Error> */}
-                        <Input type={"password"} placeholder={"Password"} onChange={e => { setPassword(e.target.value) }}></Input>
-                        {/* <Error >Password field is required!</Error> */}
+                        <Input type={"email"} placeholder={"E-mail"} onChange={e =>  [setEmail(e.target.value),setEmailError(false)] }></Input>
+                        {emailError&&<sub style={{color:"red"}}>Email field is Empty!</sub>}
+                        <Input type={"password"} placeholder={"Password"} onChange={e => [setPassword(e.target.value),setPasswordError(false) ]}></Input>
+                        {passwordError&&<sub style={{color:"red"}}>Password field is empty</sub>}
                         <Button type='submit'>Login</Button>
                         <Row>
                             <Text>Don't have an account?</Text>

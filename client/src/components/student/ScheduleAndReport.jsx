@@ -168,7 +168,7 @@ export default function ScheduleAndReport({ id }) {
         <Box sx={style}>
           <Row3>
             <Typography id="modal-modal-title" variant="h6" component="h2">
-              Rate and Review Tutor
+              Schedule Tutorial Class
             </Typography>
             <IconButton onClick={handleClose}>
               <ClearIcon />
@@ -179,14 +179,14 @@ export default function ScheduleAndReport({ id }) {
           <Form>
             <TextField onChange={(e) => setTitle(e.target.value)} fullWidth label="Title for the schedule" id="fullWidth" />
             <Spacer />
-            <Label>Select class start time</Label>
+            <Label>Select tutorial start time</Label>
             <Picker selected={startDate} onChange={(date) => setStartDate(date)} showTimeSelect
               timeFormat="p"
               timeIntervals={15}
               dateFormat="Pp"
             />
             <Spacer />
-            <Label>Select class end time</Label>
+            <Label>Select tutorial end time</Label>
             <Picker selected={endDate} onChange={(date) => setEndDate(date)} showTimeSelect
               timeFormat="p"
               timeIntervals={15}

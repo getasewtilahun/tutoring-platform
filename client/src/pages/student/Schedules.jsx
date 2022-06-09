@@ -15,6 +15,11 @@ import { Button, Pagination } from '@mui/material';
 import usePagination from '../../components/MyPagination';
 import { toast } from 'react-toastify';
 
+import styled from 'styled-components';
+const Spacer=styled.div`
+height:20px;
+`
+
 export default function Schedules() {
   const [schedules, setSchedules] = useState([])
   const { user } = useSelector((state) => state.auth)
@@ -53,12 +58,13 @@ export default function Schedules() {
           <TableHead>
             <TableRow>
               <TableCell style={{ width: 30 }}>No</TableCell>
-              <TableCell align="center" style={{ width: 260 }}>Title</TableCell>
-              <TableCell align="center" style={{ width: 160 }}>Start Time</TableCell>
-              <TableCell align="center" style={{ width: 160 }}>End Time</TableCell>
-              <TableCell align="center" style={{ width: 60 }}>Status</TableCell>
-              <TableCell align="center" style={{ width: 60 }}>Edit</TableCell>
-              <TableCell align="center" style={{ width: 60 }}>Delete</TableCell>
+              <TableCell align="left" style={{ width: 260 }}>Title</TableCell>
+              <TableCell align="left" style={{ width: 160 }}>Start Time</TableCell>
+              <TableCell align="left" style={{ width: 160 }}>End Time</TableCell>
+              <TableCell align="left" style={{ width: 60 }}>Status</TableCell>
+              <TableCell align="left" style={{ width: 60 }}>Edit</TableCell>
+              <TableCell align="left" style={{ width: 60 }}></TableCell>
+              <TableCell align="left" style={{ width: 60 }}>Delete</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -73,13 +79,17 @@ export default function Schedules() {
                 <TableCell align="left" style={{ width: 160 }}>{schedule.title}</TableCell>
                 <TableCell align="left" style={{ width: 160 }}>{moment(schedule.startDate).format('LLL')}</TableCell>
                 <TableCell align="left" style={{ width: 160 }}>{moment(schedule.endDate).format('LLL')}</TableCell>
-                <TableCell>{schedule.status}</TableCell>
-                <TableCell>{<Button variant='contained'>Edit</Button>}</TableCell>
-                <TableCell><Button variant='contained' style={{ backgroundColor: "#bb2124", }} onClick={()=>remove(schedule.id)}>Delete</Button></TableCell>
+                <TableCell align="left">{schedule.status}</TableCell>
+                <TableCell align="left">{<Button variant='contained'>Edit</Button>}</TableCell>
+                {schedule.status==='accepted'?
+                <TableCell align="left">{<Button variant='contained' >Pay</Button>}</TableCell>:
+                <TableCell align="left">{<Button disabled>Pay</Button>}</TableCell>}
+                <TableCell align="left"><Button variant='contained' style={{ backgroundColor: "#bb2124", }} onClick={()=>remove(schedule.id)}>Delete</Button></TableCell>
               </TableRow>
             ))}
           </TableBody>
         </Table>
+        <Spacer/>
         <Pagination
           count={count}
           size="large"
@@ -87,6 +97,7 @@ export default function Schedules() {
           onChange={handleChange}
           color="primary"
         />
+        <Spacer/>
       </TableContainer>
     </div>
   )

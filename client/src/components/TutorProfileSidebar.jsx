@@ -11,6 +11,7 @@ import { IconButton } from '@mui/material';
 import TextField from '@mui/material/TextField';
 import { useSelector } from 'react-redux';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 const Title = styled.p`
 padding:10px 0;
 font-size:20px;
@@ -96,30 +97,42 @@ export default function TutorProfileSidebar({ id }) {
     }
 
     // const [review, setReview] = useState([])
-    const [myReview,setMyReview]=useState({})
+    const [myReview, setMyReview] = useState({})
+    const [studentReview, setStudentReview] = useState(null)
 
     useEffect(async () => {
         const res = await axios.get(`http://localhost:5000/api/review/${id}`);
         if (res.status == 200) {
             setMyReview(res.data.data)
         }
-        // const result = await axios.get(`http://localhost:5000/api/my-review/${user.data.id}`);
-        // if (result.status == 200) {
-        //     setMyReview(result.data.data)
-        // }
-    },[])
-    let total=0;
-    let review=[];
+        const response = await axios.get(`http://localhost:5000/api/student/review/${user.data.id}/${id}`)
+        if (response.status === 200) {
+            setStudentReview(response.data.data)
+        }
+    }, [])
+    let total = 0;
+    let review = [];
 
-    for(var i=0;i<myReview.length;i++){
-        if(myReview[i].tutorId==id){
-            total+=myReview[i].rate;
+    for (var i = 0; i < myReview.length; i++) {
+        if (myReview[i].tutorId == id) {
+            total += myReview[i].rate;
             review.push(myReview[i])
         }
-        
+
     }
-    let totalRate=Math.round((total/review.length) * 10) / 10;
-    console.log(review)
+    let totalRate = Math.round((total / review.length) * 10) / 10;
+    const newReview = review.slice(0, 3)
+
+    // nav to read all reviews
+    const navigate = useNavigate()
+    const readAllReviews = () => {
+        navigate(`/reviews/${id}`)
+    }
+    // if(studentReview.length){
+    //     console.log("new test")
+    // }else{
+    //     console.log("njsndfioe")
+    // }
     return (
         <div style={{ padding: '0 30px' }}>
             <Card variant="outlined">
@@ -127,33 +140,37 @@ export default function TutorProfileSidebar({ id }) {
                     <CardContent>
                         <Title>Rate This Tutor</Title>
                         <Col>
-                            <Rating
-                                name="simple-controlled"
-                                value={value}
-                                onChange={(event, newValue) => {
-                                    setValue(newValue);
-                                }}
-                            />
-                            <Container>
-                                <Button onClick={handleOpen}>Write a review</Button>
-                            </Container>
-                            <Modal
-                                open={open}
-                                onClose={handleClose}
-                                aria-labelledby="modal-modal-title"
-                                aria-describedby="modal-modal-description"
-                            >
-                                <Box sx={style}>
-                                    <Row3>
-                                        <Typography id="modal-modal-title" variant="h6" component="h2">
-                                            Rate and Review Tutor
-                                        </Typography>
-                                        <IconButton onClick={handleClose}>
-                                            <ClearIcon />
-                                        </IconButton>
-                                    </Row3>
-                                    <Divider />
-                                    <Spacer />
+                            {studentReview ?
+                                <>
+                                    <Rating name="half-rating-read" value={studentReview.rate} readOnly />
+                                    <Container>
+                                        <Button onClick={handleOpen}>Write a review</Button>
+                                    </Container>
+                                    <Modal
+                                        open={open}
+                                        onClose={handleClose}
+                                        aria-labelledby="modal-modal-title"
+                                        aria-describedby="modal-modal-description"
+                                    >
+                                        <Box sx={style}>
+                                            <Row3>
+                                                <Typography id="modal-modal-title" variant="h6" component="h2">
+                                                    Rate and Review Tutor
+                                                </Typography>
+                                                <IconButton onClick={handleClose}>
+                                                    <ClearIcon />
+                                                </IconButton>
+                                            </Row3>
+                                            <Divider />
+                                            <Spacer />
+                                            <Rating name="half-rating-read" value={studentReview.rate} readOnly />
+                                            <Form>
+                                                <TextField value={studentReview.content} fullWidth label="Write a review for this tutor" id="fullWidth" />
+                                                <Spacer />
+                                                <Button disabled onClick={submit}>Submit</Button>
+                                            </Form>
+                                        </Box>
+                                    </Modal></> : <>
                                     <Rating
                                         name="simple-controlled"
                                         value={value}
@@ -161,22 +178,50 @@ export default function TutorProfileSidebar({ id }) {
                                             setValue(newValue);
                                         }}
                                     />
-                                    <Form>
-                                        <TextField onChange={(e) => setContent(e.target.value)} fullWidth label="Write a review for this tutor" id="fullWidth" />
-                                        <Spacer />
-                                        <Button variant='contained' onClick={submit}>Submit</Button>
-                                    </Form>
-                                </Box>
-                            </Modal>
+                                    <Container>
+                                        <Button onClick={handleOpen}>Write a review</Button>
+                                    </Container>
+                                    <Modal
+                                        open={open}
+                                        onClose={handleClose}
+                                        aria-labelledby="modal-modal-title"
+                                        aria-describedby="modal-modal-description"
+                                    >
+                                        <Box sx={style}>
+                                            <Row3>
+                                                <Typography id="modal-modal-title" variant="h6" component="h2">
+                                                    Rate and Review Tutor
+                                                </Typography>
+                                                <IconButton onClick={handleClose}>
+                                                    <ClearIcon />
+                                                </IconButton>
+                                            </Row3>
+                                            <Divider />
+                                            <Spacer />
+                                            <Rating
+                                                name="simple-controlled"
+                                                value={value}
+                                                onChange={(event, newValue) => {
+                                                    setValue(newValue);
+                                                }}
+                                            />
+                                            <Form>
+                                                <TextField onChange={(e) => setContent(e.target.value)} fullWidth label="Write a review for this tutor" id="fullWidth" />
+                                                <Spacer />
+                                                <Button variant='contained' onClick={submit}>Submit</Button>
+                                            </Form>
+                                        </Box>
+                                    </Modal></>
+                            }
                         </Col>
                         <Title>Reviews</Title>
                         <Row>
                             <Col>
-                                <Num>{totalRate?totalRate:0}</Num>
-                                <Rating name="half-rating-read" value={totalRate?totalRate:0}  precision={0.5} readOnly />
+                                <Num>{totalRate ? totalRate : 0}</Num>
+                                <Rating name="half-rating-read" value={totalRate ? totalRate : 0} precision={0.5} readOnly />
                                 <Row2>
                                     <PersonOutlineIcon />
-                                    <P>{review?review.length:0}</P>
+                                    <P>{review ? review.length : 0}</P>
                                 </Row2>
                             </Col>
                             <Col>
@@ -185,11 +230,11 @@ export default function TutorProfileSidebar({ id }) {
                             </Col>
                         </Row>
                         <Col>
-                            <>{review && review.map((rev) => (
+                            <>{newReview && newReview.map((rev) => (
                                 <Row key={rev.id}>
                                     <Avatar
-                                        alt="Remy Sharp"
-                                        src=''
+                                        alt={rev.firstName}
+                                        src={'http://localhost:5000/' + rev.img}
                                         sx={{
                                             width: 50, height: 50, justifyContent: "center", display: "flex"
                                         }}
@@ -208,7 +253,7 @@ export default function TutorProfileSidebar({ id }) {
                             ))
                             }</>
                             <Divider />
-                            <Button variant='contained' sx={{ marginTop: "20px" }}>Read All Reviews</Button>
+                            <Button variant='contained' onClick={readAllReviews} sx={{ marginTop: "20px" }}>Read All Reviews</Button>
                         </Col>
                     </CardContent>
                 </React.Fragment>

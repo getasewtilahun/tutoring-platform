@@ -4,24 +4,15 @@ import { Link } from 'react-router-dom'
 import LocalPhoneIcon from '@mui/icons-material/LocalPhone';
 import EmailIcon from '@mui/icons-material/Email';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
+import { Grid } from '@mui/material';
 const Wrapper = styled.div`
 display:flex;
 flex-direction:column;
-width:100vw;
-height:40vh;
+width:100%;
 background-color:rgb(32,129,229);
 justify-content:space-between;
 `
-const Container = styled.div`
-margin:20px 15vw;
-display:flex;
-justify-content:space-between;
-`
-const Block = styled.div`
-padding-top:20px;
-padding-left:30px;
-flex:1;
-`
+
 const Title = styled.h2`
 padding-bottom:10px;
 color:white;
@@ -65,13 +56,13 @@ font-size:40px;
 padding-top:7px;
 padding-right:10px;
 `
-const CopyrightContainer=styled.div`
-padding-bottom:20px;
+const CopyrightContainer = styled.div`
+padding:20px 0px;
 display:flex;
 justify-content:center;
 align-items:end;
 `
-const Copyright=styled.div`
+const Copyright = styled.div`
 font-size:20px;
 color:white;
 `
@@ -79,13 +70,13 @@ export default function Footer() {
     return (
         <div>
             <Wrapper>
-                <Container>
-                    <Block>
+                <Grid sx={{paddingLeft:'30px',paddingRight:'30px'}} container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
+                    <Grid item lg={3} md={6} sm={12}  sx={{marginTop:'20px'}}>
                         <Title>About</Title>
                         <Content>We provide 1-on-1 online tutoring for students and knowledge seekers.There are also comapnies which provides language and relegious tutors for multiple learners.</Content>
-                    </Block>
-                    <Block>
-                        <Title>Tutors</Title>
+                    </Grid>
+                    <Grid item lg={3} md={6} sm={12} sx={{marginTop:'20px'}}>
+                    <Title>Tutors</Title>
                         <Items>
                             <Item to='/'>Biology Tutor</Item>
                             <Item to='/'>Mathematics Tutor</Item>
@@ -93,9 +84,10 @@ export default function Footer() {
                             <Item to='/'>English Tutor</Item>
                             <Item to='/'>Marketing Tutor</Item>
                         </Items>
-                    </Block>
-                    <Block>
-                        <Title>Top Subjects</Title>
+                    </Grid>
+                    <Grid item lg={3} md={6} sm={12} sx={{marginTop:'20px'}}>
+
+                    <Title>Top Subjects</Title>
                         <Items>
                             <Item to='/'>Math</Item>
                             <Item to='/'>Foreign languages</Item>
@@ -106,27 +98,28 @@ export default function Footer() {
                             <Item to='/'>History</Item>
                             <Item to='/'>Relegion</Item>
                         </Items>
-                    </Block>
-                    <Block>
-                        <Title>Contact Us</Title>
+                    </Grid>
+                    <Grid item lg={3} md={6} sm={12} sx={{marginTop:'20px'}}>
+
+                    <Title>Contact Us</Title>
                         <Items>
                             <Row>
-                                <PhoneIcon />
+                                <PhoneIcon sx={{color:'white'}}/>
                                 <Item to='/'>0920202020</Item>
                             </Row>
                             <Row>
-                                <Email></Email>
-                                <Item to='/'>tutor@gmail.com</Item>
+                                <Email sx={{color:'white'}}/>
+                                <Item to='/'>yegnatutor@gmail.com</Item>
                             </Row>
                             <Row>
-                                <Location></Location>
+                                <Location sx={{color:'white'}}/>
                                 <Item to='/'>Ethiopia, Addis Ababa</Item>
                             </Row>
                         </Items>
-                    </Block>
-                </Container>
+                    </Grid>
+                </Grid>
                 <CopyrightContainer>
-                    <Copyright>© 2022 Yegna Software Solutions.</Copyright>
+                    <Copyright>© 2022 YegnaTutor</Copyright>
                 </CopyrightContainer>
             </Wrapper>
         </div>

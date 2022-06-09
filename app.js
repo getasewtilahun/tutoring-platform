@@ -26,6 +26,7 @@ const choiceRoutes = require('./routes/choiceRoutes')
 const messageRoutes = require('./routes/messageRoutes')
 const conversationRoutes = require('./routes/conversationRoutes')
 const verifyRoutes=require('./routes/verifyRoutes')
+const paymentRoutes=require('./routes/paymentRoutes')
 
 app.use(express.json())
 app.use('/images', express.static('images'));
@@ -46,7 +47,7 @@ app.use('/api', choiceRoutes)
 app.use('/api', messageRoutes)
 app.use('/api', conversationRoutes)
 app.use('/api',verifyRoutes)
-
+app.use('/api',paymentRoutes)
 db.sync().then(result => {
     if (result) {
 
@@ -107,3 +108,4 @@ db.sync().then(result => {
 }).catch(error => {
     console.log(error);
 });
+

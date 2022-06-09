@@ -52,7 +52,6 @@ const Score = styled.p`
 font-size:40px;
 font-weight:400;
 `
-
 export default function ({ id }) {
     const { user } = useSelector((state) => state.auth)
     const [quiz, setQuiz] = useState()

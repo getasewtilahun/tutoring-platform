@@ -1,5 +1,8 @@
 const Schedule = require('../models/Schedule');
 const Sequelize = require('sequelize')
+const User=require('../models/User')
+const sequelize = require('../config/db')
+
 const create = async (req, res) => {
     const { title, startDate, endDate, desc, tutorId, studentId } = req.body
 
@@ -38,12 +41,22 @@ const create = async (req, res) => {
 const fetchAll = async (req, res) => {
     const userId = req.params.id
     try {
-        const result = await Schedule.findAll({
-            where: Sequelize.or(
-                { tutorId: userId },
-                { studentId: userId }
-            )
-        })
+        const [result, metadata] = await sequelize.query(
+            `SELECT * FROM schedules WHERE schedules.studentId=${userId} OR schedules.tutorId=${userId} JOIN users ON schedules.tutorId=users.id`
+        );
+        // const result = await Schedule.findAll({
+        //     where: Sequelize.or(
+        //         { tutorId: userId },
+        //         { studentId: userId }
+        //     ),
+        //     // include:[{
+        //     //    model:User,
+        //     //    as:"users",
+        //     //    through: {
+        //     //     attributes: [tutorId,studentId]
+        //     //   }
+        //     // }]
+        // })
         if (result) {
             res.status(200).json({
                 data: result,
