@@ -1,6 +1,6 @@
 const {Sequelize,DataTypes}=require('sequelize');
 const sequelize=require('../config/db')
-
+const User=require('./User')
 const Schedule=sequelize.define("schedule",{
     id:{
         type:DataTypes.INTEGER,
@@ -34,5 +34,4 @@ const Schedule=sequelize.define("schedule",{
     timestamps:true,
 }
 )
-
 module.exports = Schedule

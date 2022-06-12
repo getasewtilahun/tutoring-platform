@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux';
 import axios from 'axios';
-
+import { Navigate, useNavigate } from 'react-router-dom';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -25,7 +25,7 @@ export default function Schedules() {
   const { user } = useSelector((state) => state.auth)
 
   useEffect(async () => {
-    const res = await axios.get(`http://localhost:5000/api/schedule/${user.data.id}`);
+    const res = await axios.get(`http://localhost:5000/api/schedules/${user.data.id}`);
     if (res.status == 200) {
       setSchedules(res.data.data)
     }
@@ -51,6 +51,11 @@ export default function Schedules() {
     }
   }
 
+  // nav to checkout
+  const navigation=useNavigate()
+  const navToCheckout=(value)=>{
+    navigation(`/checkout/${value}`)
+  }
   return (
     <div>
       <TableContainer component={Paper}>
@@ -58,13 +63,14 @@ export default function Schedules() {
           <TableHead>
             <TableRow>
               <TableCell style={{ width: 30 }}>No</TableCell>
-              <TableCell align="left" style={{ width: 260 }}>Title</TableCell>
-              <TableCell align="left" style={{ width: 160 }}>Start Time</TableCell>
-              <TableCell align="left" style={{ width: 160 }}>End Time</TableCell>
-              <TableCell align="left" style={{ width: 60 }}>Status</TableCell>
-              <TableCell align="left" style={{ width: 60 }}>Edit</TableCell>
-              <TableCell align="left" style={{ width: 60 }}></TableCell>
-              <TableCell align="left" style={{ width: 60 }}>Delete</TableCell>
+              <TableCell align="left" >Tutor name</TableCell>
+              <TableCell align="left" >Title</TableCell>
+              <TableCell align="left" >Start Time</TableCell>
+              <TableCell align="left" >End Time</TableCell>
+              <TableCell align="left" >Status</TableCell>
+              <TableCell align="left" >Edit</TableCell>
+              <TableCell align="left" >Payment</TableCell>
+              <TableCell align="left" >Delete</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -73,16 +79,17 @@ export default function Schedules() {
                 key={index}
                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
               >
-                <TableCell component="th" scope="row" style={{ width: 160 }}>
+                <TableCell component="th" scope="row">
                   {index + 1}
                 </TableCell>
-                <TableCell align="left" style={{ width: 160 }}>{schedule.title}</TableCell>
-                <TableCell align="left" style={{ width: 160 }}>{moment(schedule.startDate).format('LLL')}</TableCell>
-                <TableCell align="left" style={{ width: 160 }}>{moment(schedule.endDate).format('LLL')}</TableCell>
+                <TableCell align="left" >{<a style={{textDecoration:"none"}} href={`/tutor/${schedule.TutorId.id}`}>{schedule.TutorId.firstName+" "+schedule.TutorId.lastName}</a>}</TableCell>
+                <TableCell align="left" >{schedule.title}</TableCell>
+                <TableCell align="left" >{moment(schedule.startDate).format('LLL')}</TableCell>
+                <TableCell align="left" >{moment(schedule.endDate).format('LLL')}</TableCell>
                 <TableCell align="left">{schedule.status}</TableCell>
                 <TableCell align="left">{<Button variant='contained'>Edit</Button>}</TableCell>
                 {schedule.status==='accepted'?
-                <TableCell align="left">{<Button variant='contained' >Pay</Button>}</TableCell>:
+                <TableCell align="left">{<Button variant='contained' onClick={()=>navToCheckout(schedule.id)}>Pay</Button>}</TableCell>:
                 <TableCell align="left">{<Button disabled>Pay</Button>}</TableCell>}
                 <TableCell align="left"><Button variant='contained' style={{ backgroundColor: "#bb2124", }} onClick={()=>remove(schedule.id)}>Delete</Button></TableCell>
               </TableRow>

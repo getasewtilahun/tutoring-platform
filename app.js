@@ -27,6 +27,10 @@ const messageRoutes = require('./routes/messageRoutes')
 const conversationRoutes = require('./routes/conversationRoutes')
 const verifyRoutes=require('./routes/verifyRoutes')
 const paymentRoutes=require('./routes/paymentRoutes')
+const User=require('./models/User')
+const Schedule=require('./models/Schedule')
+const Review=require('./models/Review')
+const Payment = require("./models/Payment")
 
 app.use(express.json())
 app.use('/images', express.static('images'));
@@ -48,9 +52,36 @@ app.use('/api', messageRoutes)
 app.use('/api', conversationRoutes)
 app.use('/api',verifyRoutes)
 app.use('/api',paymentRoutes)
+
+Review.belongsTo(User, {
+    foreignKey: 'student',
+    as:"StudentId"
+})
+Review.belongsTo(User, {
+    foreignKey: 'tutorId',
+    as:"Tutor"
+})
+
+
+Schedule.belongsTo(User, {
+    foreignKey: 'studentId',
+    as:"StudentId"
+})
+Schedule.belongsTo(User, {
+    foreignKey: 'tutorId',
+    as:"TutorId"
+})
+
+Payment.belongsTo(User,{
+    foreignKey:"studentId",
+    as:"Sender"
+})
+Payment.belongsTo(User,{
+    foreignKey:"tutorId",
+    as:"Reciever"
+})
 db.sync().then(result => {
     if (result) {
-
         http.listen(PORT || 5000, () => {
             console.log('app started at port:', PORT);
         });

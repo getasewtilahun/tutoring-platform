@@ -112,7 +112,10 @@ export default function Dashboard() {
   const handleDrawerClose = () => {
     setOpen(false);
   };
-
+   
+  const navToRoom=(e)=>{
+    navigate('/room')
+  }
   const onLogout = () => {
     dispatch(logout())
     dispatch(reset())
@@ -173,7 +176,7 @@ export default function Dashboard() {
               <ListItemIcon><EventNoteIcon /></ListItemIcon>
               <ListItemText>Schedules</ListItemText>
             </ListItem>
-            <ListItem button onClick={() => changeSelected('rooms')}>
+            <ListItem button onClick={navToRoom}>
               <ListItemIcon><VideoCallIcon /></ListItemIcon>
               <ListItemText>Rooms</ListItemText>
             </ListItem>

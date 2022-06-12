@@ -25,7 +25,6 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import { useNavigate } from 'react-router-dom';
 import ReportIcon from '@mui/icons-material/Report';
 import Schedules from './Schedules';
-import Rooms from './Rooms';
 import Report from './Report';
 import Profile from './Profile';
 
@@ -170,10 +169,6 @@ export default function Dashboard() {
               <ListItemIcon><EventNoteIcon /></ListItemIcon>
               <ListItemText>Schedules</ListItemText>
             </ListItem>
-            <ListItem button onClick={()=>changeSelected('rooms')}>
-              <ListItemIcon><VideoCallIcon /></ListItemIcon>
-              <ListItemText>Rooms</ListItemText>
-            </ListItem>
             <ListItem button onClick={()=>changeSelected('messages')}>
               <ListItemIcon><MessageIcon /></ListItemIcon>
               <ListItemText>Messages</ListItemText>
@@ -191,7 +186,6 @@ export default function Dashboard() {
           <DrawerHeader />
           <>{selectedDash==='profile'&&<Profile/>}</>
           <>{selectedDash==='schedules'&&<Schedules/>}</>
-          <>{selectedDash==='rooms'&&<Rooms/>}</>
           <>{selectedDash==='messages'&&<Messages/>}</>
           {/* <>{selectedDash==='quizes'&&</>}</> */}
           {/* <>{selectedDash==='students'&&<Students/>}</> */}

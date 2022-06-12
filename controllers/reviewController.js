@@ -4,21 +4,21 @@ const sequelize = require('../config/db')
 
 const create = async (req, res) => {
     const { rate, content, tutorId, studentId } = req.body
-    const result=await Review.findOne({
-        where:{
+    const result = await Review.findOne({
+        where: {
             tutorId,
-            studentId,  
+            studentId,
         }
     })
     if (!content) {
         res.status(409).json({
             message: "All fields are required!"
         })
-    }else if(result){
+    } else if (result) {
         res.status(400).json({
-            message:"Review already exists"
+            message: "Review already exists"
         })
-    }else {
+    } else {
         try {
             const result = await Review.create({
                 studentId,
@@ -54,9 +54,16 @@ const fetchAll = async (req, res) => {
         //         tutorId: tutorId
         //     },
         // })
-        const [result, metadata] = await sequelize.query(
-            `SELECT * FROM reviews JOIN users ON reviews.studentId = users.id JOIN profiles on reviews.studentId=profiles.userId`
-        );
+        const result = await Review.findAll({
+            where:{ tutorId },
+            include: [{
+                model: User,
+                as: 'Tutor'
+            }, {
+                model: User,
+                as: "Student"
+            }]
+        })
         if (result) {
             res.status(200).json({
                 data: result,
@@ -75,9 +82,9 @@ const fetchAll = async (req, res) => {
     }
 }
 
-const studentReview=async(req,res)=>{
+const studentReview = async (req, res) => {
     const studentId = req.params.studentId
-    const tutorId=req.params.tutorId
+    const tutorId = req.params.tutorId
     try {
         const result = await Review.findOne({
             where: {

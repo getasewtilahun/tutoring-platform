@@ -1,7 +1,8 @@
 const Schedule = require('../models/Schedule');
 const Sequelize = require('sequelize')
-const User=require('../models/User')
-const sequelize = require('../config/db')
+const User = require('../models/User')
+const sequelize = require('../config/db');
+const Profile = require('../models/Profile');
 
 const create = async (req, res) => {
     const { title, startDate, endDate, desc, tutorId, studentId } = req.body
@@ -41,22 +42,20 @@ const create = async (req, res) => {
 const fetchAll = async (req, res) => {
     const userId = req.params.id
     try {
-        const [result, metadata] = await sequelize.query(
-            `SELECT * FROM schedules WHERE schedules.studentId=${userId} OR schedules.tutorId=${userId} JOIN users ON schedules.tutorId=users.id`
-        );
-        // const result = await Schedule.findAll({
-        //     where: Sequelize.or(
-        //         { tutorId: userId },
-        //         { studentId: userId }
-        //     ),
-        //     // include:[{
-        //     //    model:User,
-        //     //    as:"users",
-        //     //    through: {
-        //     //     attributes: [tutorId,studentId]
-        //     //   }
-        //     // }]
-        // })
+        
+        const result = await Schedule.findAll({
+            where: Sequelize.or(
+                { tutorId: userId },
+                { studentId: userId }
+            ),include: [{
+                model: User,
+                as: 'TutorId',
+                include:[Profile]
+            }, {
+                model: User,
+                as: "StudentId"
+            }]
+        })
         if (result) {
             res.status(200).json({
                 data: result,
@@ -74,53 +73,87 @@ const fetchAll = async (req, res) => {
     }
 }
 
-const accept=async(req,res)=>{
-    const id=req.params.id;
-
+const show = async (req, res) => {
+    const id = req.params.id
     try {
-        const result=await Schedule.update(req.body,{
+        
+        const result = await Schedule.findAll({
             where:{
                 id
-            }
+            },
+            include: [{
+                model: User,
+                as: 'TutorId',
+                include:[Profile]
+            }, {
+                model: User,
+                as: "StudentId"
+            }]
         })
-
-        if(result){
+        if (result) {
             res.status(200).json({
-                message:"Schedule accepted successfully."
+                data: result,
+                message: "Schedule fetched successfully"
             })
-        }else{
+        } else {
             res.status(500).json({
-                message:"No schedule with the specified ID!"
+                message: "Internal server problem"
             })
         }
     } catch (error) {
         res.status(500).json({
-            message:"Internal server problem!"
+            message: "Internal server problem"
         })
     }
 }
 
-const remove=async(req,res)=>{
-    const id=req.params.id
+const accept = async (req, res) => {
+    const id = req.params.id;
 
     try {
-        const result=await Schedule.destroy({
-            where:{
+        const result = await Schedule.update(req.body, {
+            where: {
                 id
             }
         })
-        if(result){
+
+        if (result) {
             res.status(200).json({
-                message:"Schedule deleted successfully!"
+                message: "Schedule accepted successfully."
             })
-        }else{
+        } else {
             res.status(500).json({
-                message:"No schedule with the specified ID",
+                message: "No schedule with the specified ID!"
             })
         }
     } catch (error) {
         res.status(500).json({
-            message:"Internal server problem!"
+            message: "Internal server problem!"
+        })
+    }
+}
+
+const remove = async (req, res) => {
+    const id = req.params.id
+
+    try {
+        const result = await Schedule.destroy({
+            where: {
+                id
+            }
+        })
+        if (result) {
+            res.status(200).json({
+                message: "Schedule deleted successfully!"
+            })
+        } else {
+            res.status(500).json({
+                message: "No schedule with the specified ID",
+            })
+        }
+    } catch (error) {
+        res.status(500).json({
+            message: "Internal server problem!"
         })
     }
 }
@@ -128,6 +161,7 @@ const remove=async(req,res)=>{
 module.exports = {
     create,
     fetchAll,
+    show,
     accept,
     remove,
 }

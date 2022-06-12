@@ -105,11 +105,11 @@ export default function Register() {
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
     const [role, setRole] = useState(null)
-    const [firstNameError,setFirstNameError]=useState(false)
-    const [lastNameError,setLastNameError]=useState(false)
-    const [passwordError,setPasswordError]=useState(false)
-    const [emailError,setEmailError]=useState(false)
-    const [passwordLengthError,setPasswordLengthError]=useState(false)
+    const [firstNameError, setFirstNameError] = useState(false)
+    const [lastNameError, setLastNameError] = useState(false)
+    const [passwordError, setPasswordError] = useState(false)
+    const [emailError, setEmailError] = useState(false)
+    const [passwordLengthError, setPasswordLengthError] = useState(false)
 
     const navigate = useNavigate()
     const dispatch = useDispatch()
@@ -143,24 +143,27 @@ export default function Register() {
                 role,
                 password
             }
-            if(firstName===''){
+            if (firstName === '') {
                 setFirstNameError(true)
             }
-            if(lastName===''){
+            if (lastName === '') {
                 setLastNameError(true)
             }
-            if(password===''){
+            if (password === '') {
                 setPasswordError(true)
             }
-            if(password.length<6&&!password.length==0){
+            if (password.length < 6 && !password.length == 0) {
                 setPasswordLengthError(true)
             }
-            if(firstNameError||lastNameError||passwordError||passwordLengthError){
+            if (firstNameError || lastNameError || passwordError || passwordLengthError) {
 
             }
-            if (/^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[A-Za-z]+$/.test(email)) {
+            const regex =
+                /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
+
+            if (regex.test(email)) {
                 dispatch(register(userData))
-            }else{
+            } else {
                 setEmailError(true)
             }
         } catch (error) {
@@ -173,20 +176,20 @@ export default function Register() {
                 <Wrapper>
                     <Title>Register</Title>
                     <Form onSubmit={handleSubmit}>
-                        <Input type={"text"} placeholder={"First Name"} onChange={e => [setFirstName(e.target.value),setFirstNameError(false)]}></Input>
-                        {firstNameError&&<sub style={{color:'red'}}>First Name field is empty!</sub>}
-                        <Input type={"text"} placeholder={"Last Name"} onChange={e => [setLastName(e.target.value),setLastNameError(false)]}></Input>
-                        {lastNameError&&<sub style={{color:'red'}}>Last Name field is empty!</sub>}
-                        <Input type={"email"} placeholder={"E-mail"} onChange={e => [setEmail(e.target.value),setEmailError(false)]}></Input>
-                        {emailError&&<sub style={{color:'red'}}>Enter valid E-mail address</sub>}
+                        <Input type={"text"} placeholder={"First Name"} onChange={e => [setFirstName(e.target.value), setFirstNameError(false)]}></Input>
+                        {firstNameError && <sub style={{ color: 'red' }}>First Name field is empty!</sub>}
+                        <Input type={"text"} placeholder={"Last Name"} onChange={e => [setLastName(e.target.value), setLastNameError(false)]}></Input>
+                        {lastNameError && <sub style={{ color: 'red' }}>Last Name field is empty!</sub>}
+                        <Input type={"email"} placeholder={"E-mail"} onChange={e => [setEmail(e.target.value), setEmailError(false)]}></Input>
+                        {emailError && <sub style={{ color: 'red' }}>Enter valid E-mail address</sub>}
                         <Select name="cars" onChange={e => setRole(e.target.value)}>
                             <Option value="student">Select your role</Option>
                             <Option value="student">Student</Option>
                             <Option value="tutor">Tutor</Option>
                         </Select>
-                        <Input type={"password"} placeholder={"Password"} onChange={e => [setPassword(e.target.value),setPasswordError(false),setPasswordLengthError(false)]}></Input>
-                        {passwordError&&<sub style={{color:'red'}}>Password field is empty!</sub>}
-                        {passwordLengthError&&<sub style={{color:'red'}}>Number of character must greater than Five!</sub>}
+                        <Input type={"password"} placeholder={"Password"} onChange={e => [setPassword(e.target.value), setPasswordError(false), setPasswordLengthError(false)]}></Input>
+                        {passwordError && <sub style={{ color: 'red' }}>Password field is empty!</sub>}
+                        {passwordLengthError && <sub style={{ color: 'red' }}>Number of character must greater than Five!</sub>}
                         <Button type='submit'>Register</Button>
                         <Row>
                             <Text>Don't have an account?</Text>

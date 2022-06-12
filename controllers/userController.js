@@ -5,6 +5,9 @@ const jwt = require('jsonwebtoken');
 const Profile = require('../models/Profile');
 const Education = require('../models/Education');
 const About = require('../models/About');
+const Token = require('../models/Token');
+const crypto = require('crypto')
+const nodemailer=require('nodemailer')
 
 const register = async (req, res) => {
     const { firstName, lastName, email, password, role } = req.body;
@@ -208,9 +211,66 @@ const homeTutor = async (req, res) => {
     }
 }
 
+const forgotPassword = async (req, res) => {
+    const { email } = req.body
+    try {
+        const user = await User.findOne({
+            where: {
+                email
+            }
+        })
+        if (user) {
+            let token = await Token.findOne({
+                where: {
+                    userId: user.id,
+                }
+            })
+
+            if (!token) {
+                token = await new Token({
+                    userId: user.id,
+                    token: crypto.randomBytes(32).toString('hex')
+                }).save()
+            }
+            if (token) {
+                const link=`http:localhost:3000/password-reset/${user.id}/${token}`
+                const transporter = nodemailer.createTransport('SMTP',{
+                    service: 'gmail',
+                    host: 'smtp.gmail.com',
+                    auth: {
+                        user: 'getas.walelign@gmail.com',
+                        pass: 'GETtowork@23',
+                    },
+                });
+        
+                const mailRes=await transporter.sendMail({
+                    from: 'getas.walelign@gmail.com',
+                    to: 'gurabicha36@gmail.com',
+                    subject: "Forgot password",
+                    text: link,
+                });
+                res.status(200).json({
+                    data: token,
+                    mailRes,
+                    message: "successfully created!",
+                })
+            }
+        } else {
+            res.status(404).json({
+                message: "User not found with this email address!"
+            })
+        }
+    } catch (error) {
+        res.status(500).json({
+            message: "Something went wrong!"
+        })
+    }
+}
+
 module.exports = {
     register,
     login,
+    forgotPassword,
     fetchAll,
     fetchTutor,
     homeTutor,

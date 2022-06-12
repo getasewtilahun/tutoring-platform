@@ -11,6 +11,7 @@ const Message = require('./Message');
 const Conversation = require('./Conversation');
 const Verify=require('./Verify');
 const Payment = require('./Payment');
+const Token = require('./Token');
 const User=sequelize.define("user",{
     id:{
         type:DataTypes.INTEGER,
@@ -60,12 +61,8 @@ User.hasMany(Review, {
     foreignKey: 'tutorId',
     as:"Tutor",
 })
-User.hasMany(Schedule, {
-    foreignKey: 'studentId',
-})
-User.hasMany(Schedule, {
-    foreignKey: 'tutorId',
-})
+
+User.hasOne(Token)
 User.hasOne(About)
 User.hasOne(Profile)
 User.hasOne(Education)
@@ -80,10 +77,4 @@ User.hasMany(Conversation,{
     foreignKey:"recieverId",
 })
 User.hasOne(Verify)
-User.hasMany(Payment,{
-    foreignKey:"studentId",
-})
-User.hasMany(Payment,{
-    foreignKey:"tutorId",
-})
 module.exports = User

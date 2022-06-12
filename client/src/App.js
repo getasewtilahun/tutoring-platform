@@ -20,6 +20,7 @@ import Reviews from './pages/Reviews'
 import Checkout from './pages/student/Checkout'
 import NotAuto from './pages/NotAuto'
 import PageNotFound from './pages/PageNotFound'
+import ForgotPassword from './pages/ForgotPassword'
 function App() {
   const { user } = useSelector((state) => state.auth)
   
@@ -30,6 +31,7 @@ function App() {
           <Route path='/' element={<Home />}></Route>
           <Route path='/login' element={<Login />}></Route>
           <Route path='/register' element={<Register />}></Route>
+          <Route path="/forgot-password" element={<ForgotPassword/>}/>
           {/* admin routes */}
           <Route path='/admin/dashboard' element={user ?user.data.role==='admin'? <AdminDashbaord /> :<NotAuto/>: <Login />} />
           {/* student routes */}
@@ -41,7 +43,7 @@ function App() {
           <Route path='/tutor/quiz/create' element={user?user.data.role==="tutor"?<CreateQuiz />:<NotAuto/>:<Login/>} />
           <Route path='/quiz/:id' element={user?user.data.role==="student"?<Quiz />:<NotAuto/>:<Login/>} />
           <Route path='/reviews/:id' element={<Reviews/>}/>
-          <Route path='/checkout/:id' element={<Checkout/>}/>
+          <Route name="Checkout" path='/checkout/:id' element={user?<Checkout/>:<Login/>}/>
           {/* <Route path='/message' element={user ? <Messages /> : <Login />}></Route> */}
           {/* Student routes */}
           <Route path='/student/:id' element={<StudentProfile />} />

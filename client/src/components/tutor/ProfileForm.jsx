@@ -34,6 +34,9 @@ font-size:16px;
     outline:none;
 }  
 `
+const Error=styled.sub`
+color:red;
+`
 export default function ProfileForm() {
     const { profile, isLoading, isError, isSuccess, message } = useSelector(
         (state) => state.profile
@@ -43,9 +46,18 @@ export default function ProfileForm() {
     const [phone, setPhone] = useState(profile?profile.data.phone:'')
     const [price, setPrice] = useState(profile?profile.data.price:null)
     const [headline, setHeadline] = useState(profile?profile.data.headline:'')
+    const [addressError,setAddressError]=useState(false)
+    const [phoneError,setPhoneError]=useState(null)
+    const [priceError,setPriceError]=useState(null)
+    const [headlineError,setHeadlineError]=useState(false)
+
     const dispatch = useDispatch()
     const submit = async (e) => {
         e.preventDefault();
+        setAddressError(false)
+        setHeadlineError(false)
+        setPhoneError(null)
+        setPriceError(null)
         try {
             const data = {
                 userId: user.data.id,
@@ -54,7 +66,26 @@ export default function ProfileForm() {
                 price,
                 address,
             }
-            if (profile) {
+            if(address===''){
+                setAddressError(true)
+            }
+            if(price===null||price===''){
+                setPriceError("price field is empty")
+            }else if(/^[0-9]+.[0-9]+$/.test(price)){
+            }else if(/^[0-9]+$/.test(price)){
+            }else{
+                setPriceError("Don't use strings!")
+            }
+            if(headline===''){
+                setHeadlineError(true)
+            }
+            if(phone===null||phone===''){
+                setPhoneError("Phone number field is empty")
+            }else if(!(/^[0-9]{10}$/.test(phone))){
+                setPhoneError("use valid phone number format")
+            }
+            if(phoneError||priceError||addressError||headlineError){
+            }else if (profile) {
                 const config = {
                     headers: {
                         Authorization: `Bearer ${user.token}`,
@@ -77,12 +108,16 @@ export default function ProfileForm() {
             <Form>
                 <Label>Headline</Label>
                 <Input defaultValue={profile ? profile.data.headline : " "} onChange={(e) => setHeadline(e.target.value)} ></Input>
+                <Error style={{display:headlineError?`flex`:"none"}}>Headline field is empty</Error>
                 <Label>Location</Label>
                 <Input defaultValue={profile ? profile.data.address : " "} onChange={(e) => setAddress(e.target.value)} ></Input>
+                <Error style={{display:addressError?`flex`:"none"}}>Address field is empty</Error>
                 <Label >Phone number</Label>
                 <Input defaultValue={profile ? profile.data.phone : " "} onChange={(e) => setPhone(e.target.value)} ></Input>
+                <Error style={{display:phoneError?`flex`:"none"}}>{phoneError&&phoneError}</Error>
                 <Label>Price per houre</Label>
                 <Input defaultValue={profile ? profile.data.price : " "} onChange={(e) => setPrice(e.target.value)} ></Input>
+                <Error style={{display:priceError?`flex`:"none"}}>{priceError&&priceError}</Error>
                 <Box textAlign='center' style={{ margin: "40px", }}>
                     <Button onClick={submit} variant="contained" style={{ width: '20%', }}>Save</Button>
                 </Box>

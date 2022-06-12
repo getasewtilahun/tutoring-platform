@@ -64,6 +64,9 @@ font-size:16px;
     outline:none;
 }  
 `
+const Error=styled.sub`
+color:red;
+`
 export default function EducationForm() {
     const { user } = useSelector((state) => state.auth)
     const { education } = useSelector((state) => state.education)
@@ -74,9 +77,16 @@ export default function EducationForm() {
     const [desc, setDesc] = useState(education ? education.data.desc : '')
     const [start, setStart] = useState(education ? new Date(education.data.start) : new Date());
     const [end, setEnd] = useState(education ? new Date(education.data.end) : new Date());
+
+    const [schoolError,setSchoolError]=useState(false)
+    const [fieldError,setFieldError]=useState(false)
+
     const dispatch = useDispatch()
     const submit = async (e) => {
         e.preventDefault();
+        setSchoolError(false)
+        setFieldError(false)
+
         try {
             const data = {
                 userId: user.data.id,
@@ -87,7 +97,13 @@ export default function EducationForm() {
                 grade,
                 desc
             }
-            if (education) {
+            if(school===''){
+                setSchoolError(true)
+            }if(field===''){
+                setFieldError(true)
+            }
+            if(schoolError||fieldError){
+            }else if (education) {
                 const config = {
                     headers: {
                         Authorization: `Bearer ${user.token}`,
@@ -109,8 +125,10 @@ export default function EducationForm() {
             <Form>
                 <Label>School</Label>
                 <Input defaultValue={education ? education.data.school : ''} onChange={(e) => setSchool(e.target.value)}></Input>
+                <Error style={{display:schoolError?`flex`:"none"}}>School field is empty</Error>
                 <Label>Field of Study</Label>
                 <Input defaultValue={education ? education.data.field : ''} onChange={(e) => setField(e.target.value)}></Input>
+                <Error style={{display:fieldError?`flex`:"none"}}>Field of study is empty</Error>
                 <Row>
                     <Col>
                         <Label>Start date</Label>
@@ -122,7 +140,7 @@ export default function EducationForm() {
                     </Col>
                 </Row>
                 <Label>Grade(optional)</Label>
-                <Input defaultValue={education ? education.data.grade : ''} onChange={(e) => setGrade(e.target.value)}></Input>
+                <Input defaultValue={education ? education.data.grade : ''} onChange={(e) => setGrade(e.target.value)}></Input>                
                 <Label>Description</Label>
                 <Input defaultValue={education ? education.data.desc : ''} onChange={(e) => setDesc(e.target.value)}></Input>
                 <Box textAlign='center' style={{ margin: "40px", }}>

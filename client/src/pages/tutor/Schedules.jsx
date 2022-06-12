@@ -24,7 +24,7 @@ export default function Schedules() {
   const { user } = useSelector((state) => state.auth)
 
   useEffect(async () => {
-    const res = await axios.get(`http://localhost:5000/api/schedule/${user.data.id}`);
+    const res = await axios.get(`http://localhost:5000/api/schedules/${user.data.id}`);
     if (res.status == 200) {
       setSchedules(res.data.data)
     }
@@ -80,13 +80,14 @@ export default function Schedules() {
         <Table sx={{ minWidth: 650, tableLayout: 'fixed' }} aria-label="simple table">
           <TableHead>
             <TableRow>
-              <TableCell style={{ width: 30 }}>No</TableCell>
-              <TableCell align="center" style={{ width: 260 }}>Title</TableCell>
-              <TableCell align="center" style={{ width: 160 }}>Start Time</TableCell>
-              <TableCell align="center" style={{ width: 160 }}>End Time</TableCell>
-              <TableCell align="center" style={{ width: 60 }}>Accept</TableCell>
-              <TableCell align="center" style={{ width: 60 }}>Reject</TableCell>
-              <TableCell align="center" style={{ width: 60 }}>Delete</TableCell>
+              <TableCell align="left" style={{ width: 30 }}>No</TableCell>
+              <TableCell align="left" >Student Name</TableCell>
+              <TableCell align="left" >Title</TableCell>
+              <TableCell align="left" >Start Time</TableCell>
+              <TableCell align="left" >End Time</TableCell>
+              <TableCell align="left" >Accept</TableCell>
+              <TableCell align="left" >Reject</TableCell>
+              <TableCell align="left" >Delete</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -95,15 +96,16 @@ export default function Schedules() {
                 key={index}
                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
               >
-                <TableCell component="th" scope="row" style={{ width: 160 }}>
+                <TableCell component="th" scope="row" align="left">
                   {index + 1}
                 </TableCell>
+                <TableCell align="left" >{<a style={{textDecoration:"none"}} href={`/student/${schedule.StudentId.id}`}>{schedule.StudentId.firstName+" "+schedule.StudentId.lastName}</a>}</TableCell>
                 <TableCell align="left" style={{ width: 160 }}>{schedule.title}</TableCell>
                 <TableCell align="left" style={{ width: 160 }}>{moment(schedule.startDate).format('LLL')}</TableCell>
                 <TableCell align="left" style={{ width: 160 }}>{moment(schedule.endDate).format('LLL')}</TableCell>
-                <TableCell>{schedule.status === "pending" && <Button variant='contained' onClick={()=>accept(schedule.id)}>Accept</Button>}{schedule.status === "accepted" && <Button>Accepted</Button>}</TableCell>
-                <TableCell>{schedule.status === 'pending' && <Button variant='contained' style={{ backgroundColor: "#bb2124", }} onClick={()=>reject(schedule.id)}>Reject</Button>}{schedule.status === 'rejected' && <Button>Rejected</Button>}</TableCell>
-                <TableCell><Button variant='contained' style={{ backgroundColor: "#bb2124", }} onClick={()=>remove(schedule.id)}>Delete</Button></TableCell>
+                <TableCell align="left">{schedule.status === "pending" && <Button variant='contained' onClick={()=>accept(schedule.id)}>Accept</Button>}{schedule.status === "accepted" && <Button>Accepted</Button>}</TableCell>
+                <TableCell align="left">{schedule.status === 'pending' && <Button variant='contained' style={{ backgroundColor: "#bb2124", }} onClick={()=>reject(schedule.id)}>Reject</Button>}{schedule.status === 'rejected' && <Button>Rejected</Button>}</TableCell>
+                <TableCell align="left"><Button variant='contained' style={{ backgroundColor: "#bb2124", }} onClick={()=>remove(schedule.id)}>Delete</Button></TableCell>
               </TableRow>
             ))}
           </TableBody>
