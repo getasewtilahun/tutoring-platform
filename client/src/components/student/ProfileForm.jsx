@@ -34,6 +34,9 @@ font-size:16px;
     outline:none;
 }  
 `
+const Error=styled.sub`
+color:red;
+`
 export default function ProfileForm() {
     const { profile, isLoading, isError, isSuccess, message } = useSelector(
         (state) => state.profile
@@ -42,6 +45,11 @@ export default function ProfileForm() {
     const [address, setAddress] = useState(profile?profile.data.address:'')
     const [phone, setPhone] = useState(profile?profile.data.phone:'')
     const [gradeLevel, setGradeLevel] = useState(profile?profile.data.gradeLevel:'')
+
+
+    const [addressError,setAddressError]=useState(false)
+    const [phoneError,setPhoneError]=useState(null)
+    const [gradeLevelError,setGradeLevelError]=useState(false)
     const dispatch = useDispatch()
     const submit = async (e) => {
         e.preventDefault();
@@ -52,7 +60,20 @@ export default function ProfileForm() {
                 phone,
                 address,
             }
-            if (profile) {
+
+            if(address===''){
+                setAddressError(true)
+            }
+            if(gradeLevel===''){
+                setGradeLevelError(true)
+            }
+            if(phone===null||phone===''){
+                setPhoneError("Phone number field is empty")
+            }else if(!(/^[0-9]{10}$/.test(phone))){
+                setPhoneError("use valid phone number format")
+            }
+            if(phoneError||addressError||gradeLevelError){
+            }else if (profile) {
                 const config = {
                     headers: {
                         Authorization: `Bearer ${user.token}`,
@@ -74,10 +95,13 @@ export default function ProfileForm() {
             <Form>
                 <Label>Grade Level</Label>
                 <Input defaultValue={profile ? profile.data.gradeLevel : " "} onChange={(e) => setGradeLevel(e.target.value)} ></Input>
+                <Error style={{display:gradeLevelError?`flex`:"none"}}>Headline field is empty</Error>
                 <Label>Location</Label>
                 <Input defaultValue={profile ? profile.data.address : " "} onChange={(e) => setAddress(e.target.value)} ></Input>
+                <Error style={{display:addressError?`flex`:"none"}}>Address field is empty</Error>
                 <Label >Phone number</Label>
                 <Input defaultValue={profile ? profile.data.phone : " "} onChange={(e) => setPhone(e.target.value)} ></Input>
+                <Error style={{display:phoneError?`flex`:"none"}}>{phoneError&&phoneError}</Error>
                 <Box textAlign='center' style={{ margin: "40px", }}>
                     <Button onClick={submit} variant="contained" style={{ width: '20%', }}>Save</Button>
                 </Box>

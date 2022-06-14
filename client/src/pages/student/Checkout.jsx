@@ -69,11 +69,11 @@ padding-bottom:10px;
 display:flex;
 `
 export default function Checkout() {
-    const merchentId = "SB0964";
+    const merchentId = 7756;
     const [schedule, setSchedule] = useState(null)
     const [pricePerMin, setPricePerMin] = useState(null)
     const [totalMin, setTotalMin] = useState(null)
-    const [totalPrice, setTotalPrice] = useState(null)
+    const [totalPrice, setTotalPrice] = useState(1)
     const { user } = useSelector((state) => state.auth)
     const location = useLocation()
     const id = location.pathname.split('/')[2]
@@ -92,13 +92,36 @@ export default function Checkout() {
     }, [])
 
     useEffect(() => {
+
+    }, [open])
+
+    useEffect(() => {
         schedule && schedule.TutorId && schedule.TutorId.profile && setPricePerMin(schedule.TutorId.profile.price / 60)
         schedule && setTotalMin(Math.round((new Date(schedule.endDate) - new Date(schedule.startDate)) / 60000))
     }, [schedule])
 
     useEffect(() => {
-        setTotalPrice(pricePerMin * totalMin)
+        // setTotalPrice(pricePerMin * totalMin)
     }, [totalMin, pricePerMin])
+
+    const handleSubmit = async (e) => {
+        e.preventDefault()
+        const data = {
+            totalAmount: totalPrice,
+            senderId: user.data.id,
+            scheduleId: schedule && schedule.id,
+            recieverId: schedule.TutorId && schedule.TutorId.id
+        }
+        const res = await axios.post('http://localhost:5000/api/payment', data)
+        if (res) {
+            console.log("success")
+        } else {
+            console.log("failure")
+        }
+        setOpen(true)
+    }
+    const ipn = 'http://localhost:5000/api/verify/ipn'
+    const successUrl = `http://localhost:3000/payment-success/${schedule&&schedule.id}`
     return (
         <div>
             <Navbar />
@@ -149,7 +172,7 @@ export default function Checkout() {
                                         </Table>
                                     </TableContainer>
                                     <Box textAlign='center'>
-                                        <Button onClick={handleOpen} sx={{ marginTop: "40px", width: "40%", alignSelf: "center" }} variant='contained'>Checkout</Button>
+                                        <Button onClick={handleSubmit} sx={{ marginTop: "40px", width: "40%", alignSelf: "center" }} variant='contained'>Checkout</Button>
                                     </Box>
 
                                     <Modal
@@ -172,9 +195,9 @@ export default function Checkout() {
                                                 <h4>Total Price</h4>
                                                 <h6>{totalPrice + " Birr"}</h6>
                                             </Row>
-                                            <div style={{marginBottom:"30px",marginLeft:"100px",display:'flex',alignItems:"center"}}>
-                                                <p style={{fontSize:"25px",paddingRight:"10px"}}>Pay With</p>
-                                                <a id="yenepayLogo" href={`https://sandbox.yenepay.com/checkout/Home/Process/?ItemName=tutor&ItemId=${schedule.id}&UnitPrice=${totalPrice&&totalPrice}&Quantity=1&Process=Express&ExpiresAfter=&DeliveryFee=&HandlingFee=&Tax1=&Tax2=&Discount=&SuccessUrl=&IPNUrl=&MerchantId=${merchentId}`}>
+                                            <div style={{ marginBottom: "30px", marginLeft: "100px", display: 'flex', alignItems: "center" }}>
+                                                <p style={{ fontSize: "25px", paddingRight: "10px" }}>Pay With</p>
+                                                <a id="yenepayLogo" href={`https://www.yenepay.com/checkout/Home/Process/?ItemName=tutor&ItemId=${schedule.id}&UnitPrice=${totalPrice && totalPrice}&Quantity=1&Process=Express&ExpiresAfter=&DeliveryFee=&HandlingFee=&Tax1=&Tax2=&Discount=&SuccessUrl=${successUrl}&IPNUrl=${ipn}&MerchantId=${merchentId}`}>
                                                     <img style={{ width: "100px" }} src=" https://yenepayprod.blob.core.windows.net/images/logo.png"></img>
                                                 </a>
                                             </div>

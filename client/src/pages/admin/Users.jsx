@@ -9,7 +9,7 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import { Button, Pagination } from '@mui/material';
+import { Button, Checkbox, FormControlLabel, Pagination } from '@mui/material';
 import usePagination from '../../components/MyPagination';
 
 
@@ -21,6 +21,18 @@ export default function Users() {
       setUsers(res.data.data)
     }
   }, [])
+  const handleTutor = () => {
+    var newData = users.filter(function (user) {
+      return user.role === 'tutor'
+    })
+    setUsers(newData)
+  }
+  const handleStudent = () => {
+    var newData = users.filter(function (user) {
+      return user.role === 'student'
+    })
+    setUsers(newData)
+  }
 
   const [page, setPage] = useState(1);
   const PER_PAGE = 7;
@@ -34,7 +46,13 @@ export default function Users() {
   };
   return (
     <div>
-
+      <div>
+        <h2>Filter</h2>
+        <div style={{ display: "flex", paddingBottom: "10px" }}>
+          <FormControlLabel control={<Checkbox onClick={handleTutor} />} label="Tutor" />
+          <FormControlLabel control={<Checkbox onClick={handleStudent} />} label="Student" />
+        </div>
+      </div>
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 650, tableLayout: 'fixed' }} aria-label="simple table">
           <TableHead>

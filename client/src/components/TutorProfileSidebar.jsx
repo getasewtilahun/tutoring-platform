@@ -233,15 +233,15 @@ export default function TutorProfileSidebar({ id }) {
                             <>{newReview && newReview.map((rev) => (
                                 <Row key={rev.id}>
                                     <Avatar
-                                        alt={rev.firstName}
-                                        src={'http://localhost:5000/' + rev.img}
+                                        alt={rev.Student.firstName}
+                                        src={rev.Student&& 'http://localhost:5000/' + rev.Student.profile.img}
                                         sx={{
                                             width: 50, height: 50, justifyContent: "center", display: "flex"
                                         }}
                                     >
                                     </Avatar>
                                     <Col>
-                                        <Name>{rev.firstName}  {rev.lastName}</Name>
+                                        <Name>{rev.Student&&rev.Student.firstName+" "+rev.Student.lastName}</Name>
                                         <Rating name="half-rating-read" value={rev.rate} size="small" readOnly sx={{
                                             paddingLeft: "7px"
                                         }} />

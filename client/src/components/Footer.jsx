@@ -78,11 +78,11 @@ export default function Footer() {
                     <Grid item lg={3} md={6} sm={12} sx={{marginTop:'20px'}}>
                     <Title>Tutors</Title>
                         <Items>
-                            <Item to='/'>Biology Tutor</Item>
-                            <Item to='/'>Mathematics Tutor</Item>
-                            <Item to='/'>Physics Tutor</Item>
-                            <Item to='/'>English Tutor</Item>
-                            <Item to='/'>Marketing Tutor</Item>
+                            <Item to='/tutors'>Biology Tutor</Item>
+                            <Item to='/tutors'>Mathematics Tutor</Item>
+                            <Item to='/tutors'>Physics Tutor</Item>
+                            <Item to='/tutors'>English Tutor</Item>
+                            <Item to='/tutors'>Marketing Tutor</Item>
                         </Items>
                     </Grid>
                     <Grid item lg={3} md={6} sm={12} sx={{marginTop:'20px'}}>

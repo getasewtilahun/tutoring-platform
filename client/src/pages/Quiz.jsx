@@ -74,10 +74,12 @@ export default function ({ id }) {
 
     const { score } = useSelector((state) => state.quiz)
     const dispatch = useDispatch()
+    const [highest,setHighest]=useState(null)
 
     const choose1 = async (e, index, ans) => {
         e.preventDefault()
         setCurrentIndex(index)
+        setHighest(index)
         setWrong1(false)
         setWrong2(false)
         setWrong3(false)
@@ -92,6 +94,7 @@ export default function ({ id }) {
     const choose2 = async (e, index, ans) => {
         e.preventDefault()
         setCurrentIndex(index)
+        setHighest(index)
         setWrong1(false)
         setWrong2(false)
         setWrong3(false)
@@ -106,7 +109,7 @@ export default function ({ id }) {
     const choose3 = async (e, index, ans) => {
         e.preventDefault()
         setCurrentIndex(index)
-        
+        setHighest(index)
         setWrong1(false)
         setWrong2(false)
         setWrong3(false)
@@ -121,7 +124,7 @@ export default function ({ id }) {
     const choose4 = async (e, index, ans) => {
         e.preventDefault()
         setCurrentIndex(index)
-        
+        setHighest(index)
         setWrong1(false)
         setWrong2(false)
         setWrong3(false)
@@ -137,6 +140,7 @@ export default function ({ id }) {
     const leave=()=>{
         navigate('/')
     }
+
     return (
         <div style={{ backgroundColor: "rgb(250, 250, 255)" }}>
             <Navbar />
@@ -162,7 +166,7 @@ export default function ({ id }) {
                                         <Box sx={{ width: '100%', padding: "20px" }}>
                                             <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
                                                 <Grid item xs={6}>
-                                                    <Button onClick={(e) => choose1(e, index, question.choices[0].answer)} variant='contained' style={{ width: "100%", backgroundColor: currentIndex === index ?wrong1? "red":question.choices[0].answer? "green" : "white" : "white", color: "black" }}>
+                                                    <Button  onClick={(e) => choose1(e, index, question.choices[0].answer)} variant='contained'  style={{ pointerEvents:highest&&highest>=index?'none':"",width: "100%", backgroundColor: currentIndex === index ?wrong1? "red":question.choices[0].answer? "green" : "white" : "white", color: "black" }}>
                                                         <Row>
                                                             <>{question.choices[0].choice}
                                                             </>
@@ -171,7 +175,7 @@ export default function ({ id }) {
                                                     </Button>
                                                 </Grid>
                                                 <Grid item xs={6}>
-                                                    <Button onClick={(e) => choose2(e, index, question.choices[1].answer)} variant='contained' style={{ width: "100%", backgroundColor: currentIndex === index ?wrong2? "red":question.choices[1].answer? "green" :"white" : "white", color: "black" }}>
+                                                    <Button onClick={(e) => choose2(e, index, question.choices[1].answer)} variant='contained' style={{pointerEvents:highest&&highest>=index?'none':"", width: "100%", backgroundColor: currentIndex === index ?wrong2? "red":question.choices[1].answer? "green" :"white" : "white", color: "black" }}>
                                                         <Row>
                                                             <>{question.choices[1].choice}</>
                                                            
@@ -179,7 +183,7 @@ export default function ({ id }) {
                                                     </Button>
                                                 </Grid>
                                                 <Grid item xs={6}>
-                                                    <Button onClick={(e) => choose3(e, index, question.choices[2].answer)} variant='contained' style={{ width: "100%", backgroundColor: currentIndex === index ? wrong3? "red":question.choices[2].answer? "green" : "white" : "white", color: "black" }}>
+                                                    <Button onClick={(e) => choose3(e, index, question.choices[2].answer)} variant='contained' style={{pointerEvents:highest&&highest>=index?'none':"",width: "100%", backgroundColor: currentIndex === index ? wrong3? "red":question.choices[2].answer? "green" : "white" : "white", color: "black" }}>
                                                         <Row>
                                                             <>{question.choices[2].choice}</>
                                                            
@@ -187,7 +191,7 @@ export default function ({ id }) {
                                                     </Button>
                                                 </Grid>
                                                 <Grid item xs={6}>
-                                                    <Button onClick={(e) => choose4(e, index, question.choices[3].answer)} variant='contained' style={{ width: "100%", backgroundColor: currentIndex === index ?wrong4? "red":question.choices[3].answer? "green"  : "white" : "white", color: "black" }}>
+                                                    <Button onClick={(e) => choose4(e, index, question.choices[3].answer)} variant='contained' style={{ pointerEvents:highest&&highest>=index?'none':"",width: "100%", backgroundColor: currentIndex === index ?wrong4? "red":question.choices[3].answer? "green"  : "white" : "white", color: "black" }}>
                                                         <Row>
                                                             <>{question.choices[3].choice}</>
                                                            

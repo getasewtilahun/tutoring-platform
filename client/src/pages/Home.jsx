@@ -6,6 +6,7 @@ import Welcome from '../components/Welcome'
 import SampleTutors from '../components/SampleTutors'
 import SampleSubjects from '../components/SampleSubjects'
 import HowTo from '../components/HowTo'
+import HowToTutor from '../components/HowToTutor'
 export default function Home() {
   return (
     <div>
@@ -13,7 +14,10 @@ export default function Home() {
       <Welcome />
       <SampleTutors />
       <SampleSubjects />
+      <div style={{display:"flex",justifyContent:"space-around"}}>
       <HowTo/>
+      <HowToTutor/>
+      </div>
       <Footer />
     </div>
   )

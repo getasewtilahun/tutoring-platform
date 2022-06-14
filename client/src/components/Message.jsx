@@ -50,6 +50,7 @@ export default function ({own,message}) {
               }
             const res=await axios.get(`http://localhost:5000/api/profile/${message.senderId}`,config)
             if(res.status===200){
+                console.log(res.data)
                 setPro(res.data.data)
             }
         } catch (error) {
@@ -59,13 +60,13 @@ export default function ({own,message}) {
     return (
         <Message own={own&&own}>
             <MessageTop>
-                {!own&&
-                <Avatar src={pro?'http://localhost:5000/'+pro.img:""}  sx={{ width: 50, height: 50 }}/>}
+                {!own&&pro&&
+                <Avatar src={pro&&`http://localhost:5000/${pro.img}`}  sx={{ width: 50, height: 50 }}/>}
                 <Spacer/>
                 <MessageText own={own&&own}>{message.text}</MessageText>
                 <Spacer/>
-                {own&&
-                <Avatar src={pro?'http://localhost:5000/'+pro.img:""}  sx={{ width: 50, height: 50 }}/>}
+                {own&&pro&&
+                <Avatar src={pro&&`http://localhost:5000/${pro.img}`}  sx={{ width: 50, height: 50 }}/>}
             </MessageTop>
             <MessageBottom>{format(message.createdAt)}</MessageBottom>
         </Message>

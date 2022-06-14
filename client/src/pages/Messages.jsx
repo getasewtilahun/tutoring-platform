@@ -97,7 +97,7 @@ export default function Messages() {
 
 
   useEffect(() => {
-    socket.current = io("ws://localhost:8900");
+    socket.current = io("ws://localhost:8000");
     // var so = socketClient('http://127.0.0.1:5000');
     // so.on('connection', () => {
     //   console.log(`I'm connected with the back-end`);
@@ -121,6 +121,8 @@ export default function Messages() {
       Object.values(currentChat).includes(arrivalMessage.senderId) && setMessages(res.data.data);
     //  (prev)=>[...prev,arrivalMessage]
     console.log("arrival mess" + arrivalMessage)
+    console.log('current')
+    console.log(currentChat)
   }, [arrivalMessage, currentChat]);
 
   useEffect( async()=>{
@@ -198,10 +200,10 @@ export default function Messages() {
       <Messenger>
         <ChatMenu>
           <ChatMenuWrapper>
-            <h6>Conversations</h6>
+            <h2>Chats</h2>
             {
               conversations ? conversations.map((conversation, index) => (
-                <div onClick={() => setCurrentChat(conversation)}>
+                <div key={index} onClick={() => setCurrentChat(conversation)}>
                   <Conversation conversation={conversation} currentUser={user.data} />
                 </div>
               )) : <p>No conversation yet</p>

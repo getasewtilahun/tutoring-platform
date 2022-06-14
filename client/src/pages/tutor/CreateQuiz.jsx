@@ -23,11 +23,34 @@ font-size:15px;
 font-family:ui-serif;
 `
 const Input = styled.input`
-padding:8px 0;
+margin-top:15px;
+padding:10px;
+height:40px;
+border-color:black;
 border-radius:5px;
+font-size:16px;
+::placeholder {
+    color: black;
+    font-size: 1em;
+  }
+&:focus{
+    outline:none;
+}  
 `
 const Textarea = styled.textarea`
+margin-top:15px;
+padding:10px;
+height:40px;
+border-color:black;
 border-radius:5px;
+font-size:16px;
+::placeholder {
+    color: black;
+    font-size: 1em;
+  }
+&:focus{
+    outline:none;
+}  
 `
 const Spacer = styled.div`
 height:10px;
@@ -43,6 +66,7 @@ flex-direction:column;
 `
 const Row = styled.div`
 display:flex;
+align-items:center;
 `
 const HorSpacer = styled.div`
 width:10px;

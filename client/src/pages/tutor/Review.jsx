@@ -14,7 +14,7 @@ import { Pagination } from '@mui/material';
 import Rating from '@mui/material/Rating';
 import styled from 'styled-components'
 
-const Spacer=styled.div`
+const Spacer = styled.div`
 height:20px;
 `
 
@@ -46,6 +46,7 @@ export default function Review() {
                     <TableHead>
                         <TableRow>
                             <TableCell>No</TableCell>
+                            <TableCell align="left">Student</TableCell>
                             <TableCell align="left">Rate</TableCell>
                             <TableCell align="left">Review</TableCell>
                         </TableRow>
@@ -59,7 +60,8 @@ export default function Review() {
                                 <TableCell component="th" scope="row">
                                     {index + 1}
                                 </TableCell>
-                                <TableCell align="left">      <Rating name="read-only" value={rev.rate} readOnly /></TableCell>
+                                <TableCell align="left">{rev.Student&&<a style={{textDecoration:"none"}} href={`/student/${rev.Student.id}`}>{rev.Student.firstName+" "+rev.Student.lastName}</a>}</TableCell>
+                                <TableCell align="left"><Rating name="read-only" value={rev.rate} readOnly /></TableCell>
                                 <TableCell align="left">{rev.content}</TableCell>
                             </TableRow>
                         ))}
@@ -72,7 +74,7 @@ export default function Review() {
                     onChange={handleChange}
                     color="primary"
                 />
-                <Spacer/>
+                <Spacer />
             </TableContainer>
         </div>
     )

@@ -67,7 +67,7 @@ export default function SampleSubjects() {
                     <Spacer />
                     <Spacer />
                     <div style={{display:"flex",justifyContent:"center"}}>
-                        <Button variant='contained'>See More Categories</Button>
+                        <Button variant='contained'>See More Subjects</Button>
                     </div>
                     <Spacer />
                     <Spacer />

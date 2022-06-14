@@ -187,7 +187,7 @@ export default function Navbar() {
                         <Element to='/tutors' navDisplay={displayMenu}>Find a tutor</Element>
                     </List>
                     <List navDisplay={displayMenu}>
-                        <Element to='/' navDisplay={displayMenu}>How it Works</Element>
+                        <Element to='/how-it-works' navDisplay={displayMenu}>How it Works</Element>
                     </List>
                     <List navDisplay={displayMenu}>
                         <Element to='/register' navDisplay={displayMenu}>Become a tutor</Element>

@@ -37,13 +37,12 @@ export default function Conversation({ conversation, currentUser }) {
         };
         getUser();
       }, [currentUser, conversation]);
-    
     return (
         <Conv className="conversation">
             <ConvImg
                 className="conversationImg"
                 src={
-                    user?'http://localhost:5000/'+user.profile.img:""
+                    user&&'http://localhost:5000/'+user.profile.img
                 }
                 alt=""
             />

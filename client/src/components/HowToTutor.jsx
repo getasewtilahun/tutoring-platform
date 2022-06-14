@@ -12,20 +12,20 @@ import styled from 'styled-components'
 const steps = [
     {
         label: 'Register',
-        description: `Each student should register to the system before the are going try to get any service.Because there is no tutoring service without registration.`,
+        description: `Tutors should register to the system before the are going try to give any service.`,
     },
     {
-        label: 'Search Tutor',
+        label: 'Profile',
+        description: `Fill the necessary informations about your self. Your price per hour,Education, Field of study and other neccessary informations.`,
+    },
+    {
+        label: 'Verify Account',
         description:
-            'Search tutor filter your preferd tutor with the available tools on the system.',
+            'Verify your account so as to get schedules from tutors.',
     },
     {
-        label: 'Schedule tutorial',
-        description: `Schedule your tutorial by slecting the starting and ending time of the tutorial. Once you finish this process wait until the tutor accepts your request.If the tutor accepts the schedule go to the next step.`,
-    },
-    {
-        label: 'Make payment',
-        description: `After acceptance of the schedule go to payment button and pay based on the hourly rate of the tutor.`,
+        label: 'Accept Schedules',
+        description: `Accept schedules from the students and start tutoring.`,
     },
 ];
 
@@ -41,15 +41,8 @@ font-size:30px;
 text-align:center;
 padding-bottom:40px;
 `
-const signin = styled.div`
-font-size: 1.5em;
-  text-align: center;
-  color: palevioletred;
-`
-const image = styled.div`
-`
-export default function HowTo() {
 
+export default function HowToTutor() {
     const [activeStep, setActiveStep] = React.useState(0);
 
     const handleNext = () => {
@@ -63,15 +56,14 @@ export default function HowTo() {
     const handleReset = () => {
         setActiveStep(0);
     };
-
     return (
         <Wrapper>
-            <Title>How To For Student</Title>
+            <Title>How To For Tutor</Title>
             <Box sx={{ maxWidth: 400 }}>
                 <Stepper activeStep={activeStep} orientation="vertical">
                     {steps.map((step, index) => (
                         <Step key={step.label}>
-                            <StepLabel sx={{fontSize:"40px",fontWeight:"w800"}}
+                            <StepLabel sx={{ fontSize: "40px", fontWeight: "w800" }}
                                 optional={
                                     index === 3 ? (
                                         <Typography variant="caption">Last step</Typography>
@@ -81,7 +73,7 @@ export default function HowTo() {
                                 {step.label}
                             </StepLabel>
                             <StepContent>
-                                <Typography sx={{fontSize:"25px"}}>{step.description}</Typography>
+                                <Typography sx={{ fontSize: "25px" }}>{step.description}</Typography>
                                 <Box sx={{ mb: 2 }}>
                                     <div>
                                         <Button

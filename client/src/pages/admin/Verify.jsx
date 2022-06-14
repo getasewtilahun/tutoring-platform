@@ -31,6 +31,7 @@ export default function Verify() {
     const res = await axios.get('http://localhost:5000/api/verify');
     if (res.status == 200) {
       setVerify(res.data.data)
+      console.log(res.data.data)
     }
   }, [])
   const [page, setPage] = useState(1);
@@ -86,7 +87,7 @@ export default function Verify() {
                   <TableCell component="th" scope="row" style={{ width: 30 }}>
                     {index + 1}
                   </TableCell>
-                  <TableCell align="left" >{ver && ver.firstName + " " + ver.lastName}</TableCell>
+                  <TableCell align="left" >{<a style={{textDecoration:"none"}} href={`/tutor/${ver.userId}`}>{ver && ver.firstName + " " + ver.lastName}</a>}</TableCell>
                   <TableCell align="left"><Button onClick={()=>navTo(ver.pdf)}>Open File</Button></TableCell>
                   <TableCell align="left"><Button variant='contained' onClick={()=>verifyAccount(ver.userId)} >Verify</Button></TableCell>
                   <TableCell align="left"><Button variant='contained' style={{ backgroundColor: "#bb2124", }} onClick={()=>remove(ver.id)}>Delete</Button></TableCell>

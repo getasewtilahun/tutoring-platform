@@ -19,6 +19,7 @@ import EventNoteIcon from '@mui/icons-material/EventNote';
 import HomeIcon from '@mui/icons-material/Home';
 import LogoutIcon from '@mui/icons-material/Logout';
 import {useNavigate} from 'react-router-dom'
+import MonetizationOnIcon from '@mui/icons-material/MonetizationOn';
 import GroupIcon from '@mui/icons-material/Group';
 import Users from './Users';
 import Subjects from './Subjects';
@@ -34,6 +35,7 @@ import AddIcon from '@mui/icons-material/Add';
 import AddSubject from './AddSubject';
 import Verify from './Verify'
 import DoneIcon from '@mui/icons-material/Done';
+import Payments from './Payments';
 
 const drawerWidth = 240;
 
@@ -169,6 +171,10 @@ export default function Dashboard() {
               <ListItemIcon><AddIcon /></ListItemIcon>
               <ListItemText>Add Subject</ListItemText>
             </ListItem>
+            <ListItem button onClick={()=>changeSelected('payment')}>
+              <ListItemIcon><MonetizationOnIcon /></ListItemIcon>
+              <ListItemText>Payments</ListItemText>
+            </ListItem>
             <ListItem button onClick={()=>changeSelected('verify')}>
               <ListItemIcon><DoneIcon /></ListItemIcon>
               <ListItemText>Verify</ListItemText>
@@ -193,6 +199,7 @@ export default function Dashboard() {
           <>{selectedDash==='reports'&&<Reports/>}</>
           <>{selectedDash==='create'&&<AddSubject/>}</>
           <>{selectedDash==='verify'&&<Verify />}</>
+          <>{selectedDash==='payment'&&<Payments />}</>
         </Main>
       </Box>
     </div>

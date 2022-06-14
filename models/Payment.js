@@ -1,7 +1,5 @@
 const {Sequelize,DataTypes} =require('sequelize')
 const sequelize=require('../config/db')
-const Schedule =require('./Schedule')
-const User = require('./User')
 
 const Payment=sequelize.define('payment',{
     id:{
@@ -10,14 +8,18 @@ const Payment=sequelize.define('payment',{
         autoIncrement:true,
         allowNull:false,
     },
-    price:{
+    totalAmount:{
         type:DataTypes.DOUBLE,
         allowNull:false,
+    },
+    status:{
+        type:DataTypes.STRING,
+        allowNull:false,
+        defaultValue:"pending"
     },
 },
 {
 timestamps:true,
 }
 )
-Payment.belongsTo(Schedule)
 module.exports=Payment

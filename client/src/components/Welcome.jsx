@@ -1,4 +1,5 @@
 import React from 'react'
+import { useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
 
 const Wrapper = styled.div`
@@ -76,6 +77,10 @@ font-family: Arial Narrow, sans-serif;
 
 
 export default function Welcome() {
+    const navigate=useNavigate()
+    const handleSearch=()=>{
+        navigate('/tutors')
+    }
     return (
         <div>
             <Wrapper>
@@ -83,7 +88,7 @@ export default function Welcome() {
                     <Title>Whatever your learning goals may be,find Tutors at anytime from anywhere.</Title>
                     <SearchWrapper>
                         <SearchInput placeholder='Search a subject'></SearchInput>
-                        <SearchButton>Find Tutor</SearchButton>
+                        <SearchButton onClick={handleSearch}>Find Tutor</SearchButton>
                     </SearchWrapper>
                 </TextContainer>
                 <ImgContainer>

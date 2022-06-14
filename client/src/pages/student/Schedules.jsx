@@ -11,12 +11,12 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 
 import moment from 'moment';
-import { Button, Pagination } from '@mui/material';
+import { Button, Checkbox, FormControlLabel, Pagination } from '@mui/material';
 import usePagination from '../../components/MyPagination';
 import { toast } from 'react-toastify';
 
 import styled from 'styled-components';
-const Spacer=styled.div`
+const Spacer = styled.div`
 height:20px;
 `
 
@@ -30,6 +30,27 @@ export default function Schedules() {
       setSchedules(res.data.data)
     }
   }, [])
+
+
+  const handlePending = () => {
+    var newData = schedules.filter(function (sch) {
+      return sch.status === 'pending'
+    })
+    setSchedules(newData)
+  }
+  const handleAccepted = () => {
+    var newData = schedules.filter(function (sch) {
+      return sch.status === 'accepted'
+    })
+    setSchedules(newData)
+  }
+  const handleRejected = () => {
+    var newData = schedules.filter(function (sch) {
+      return sch.status === 'rejected'
+    })
+    setSchedules(newData)
+  }
+
   const [page, setPage] = useState(1);
   const PER_PAGE = 10;
 
@@ -42,22 +63,30 @@ export default function Schedules() {
   };
 
   // Delete schedules
-  const remove=async(value)=>{
+  const remove = async (value) => {
     const res = await axios.delete(`http://localhost:5000/api/schedule/${value}`);
-    if(res.status===200){
+    if (res.status === 200) {
       toast.success(res.data.message)
-    }else{
+    } else {
       toast.error(res.data.message)
     }
   }
 
   // nav to checkout
-  const navigation=useNavigate()
-  const navToCheckout=(value)=>{
+  const navigation = useNavigate()
+  const navToCheckout = (value) => {
     navigation(`/checkout/${value}`)
   }
   return (
     <div>
+      <div>
+        <h2>Filter</h2>
+        <div style={{ display: "flex", paddingBottom: "10px" }}>
+          <FormControlLabel control={<Checkbox onClick={handlePending} />} label="Pending" />
+          <FormControlLabel control={<Checkbox onClick={handleAccepted} />} label="Accepted" />
+          <FormControlLabel control={<Checkbox onClick={handleRejected} />} label="Rejected" />
+        </div>
+      </div>
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 650, tableLayout: 'fixed' }} aria-label="simple table">
           <TableHead>
@@ -82,21 +111,21 @@ export default function Schedules() {
                 <TableCell component="th" scope="row">
                   {index + 1}
                 </TableCell>
-                <TableCell align="left" >{<a style={{textDecoration:"none"}} href={`/tutor/${schedule.TutorId.id}`}>{schedule.TutorId.firstName+" "+schedule.TutorId.lastName}</a>}</TableCell>
+                <TableCell align="left" >{<a style={{ textDecoration: "none" }} href={`/tutor/${schedule.TutorId.id}`}>{schedule.TutorId.firstName + " " + schedule.TutorId.lastName}</a>}</TableCell>
                 <TableCell align="left" >{schedule.title}</TableCell>
                 <TableCell align="left" >{moment(schedule.startDate).format('LLL')}</TableCell>
                 <TableCell align="left" >{moment(schedule.endDate).format('LLL')}</TableCell>
                 <TableCell align="left">{schedule.status}</TableCell>
                 <TableCell align="left">{<Button variant='contained'>Edit</Button>}</TableCell>
-                {schedule.status==='accepted'?
-                <TableCell align="left">{<Button variant='contained' onClick={()=>navToCheckout(schedule.id)}>Pay</Button>}</TableCell>:
-                <TableCell align="left">{<Button disabled>Pay</Button>}</TableCell>}
-                <TableCell align="left"><Button variant='contained' style={{ backgroundColor: "#bb2124", }} onClick={()=>remove(schedule.id)}>Delete</Button></TableCell>
+                {schedule.status === 'accepted' ?
+                  <TableCell align="left">{<Button variant='contained' onClick={() => navToCheckout(schedule.id)}>Pay</Button>}</TableCell> :
+                  <TableCell align="left">{<Button disabled>Pay</Button>}</TableCell>}
+                <TableCell align="left"><Button variant='contained' style={{ backgroundColor: "#bb2124", }} onClick={() => remove(schedule.id)}>Delete</Button></TableCell>
               </TableRow>
             ))}
           </TableBody>
         </Table>
-        <Spacer/>
+        <Spacer />
         <Pagination
           count={count}
           size="large"
@@ -104,7 +133,7 @@ export default function Schedules() {
           onChange={handleChange}
           color="primary"
         />
-        <Spacer/>
+        <Spacer />
       </TableContainer>
     </div>
   )

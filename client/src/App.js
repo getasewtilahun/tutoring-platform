@@ -21,6 +21,8 @@ import Checkout from './pages/student/Checkout'
 import NotAuto from './pages/NotAuto'
 import PageNotFound from './pages/PageNotFound'
 import ForgotPassword from './pages/ForgotPassword'
+import HowItWorks from './pages/HowItWorks'
+import PaymentSuccess from './pages/PaymentSuccess'
 function App() {
   const { user } = useSelector((state) => state.auth)
   
@@ -41,7 +43,7 @@ function App() {
           <Route path='/tutor/:id' element={<TutorProfile />} />
           <Route path='/tutor/dashboard' element={user ?user.data.role==='tutor'?  <TutorDashboard />:<NotAuto/> : <Login />} />
           <Route path='/tutor/quiz/create' element={user?user.data.role==="tutor"?<CreateQuiz />:<NotAuto/>:<Login/>} />
-          <Route path='/quiz/:id' element={user?user.data.role==="student"?<Quiz />:<NotAuto/>:<Login/>} />
+          <Route path='/quiz/:id' element={user?<Quiz />:<Login/>} />
           <Route path='/reviews/:id' element={<Reviews/>}/>
           <Route name="Checkout" path='/checkout/:id' element={user?<Checkout/>:<Login/>}/>
           {/* <Route path='/message' element={user ? <Messages /> : <Login />}></Route> */}
@@ -52,6 +54,8 @@ function App() {
           <Route path='/room/:id' element={<VideoCall/>}/>
           {/* page not found */}
           <Route path='*' element={<PageNotFound/>}/>
+          <Route path="/how-it-works" element={<HowItWorks/>} />
+          <Route path='/payment-success/:id' element={<PaymentSuccess/>}/>
         </Routes>
       </BrowserRouter>
       <ToastContainer />

@@ -11,12 +11,12 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 
 import moment from 'moment';
-import { Button, Pagination } from '@mui/material';
+import { Button, Checkbox, FormControlLabel, FormGroup, Pagination } from '@mui/material';
 import usePagination from '../../components/MyPagination';
 import { toast } from 'react-toastify';
 import styled from 'styled-components'
 
-const Spacer=styled.div`
+const Spacer = styled.div`
 height:10px;
 `
 export default function Schedules() {
@@ -29,6 +29,25 @@ export default function Schedules() {
       setSchedules(res.data.data)
     }
   }, [])
+  const handlePending = () => {
+    var newData = schedules.filter(function (sch) {
+      return sch.status ==='pending'
+    })
+    setSchedules(newData)
+  }
+  const handleAccepted = () => {
+    var newData = schedules.filter(function (sch) {
+      return sch.status ==='accepted'
+    })
+    setSchedules(newData)
+  }
+  const handleRejected = () => {
+    var newData = schedules.filter(function (sch) {
+      return sch.status ==='rejected'
+    })
+    setSchedules(newData)
+  }
+
   const [page, setPage] = useState(1);
   const PER_PAGE = 10;
 
@@ -41,41 +60,49 @@ export default function Schedules() {
   };
 
   // accept reject and delete functions
-  const accept=async(value)=>{
-    const data={
-      status:"accepted"
+  const accept = async (value) => {
+    const data = {
+      status: "accepted"
     }
-    const res = await axios.put(`http://localhost:5000/api/schedule/accept/${value}`,data);
-    if(res.status===200){
+    const res = await axios.put(`http://localhost:5000/api/schedule/accept/${value}`, data);
+    if (res.status === 200) {
       toast.success(res.data.message)
-    }else{
+    } else {
       toast.error(res.data.message)
     }
   }
-  const reject=async(value)=>{
-    const data={
-      status:"rejected"
+  const reject = async (value) => {
+    const data = {
+      status: "rejected"
     }
-    const res = await axios.put(`http://localhost:5000/api/schedule/accept/${value}`,data);
-    if(res.status===200){
+    const res = await axios.put(`http://localhost:5000/api/schedule/accept/${value}`, data);
+    if (res.status === 200) {
       toast.success("Schedule rejected successfully.")
-    }else{
+    } else {
       toast.error("Error occured while rejecting a schedule.")
     }
   }
 
-  const remove=async(value)=>{
+  const remove = async (value) => {
     const res = await axios.delete(`http://localhost:5000/api/schedule/${value}`);
-    if(res.status===200){
+    if (res.status === 200) {
       toast.success(res.data.message)
-    }else{
+    } else {
       toast.error(res.data.message)
     }
     window.location.reload(true);
   }
+
   return (
     <div>
-
+      <div>
+        <h2>Filter</h2>
+        <div style={{ display: "flex", paddingBottom: "10px" }}>
+          <FormControlLabel control={<Checkbox onClick={handlePending} />} label="Pending" />
+          <FormControlLabel control={<Checkbox onClick={handleAccepted}/>} label="Accepted" />
+          <FormControlLabel control={<Checkbox onClick={handleRejected}/>} label="Rejected" />
+        </div>
+      </div>
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 650, tableLayout: 'fixed' }} aria-label="simple table">
           <TableHead>
@@ -99,19 +126,19 @@ export default function Schedules() {
                 <TableCell component="th" scope="row" align="left">
                   {index + 1}
                 </TableCell>
-                <TableCell align="left" >{<a style={{textDecoration:"none"}} href={`/student/${schedule.StudentId.id}`}>{schedule.StudentId.firstName+" "+schedule.StudentId.lastName}</a>}</TableCell>
+                <TableCell align="left" >{<a style={{ textDecoration: "none" }} href={`/student/${schedule.StudentId.id}`}>{schedule.StudentId.firstName + " " + schedule.StudentId.lastName}</a>}</TableCell>
                 <TableCell align="left" style={{ width: 160 }}>{schedule.title}</TableCell>
                 <TableCell align="left" style={{ width: 160 }}>{moment(schedule.startDate).format('LLL')}</TableCell>
                 <TableCell align="left" style={{ width: 160 }}>{moment(schedule.endDate).format('LLL')}</TableCell>
-                <TableCell align="left">{schedule.status === "pending" && <Button variant='contained' onClick={()=>accept(schedule.id)}>Accept</Button>}{schedule.status === "accepted" && <Button>Accepted</Button>}</TableCell>
-                <TableCell align="left">{schedule.status === 'pending' && <Button variant='contained' style={{ backgroundColor: "#bb2124", }} onClick={()=>reject(schedule.id)}>Reject</Button>}{schedule.status === 'rejected' && <Button>Rejected</Button>}</TableCell>
-                <TableCell align="left"><Button variant='contained' style={{ backgroundColor: "#bb2124", }} onClick={()=>remove(schedule.id)}>Delete</Button></TableCell>
+                <TableCell align="left">{schedule.status === "pending" && <Button variant='contained' onClick={() => accept(schedule.id)}>Accept</Button>}{schedule.status === "accepted" && <Button>Accepted</Button>}</TableCell>
+                <TableCell align="left">{schedule.status === 'pending' && <Button variant='contained' style={{ backgroundColor: "#bb2124", }} onClick={() => reject(schedule.id)}>Reject</Button>}{schedule.status === 'rejected' && <Button>Rejected</Button>}</TableCell>
+                <TableCell align="left"><Button variant='contained' style={{ backgroundColor: "#bb2124", }} onClick={() => remove(schedule.id)}>Delete</Button></TableCell>
               </TableRow>
             ))}
           </TableBody>
         </Table>
-        <Spacer/>
-        <Spacer/>
+        <Spacer />
+        <Spacer />
         <Pagination
           count={count}
           size="large"
@@ -119,8 +146,8 @@ export default function Schedules() {
           onChange={handleChange}
           color="primary"
         />
-        <Spacer/>
-        <Spacer/>
+        <Spacer />
+        <Spacer />
       </TableContainer>
     </div>
   )

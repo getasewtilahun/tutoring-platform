@@ -1,5 +1,6 @@
 const Review = require('../models/Review')
 const User = require('../models/User')
+const Profile=require('../models/Profile')
 const sequelize = require('../config/db')
 
 const create = async (req, res) => {
@@ -61,7 +62,8 @@ const fetchAll = async (req, res) => {
                 as: 'Tutor'
             }, {
                 model: User,
-                as: "Student"
+                as: "Student",
+                include:[Profile]
             }]
         })
         if (result) {

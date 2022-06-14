@@ -42,6 +42,9 @@ import Quizes from './Quizes';
 import DoneIcon from '@mui/icons-material/Done';
 import VerifyAccount from './VerifyAccount';
 
+import MonetizationOnIcon from '@mui/icons-material/MonetizationOn';
+import Payments from './Payments';
+
 const drawerWidth = 240;
 
 const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })(
@@ -178,7 +181,7 @@ export default function Dashboard() {
             </ListItem>
             <ListItem button onClick={navToRoom}>
               <ListItemIcon><VideoCallIcon /></ListItemIcon>
-              <ListItemText>Rooms</ListItemText>
+              <ListItemText>Room</ListItemText>
             </ListItem>
           </List>
           <Divider />
@@ -203,6 +206,10 @@ export default function Dashboard() {
               <ListItemIcon><DoneIcon/></ListItemIcon>
               <ListItemText>Verify Account</ListItemText>
             </ListItem>
+            <ListItem button onClick={()=>changeSelected('payment')}>
+              <ListItemIcon><MonetizationOnIcon /></ListItemIcon>
+              <ListItemText>Payments</ListItemText>
+            </ListItem>
           </List>
           <Divider />
           <List>
@@ -221,6 +228,7 @@ export default function Dashboard() {
           <>{selectedDash === 'review' && <Review />}</>
           <>{selectedDash === 'create' && <CreateQuiz />}</>
           <>{selectedDash === 'verify' && <VerifyAccount />}</>
+          <>{selectedDash === 'payment' && <Payments />}</>
         </Main>
       </Box>
     </div>

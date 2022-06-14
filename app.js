@@ -54,14 +54,23 @@ app.use('/api',verifyRoutes)
 app.use('/api',paymentRoutes)
 
 Review.belongsTo(User, {
-    foreignKey: 'student',
-    as:"StudentId"
+    foreignKey: 'studentId',
+    as:"Student"
 })
 Review.belongsTo(User, {
     foreignKey: 'tutorId',
     as:"Tutor"
 })
 
+Payment.belongsTo(User, {
+    foreignKey: 'senderId',
+    as:"Sender"
+})
+Payment.belongsTo(User, {
+    foreignKey: 'recieverId',
+    as:"Reciever"
+})
+Schedule.hasOne(Payment)
 
 Schedule.belongsTo(User, {
     foreignKey: 'studentId',
@@ -72,14 +81,6 @@ Schedule.belongsTo(User, {
     as:"TutorId"
 })
 
-Payment.belongsTo(User,{
-    foreignKey:"studentId",
-    as:"Sender"
-})
-Payment.belongsTo(User,{
-    foreignKey:"tutorId",
-    as:"Reciever"
-})
 db.sync().then(result => {
     if (result) {
         http.listen(PORT || 5000, () => {
