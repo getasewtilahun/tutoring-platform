@@ -46,4 +46,6 @@ styled-components
 
 ![Screenshot from 2022-06-06 21-34-37](https://user-images.githubusercontent.com/78694307/178850096-c3ad0d93-27ef-4029-bfc2-34ddf25dcf7a.png)
 
+![Screenshot from 2022-06-06 21-13-08](https://user-images.githubusercontent.com/78694307/178850281-44696a90-c717-4af2-96f2-d54c1a2b331a.png)
+
 
