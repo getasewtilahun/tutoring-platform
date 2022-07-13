@@ -37,3 +37,13 @@ react-toastify
 redux
 socket.io-client
 styled-components
+# Screenshots
+![Screenshot from 2022-06-06 21-27-45](https://user-images.githubusercontent.com/78694307/178849917-c902fbdb-3884-400e-bc07-3dd6282a5a39.png)
+
+![Screenshot from 2022-06-06 21-28-17](https://user-images.githubusercontent.com/78694307/178850020-639f1b1f-1b66-47ed-8ed9-f17bbe531b24.png)
+
+![Screenshot from 2022-06-06 21-28-24](https://user-images.githubusercontent.com/78694307/178850050-3c97fe88-6698-4f86-a17e-79fb501e4540.png)
+
+![Screenshot from 2022-06-06 21-34-37](https://user-images.githubusercontent.com/78694307/178850096-c3ad0d93-27ef-4029-bfc2-34ddf25dcf7a.png)
+
+
